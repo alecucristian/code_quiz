@@ -22,7 +22,8 @@ export class QuizEngine {
   /**
    * Initialize a new quiz session with filtered and shuffled questions
    */
-  initSession(deck, category = 'ALL', roundSize = 10) {
+  initSession(deck, category = 'ALL', roundSize = 10, mode = 'standard') {
+    this.mode = mode || 'standard';
     let filtered = deck;
     if (category && category !== 'ALL') {
       filtered = deck.filter(q => q.category === category);
@@ -190,7 +191,8 @@ export class QuizEngine {
       accuracy,
       maxStreak: this.maxStreak,
       elapsedMs: this.elapsedMs,
-      timeFormatted: this.getFormattedTime(this.elapsedMs)
+      timeFormatted: this.getFormattedTime(this.elapsedMs),
+      mode: this.mode
     };
   }
 }

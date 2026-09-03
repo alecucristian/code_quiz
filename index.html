@@ -67,6 +67,27 @@
           </select>
         </div>
 
+        <!-- Game Mode Selector -->
+        <div class="config-group">
+          <label class="config-label">SELECT GAME MODE</label>
+          <div class="arcade-pill-group arcade-pill-group-2">
+            <div class="arcade-pill">
+              <input type="radio" id="mode-standard" name="game-mode" value="standard" checked>
+              <label for="mode-standard" class="pill-label">
+                <span>📖 STANDARD</span>
+                <span class="pill-desc">Manual Advance (Study &amp; Read)</span>
+              </label>
+            </div>
+            <div class="arcade-pill">
+              <input type="radio" id="mode-speedrun" name="game-mode" value="speedrun">
+              <label for="mode-speedrun" class="pill-label">
+                <span>⚡ SPEEDRUN</span>
+                <span class="pill-desc">Auto-Advance (Fast Paced)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
         <!-- Round Sizing Selector -->
         <div class="config-group">
           <label class="config-label">SELECT ROUND LENGTH</label>
@@ -136,7 +157,10 @@
 
       <!-- Question Card -->
       <div class="question-card">
-        <span id="question-category" class="question-category">CATEGORY</span>
+        <div class="question-meta-row">
+          <span id="question-category" class="question-category">CATEGORY</span>
+          <span id="question-mode-badge" class="question-mode-badge">📖 STANDARD MODE</span>
+        </div>
         <h2 id="question-title" class="question-title">TARGET KEYWORD</h2>
         <p class="question-prompt">IDENTIFY THE ACCURATE DEFINITION:</p>
       </div>

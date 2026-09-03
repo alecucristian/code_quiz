@@ -28,7 +28,7 @@ export class HighscoreManager {
   /**
    * Add a new player score and persist to localStorage
    */
-  addScore({ name, score, correctCount, totalQuestions, accuracy, timeFormatted, timeMs, deckName, category }) {
+  addScore({ name, score, correctCount, totalQuestions, accuracy, timeFormatted, timeMs, deckName, category, mode }) {
     const entry = {
       id: 'score_' + Date.now(),
       name: (name || 'AAA').trim().toUpperCase().slice(0, 12),
@@ -40,6 +40,7 @@ export class HighscoreManager {
       timeMs: Number(timeMs) || 0,
       deckName: deckName || 'PostgreSQL',
       category: category || 'ALL',
+      mode: (mode || 'standard').toUpperCase(),
       date: new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
     };
 
@@ -103,13 +104,17 @@ export class HighscoreManager {
       else if (rank === 2) medal = '🥈 2ND';
       else if (rank === 3) medal = '🥉 3RD';
 
+      const modeBadge = item.mode === 'SPEEDRUN' 
+        ? '<span class="mode-tag mode-speedrun" title="Speedrun Mode">⚡ RUN</span>' 
+        : '<span class="mode-tag mode-standard" title="Standard Mode">📖 STD</span>';
+
       tr.innerHTML = `
         <td class="rank-cell">${medal}</td>
         <td class="player-cell">${escapeHtml(item.name)}</td>
         <td class="score-cell">${item.score.toLocaleString()}</td>
         <td>${item.correctCount}/${item.totalQuestions} (${item.accuracy}%)</td>
         <td class="time-cell">${item.timeFormatted}</td>
-        <td>${escapeHtml(item.category)}</td>
+        <td>${escapeHtml(item.category)} ${modeBadge}</td>
       `;
       tbodyElement.appendChild(tr);
     });

@@ -365,6 +365,10 @@ body::before {
   gap: 0.6rem;
 }
 
+.arcade-pill-group-2 {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
 .arcade-pill {
   position: relative;
 }
@@ -550,6 +554,15 @@ body::before {
   position: relative;
 }
 
+.question-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
 .question-category {
   display: inline-block;
   font-family: var(--font-pixel);
@@ -559,8 +572,29 @@ body::before {
   border: 1px solid var(--neon-cyan);
   padding: 0.35rem 0.75rem;
   border-radius: 3px;
-  margin-bottom: 1rem;
   letter-spacing: 1px;
+}
+
+.question-mode-badge {
+  display: inline-block;
+  font-family: var(--font-pixel);
+  font-size: 0.6rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 3px;
+  letter-spacing: 1px;
+}
+
+.question-mode-badge.standard {
+  color: var(--coin-gold);
+  background: rgba(255, 179, 0, 0.15);
+  border: 1px solid var(--coin-gold);
+}
+
+.question-mode-badge.speedrun {
+  color: var(--neon-yellow);
+  background: rgba(255, 230, 0, 0.2);
+  border: 1px solid var(--neon-yellow);
+  box-shadow: 0 0 8px rgba(255, 230, 0, 0.4);
 }
 
 .question-title {
@@ -774,6 +808,20 @@ body::before {
 
 .btn-advance:hover {
   background: #ffffff;
+}
+
+.btn-continue-action {
+  background: var(--neon-green) !important;
+  color: #05050b !important;
+  font-size: 0.72rem !important;
+  padding: 0.75rem 1.15rem !important;
+  box-shadow: var(--glow-green) !important;
+  animation: pulse-continue 1.2s infinite alternate ease-in-out;
+}
+
+.btn-continue-action:hover {
+  background: #ffffff !important;
+  transform: scale(1.04);
 }
 
 .btn-continue-wrong {
@@ -1025,6 +1073,30 @@ body::before {
   font-family: var(--font-arcade);
   font-size: 1.3rem;
   color: var(--text-muted);
+}
+
+.mode-tag {
+  display: inline-block;
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  margin-left: 0.35rem;
+  vertical-align: middle;
+  letter-spacing: 0.5px;
+}
+
+.mode-tag.mode-standard {
+  background: rgba(0, 240, 255, 0.18);
+  border: 1px solid var(--neon-cyan);
+  color: var(--neon-cyan);
+}
+
+.mode-tag.mode-speedrun {
+  background: rgba(255, 230, 0, 0.18);
+  border: 1px solid var(--neon-yellow);
+  color: var(--neon-yellow);
+  box-shadow: 0 0 6px rgba(255, 230, 0, 0.3);
 }
 
 /* ==========================================================================

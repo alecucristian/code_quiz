@@ -42,6 +42,7 @@ class App {
     this.btnStartGame = document.getElementById('btn-start-game');
     this.btnOpenDiskLoader = document.getElementById('btn-open-disk-loader');
     this.roundSizeInputs = document.querySelectorAll('input[name="round-size"]');
+    this.gameModeInputs = document.querySelectorAll('input[name="game-mode"]');
 
     // Custom Deck Dialog
     this.dialogDiskLoader = document.getElementById('dialog-disk-loader');
@@ -55,6 +56,7 @@ class App {
     this.hudRound = document.getElementById('hud-round');
     this.hudStreak = document.getElementById('hud-streak');
     this.questionCategory = document.getElementById('question-category');
+    this.questionModeBadge = document.getElementById('question-mode-badge');
     this.questionTitle = document.getElementById('question-title');
     this.optionsContainer = document.getElementById('options-container');
     this.feedbackContainer = document.getElementById('feedback-container');
@@ -241,9 +243,20 @@ class App {
     return size;
   }
 
+  getSelectedGameMode() {
+    let mode = 'standard';
+    this.gameModeInputs.forEach(input => {
+      if (input.checked) {
+        mode = input.value;
+      }
+    });
+    return mode;
+  }
+
   startQuiz() {
     const category = this.selectCategory.value;
     const roundSize = this.getSelectedRoundSize();
+    const gameMode = this.getSelectedGameMode();
     const deck = this.deckLoader.currentDeck;
 
     if (!deck || deck.length === 0) {
@@ -251,7 +264,7 @@ class App {
       return;
     }
 
-    this.quizEngine.initSession(deck, category, roundSize);
+    this.quizEngine.initSession(deck, category, roundSize, gameMode);
     
     if (this.quizEngine.questions.length === 0) {
       alert(`No questions found under category "${category}"! Please select another category.`);
@@ -279,6 +292,13 @@ class App {
     this.hudScore.textContent = this.quizEngine.score.toLocaleString();
     this.hudStreak.textContent = `x${this.quizEngine.streak}`;
     this.hudStreak.classList.toggle('fire', this.quizEngine.streak >= 3);
+
+    // Mode badge
+    if (this.questionModeBadge) {
+      const isSpeedrun = (this.quizEngine.mode === 'speedrun');
+      this.questionModeBadge.textContent = isSpeedrun ? '⚡ SPEEDRUN MODE' : '📖 STANDARD MODE';
+      this.questionModeBadge.className = `question-mode-badge ${isSpeedrun ? 'speedrun' : 'standard'}`;
+    }
 
     // Question content
     this.questionCategory.textContent = q.category.toUpperCase();
@@ -351,12 +371,18 @@ class App {
       this.advanceTimeout = null;
     }
 
-    // Only auto-advance if the answer was CORRECT!
-    // When WRONG: Do NOT auto-advance so player has unlimited time to read the correct answer.
-    if (result.isCorrect) {
+    // Auto-advance behavior based on Game Mode:
+    if (this.quizEngine.mode === 'speedrun') {
+      // SPEEDRUN MODE: Auto-advance after answering!
+      // (800ms for correct, 1300ms for wrong so player registers the result)
+      const delay = result.isCorrect ? 800 : 1300;
       this.advanceTimeout = setTimeout(() => {
         this.advanceNextQuestion();
-      }, 1600);
+      }, delay);
+    } else {
+      // STANDARD MODE: NEVER auto-advance!
+      // Whether correct or wrong, player MUST press CONTINUE >> or [Enter]/[Space]
+      // to advance, ensuring all the time needed to study definitions & SQL examples.
     }
   }
 
@@ -374,6 +400,12 @@ class App {
       </div>
     ` : '';
 
+    const isSpeedrun = (this.quizEngine.mode === 'speedrun');
+    const buttonLabel = isSpeedrun ? 'NEXT &gt;&gt; [AUTO]' : 'CONTINUE &gt;&gt; [ENTER]';
+    const buttonClass = isSpeedrun 
+      ? 'btn-advance' 
+      : (isCorrect ? 'btn-advance btn-continue-action' : 'btn-advance btn-continue-wrong');
+
     if (isCorrect) {
       let bonusText = `+${result.pointsAwarded.toLocaleString()} PTS`;
       if (result.multiplier > 1.0) {
@@ -388,7 +420,7 @@ class App {
           ${exampleSnippet}
         </div>
         <div class="feedback-action-row">
-          <button class="btn-advance" id="btn-advance-now">NEXT &gt;&gt;</button>
+          <button class="${buttonClass}" id="btn-advance-now">${buttonLabel}</button>
         </div>
       `;
     } else {
@@ -401,7 +433,7 @@ class App {
           ${exampleSnippet}
         </div>
         <div class="feedback-action-row">
-          <button class="btn-advance btn-continue-wrong" id="btn-advance-now">CONTINUE &gt;&gt; [ENTER]</button>
+          <button class="${buttonClass}" id="btn-advance-now">${buttonLabel}</button>
         </div>
       `;
     }
@@ -475,7 +507,8 @@ class App {
       timeFormatted: summary.timeFormatted,
       timeMs: summary.elapsedMs,
       deckName: meta ? meta.name : 'Custom',
-      category: category === 'ALL' ? 'ALL' : category
+      category: category === 'ALL' ? 'ALL' : category,
+      mode: summary.mode
     });
 
     this.showLeaderboard();
