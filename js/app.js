@@ -365,25 +365,44 @@ class App {
     const banner = document.createElement('div');
     banner.className = `feedback-banner ${isCorrect ? 'correct' : 'wrong'}`;
 
+    const exampleSnippet = result.postanswer ? `
+      <div class="sql-example-box">
+        <div class="sql-example-header">
+          <span class="sql-example-badge">⚡ POSTGRESQL QUERY EXAMPLE</span>
+        </div>
+        <pre class="sql-example-code"><code>${escapeHtml(result.postanswer)}</code></pre>
+      </div>
+    ` : '';
+
     if (isCorrect) {
       let bonusText = `+${result.pointsAwarded.toLocaleString()} PTS`;
       if (result.multiplier > 1.0) {
         bonusText += ` (${result.multiplier}x COMBO!)`;
       }
       banner.innerHTML = `
-        <div>
-          <span>★ CORRECT! ★</span>
-          <span class="feedback-bonus">${bonusText}</span>
+        <div class="feedback-content-main">
+          <div class="feedback-title-row">
+            <span>★ CORRECT! ★</span>
+            <span class="feedback-bonus">${bonusText}</span>
+          </div>
+          ${exampleSnippet}
         </div>
-        <button class="btn-advance" id="btn-advance-now">NEXT &gt;&gt;</button>
+        <div class="feedback-action-row">
+          <button class="btn-advance" id="btn-advance-now">NEXT &gt;&gt;</button>
+        </div>
       `;
     } else {
       banner.innerHTML = `
-        <div>
-          <div>✖ INCORRECT — REVIEW ANSWER BELOW</div>
-          <span class="feedback-subtext">CORRECT CHOICE IS [${result.correctAnswer.toUpperCase()}]. TAKE YOUR TIME TO READ.</span>
+        <div class="feedback-content-main">
+          <div class="feedback-title-row">
+            <div>✖ INCORRECT — REVIEW ANSWER BELOW</div>
+            <span class="feedback-subtext">CORRECT CHOICE: [${result.correctAnswer.toUpperCase()}]</span>
+          </div>
+          ${exampleSnippet}
         </div>
-        <button class="btn-advance btn-continue-wrong" id="btn-advance-now">CONTINUE &gt;&gt; [ENTER]</button>
+        <div class="feedback-action-row">
+          <button class="btn-advance btn-continue-wrong" id="btn-advance-now">CONTINUE &gt;&gt; [ENTER]</button>
+        </div>
       `;
     }
 

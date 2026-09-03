@@ -8,7 +8,8 @@
       "c": "The execution clause responsible for materializing intermediate relation sets into temporary work_mem buffers prior to filtering and sorting.",
       "d": "The command that evaluates boolean predicates across candidate tuples and eliminates non-matching rows before projection occurs."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT id, email, created_at FROM users;"
   },
   {
     "category": "Data Query Language (DQL)",
@@ -19,7 +20,8 @@
       "c": "The clause that binds output projection columns directly to shared buffer pages and enforces table-level AccessShareLock locks.",
       "d": "Declares the temporary tablespace allocation and work_mem memory quotas for intermediate join processing."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT u.username, p.title FROM users u JOIN posts p ON u.id = p.user_id;"
   },
   {
     "category": "Data Query Language (DQL)",
@@ -30,7 +32,8 @@
       "c": "Filters rows emitted by the FROM clause by evaluating a boolean expression on each candidate tuple before any grouping or aggregation takes place.",
       "d": "A conditional clause evaluated strictly after window functions to eliminate rows from the final client-facing projection list."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT * FROM orders WHERE status = 'completed' AND total_amount > 250.00;"
   },
   {
     "category": "Data Query Language (DQL)",
@@ -41,7 +44,8 @@
       "c": "Reorganizes physical table storage on disk into clustered bucket pages corresponding to unique column hash values.",
       "d": "Condenses selected rows sharing identical grouping expression values into distinct summary rows, establishing the grouping context for aggregate functions."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT department_id, COUNT(*) AS total_staff, AVG(salary) FROM employees GROUP BY department_id;"
   },
   {
     "category": "Data Query Language (DQL)",
@@ -52,7 +56,8 @@
       "c": "Imposes a check constraint condition on newly inserted or updated rows within a data manipulation statement.",
       "d": "Filters rows generated across window frames after analytic window function calculations have produced final row values."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT department_id, AVG(salary) FROM employees GROUP BY department_id HAVING AVG(salary) > 75000;"
   },
   {
     "category": "Data Query Language (DQL)",
@@ -63,7 +68,8 @@
       "c": "Partitions and sorts rows strictly within the local boundaries of an analytic window frame specification.",
       "d": "Reorders physical storage blocks on disk to permanently match index key order during statement execution."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT id, name, created_at FROM customers ORDER BY created_at DESC NULLS LAST;"
   },
   {
     "category": "Data Query Language (DQL)",
@@ -74,7 +80,8 @@
       "c": "Constrains the maximum number of rows returned by the query executor to a non-negative integer count or expression evaluated at execution time.",
       "d": "Limits the maximum number of shared buffer pages the query executor is allowed to read during sequential scans."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT * FROM audit_logs ORDER BY log_time DESC LIMIT 10;"
   },
   {
     "category": "Data Query Language (DQL)",
@@ -85,7 +92,8 @@
       "c": "Delays query execution by a specified number of milliseconds to throttle client request frequencies.",
       "d": "Skips a specified number of rows from the beginning of the generated result set before starting to return the remaining rows to the caller."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT * FROM products ORDER BY id ASC LIMIT 20 OFFSET 40;"
   },
   {
     "category": "Data Query Language (DQL)",
@@ -96,7 +104,8 @@
       "c": "An optimization hint instructing the planner to choose an execution plan minimizing startup cost rather than total completion cost.",
       "d": "An executor directive that returns the first row encountered in physical heap storage without waiting for ORDER BY sorting to complete."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT id, title, score FROM movies ORDER BY score DESC FETCH FIRST 5 ROWS ONLY;"
   },
   {
     "category": "Data Query Language (DQL)",
@@ -107,7 +116,8 @@
       "c": "A cursor navigation command that advances an open cursor to the next tuple relative to the current portal cursor position.",
       "d": "A replication primitive that instructs a standby server to fetch the next sequential WAL record from the primary node."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT id, rank FROM players ORDER BY rank ASC OFFSET 10 ROWS FETCH NEXT 10 ROWS WITH TIES;"
   },
   {
     "category": "Data Query Language (DQL)",
@@ -118,7 +128,8 @@
       "c": "Acquires Exclusive row-level locks on selected rows, blocking concurrent transactions from updating, deleting, or locking the same rows until the current transaction completes.",
       "d": "Acquires a weaker lock than FOR NO KEY UPDATE that permits concurrent transactions to acquire FOR KEY SHARE or FOR UPDATE locks simultaneously."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT balance FROM accounts WHERE account_id = 1001 FOR UPDATE;"
   },
   {
     "category": "Data Query Language (DQL)",
@@ -129,7 +140,8 @@
       "c": "A read-only locking clause that prevents concurrent transactions from dropping indexes referenced by the current query.",
       "d": "Acquires a weaker row lock than FOR UPDATE that blocks concurrent updates/deletes but permits concurrent transactions to acquire FOR KEY SHARE locks, suitable when not modifying unique keys."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT last_login, attempts FROM user_profiles WHERE id = 42 FOR NO KEY UPDATE;"
   },
   {
     "category": "Data Query Language (DQL)",
@@ -140,7 +152,8 @@
       "c": "Shares cached query plans and execution state across multiple backend worker processes in a parallel query execution group.",
       "d": "Temporarily marks selected rows as read-only across the entire database cluster, persisting beyond transaction completion."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT tier, discount_rate FROM customer_tiers WHERE id = 3 FOR SHARE;"
   },
   {
     "category": "Data Query Language (DQL)",
@@ -151,7 +164,8 @@
       "c": "Locks the cryptographic encryption keys associated with transparent column encryption for the duration of the query.",
       "d": "Prevents concurrent transactions from inserting new rows that match the key distribution of the currently selected result set."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT id FROM parent_entities WHERE id = 88 FOR KEY SHARE;"
   },
   {
     "category": "Data Query Language (DQL)",
@@ -162,7 +176,8 @@
       "c": "Modifies row-locking clauses (such as FOR UPDATE or FOR SHARE) so that if any selected row cannot be locked immediately, an error is raised rather than waiting.",
       "d": "Skips rows that cannot be locked immediately and continues returning only the unencumbered matching rows."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT * FROM ticket_reservations WHERE seat_id = 'A12' FOR UPDATE NOWAIT;"
   },
   {
     "category": "Data Query Language (DQL)",
@@ -173,7 +188,8 @@
       "c": "Releases acquired row locks immediately after reading each tuple, before the transaction completes.",
       "d": "Modifies row-locking clauses to skip candidate rows that are currently locked by concurrent transactions, returning only immediately lockable rows (ideal for queue workers)."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT * FROM task_queue WHERE status = 'ready' ORDER BY priority DESC LIMIT 1 FOR UPDATE SKIP LOCKED;"
   },
   {
     "category": "Data Manipulation (DML)",
@@ -184,7 +200,8 @@
       "c": "Modifies the schema of a relation by adding new data structures or column definitions to the system catalogs.",
       "d": "Bulk-loads unparsed text streams directly from the operating system into heap pages without transactional overhead."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "INSERT INTO customers (name, email) VALUES ('Ada Lovelace', 'ada@example.com');"
   },
   {
     "category": "Data Manipulation (DML)",
@@ -195,7 +212,8 @@
       "c": "A clause that specifies the source relation from which data streams are extracted for ingestion.",
       "d": "Directs query output to be serialized into a client-side JSON format instead of standard tabular wire protocol."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "INSERT INTO inventory (sku, stock_qty) VALUES ('SKU-9921', 150);"
   },
   {
     "category": "Data Manipulation (DML)",
@@ -206,7 +224,8 @@
       "c": "Modifies existing table rows by writing new tuple versions (MVCC) with updated values, marking previous versions expired via XMAX and maintaining index pointers.",
       "d": "Refreshes cached materialization data for materialized views without re-executing underlying defining queries."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "UPDATE accounts SET balance = balance - 50.00, updated_at = NOW() WHERE id = 7;"
   },
   {
     "category": "Data Manipulation (DML)",
@@ -217,7 +236,8 @@
       "c": "Binds an execution plan to a specific prepared statement handle in the server session memory.",
       "d": "Specifies column-value assignments within an UPDATE statement (or assigns runtime configuration parameters when used as a configuration command)."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "UPDATE users SET is_verified = TRUE, verified_at = CURRENT_TIMESTAMP WHERE id = 12;"
   },
   {
     "category": "Data Manipulation (DML)",
@@ -228,7 +248,8 @@
       "c": "Physically zero-fills the bytes occupied by deleted tuples on disk to prevent forensic data recovery.",
       "d": "Removes table schema metadata from pg_class while leaving underlying physical relation fork files orphaned on disk."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "DELETE FROM session_tokens WHERE expires_at < NOW();"
   },
   {
     "category": "Data Manipulation (DML)",
@@ -239,7 +260,8 @@
       "c": "Extracts the current runtime values of PostgreSQL GUC configuration variables from server memory.",
       "d": "A schema declaration clause that specifies default column values inside a CREATE TABLE definition."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "INSERT INTO tags (name, slug) VALUES ('Postgres', 'postgres'), ('SQL', 'sql');"
   },
   {
     "category": "Data Manipulation (DML)",
@@ -250,7 +272,8 @@
       "c": "High-performance command that streams data directly between PostgreSQL tables and server/client file systems or STDIN/STDOUT, bypassing normal SQL parsing overhead.",
       "d": "Creates a snapshot backup of WAL logs and dirty buffer pages to external archive storage."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "COPY employees (id, name, department) FROM '/data/employees.csv' WITH (FORMAT csv, HEADER true);"
   },
   {
     "category": "Data Manipulation (DML)",
@@ -261,7 +284,8 @@
       "c": "Forces an asynchronous DML statement to return control immediately to the client application without waiting for execution.",
       "d": "Projects and returns computed expressions or column values of rows modified by an INSERT, UPDATE, or DELETE statement directly to the caller."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "INSERT INTO orders (customer_id, amount) VALUES (42, 199.99) RETURNING id, created_at;"
   },
   {
     "category": "Data Manipulation (DML)",
@@ -272,7 +296,8 @@
       "c": "Defines exception-handling logic inside PL/pgSQL blocks when a unique_violation error code is raised at runtime.",
       "d": "Detects concurrent serializable transaction conflicts and automatically retries the failed transaction block."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "INSERT INTO daily_metrics (metric_date, views) VALUES ('2026-09-01', 1) ON CONFLICT (metric_date) DO UPDATE SET views = daily_metrics.views + 1;"
   },
   {
     "category": "Data Manipulation (DML)",
@@ -283,7 +308,8 @@
       "c": "A trigger action that prevents a trigger function from executing without aborting the parent statement.",
       "d": "A transaction modifier that marks the current transaction block as read-only and ignores all write operations."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "INSERT INTO tags (name) VALUES ('database') ON CONFLICT (name) DO NOTHING;"
   },
   {
     "category": "Data Manipulation (DML)",
@@ -294,7 +320,8 @@
       "c": "An ON CONFLICT action that converts a conflicting INSERT into an UPDATE on the existing row, providing access to proposed values via the special EXCLUDED pseudo-relation.",
       "d": "An anonymous code block executor that runs inline procedural code without creating a stored function."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "INSERT INTO user_scores (user_id, points) VALUES (15, 100) ON CONFLICT (user_id) DO UPDATE SET points = user_scores.points + EXCLUDED.points;"
   },
   {
     "category": "Data Manipulation (DML)",
@@ -305,7 +332,8 @@
       "c": "Suppresses internal system-generated audit logging and WAL writing for low-level recovery operations.",
       "d": "Instructs an INSERT statement to accept user-provided values for identity columns defined with GENERATED ALWAYS AS IDENTITY, overriding system sequence generation."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "INSERT INTO invoices (id, total) OVERRIDING SYSTEM VALUE VALUES (101, 450.00);"
   },
   {
     "category": "Data Manipulation (DML)",
@@ -316,7 +344,8 @@
       "c": "Strips user-defined column default expressions and forces column values to be inserted as NULL.",
       "d": "Overrides the current user's role permissions with the superuser system identity for the duration of the query."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "INSERT INTO audit_events (id, event_name) OVERRIDING USER VALUE VALUES (999, 'user_signup');"
   },
   {
     "category": "Data Definition (DDL)",
@@ -327,7 +356,8 @@
       "c": "Compiles raw SQL text into an executable binary plan and registers it permanently in shared server memory.",
       "d": "Initializes a physical database cluster on disk by running the bootstrap initdb sequence."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "CREATE TABLE products (id INT PRIMARY KEY, name TEXT NOT NULL, price NUMERIC(10,2));"
   },
   {
     "category": "Data Definition (DDL)",
@@ -338,7 +368,8 @@
       "c": "Converts table data between different character encodings on the fly during physical read scans.",
       "d": "Dynamically modifies runtime query execution plans without altering catalog schema definitions."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "ALTER TABLE orders ADD COLUMN shipping_status VARCHAR(50) DEFAULT 'processing';"
   },
   {
     "category": "Data Definition (DDL)",
@@ -349,7 +380,8 @@
       "c": "Permanently deletes an existing database object from system catalogs and marks its underlying physical storage files for deallocation.",
       "d": "Revokes all access permissions from a specified role while leaving the target database object intact."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "DROP TABLE IF EXISTS temp_staging_data CASCADE;"
   },
   {
     "category": "Data Definition (DDL)",
@@ -360,7 +392,8 @@
       "c": "Flushes the server write-ahead log (WAL) and truncates inactive WAL segments to reclaim filesystem storage.",
       "d": "Quickly removes all rows from a table by allocating new physical storage file forks, acquiring an AccessExclusiveLock and bypassing row-level triggers."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "TRUNCATE TABLE raw_event_logs RESTART IDENTITY;"
   },
   {
     "category": "Data Definition (DDL)",
@@ -371,7 +404,8 @@
       "c": "A catalog view in pg_catalog that displays statistics about disk block usage across relation forks.",
       "d": "An abstract data structure defining client-server wire protocol packet frames for tabular data exchange."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "CREATE TABLE sensor_readings (device_id UUID, reading_time TIMESTAMPTZ, val REAL);"
   },
   {
     "category": "Data Definition (DDL)",
@@ -382,7 +416,8 @@
       "c": "A sequential transaction identifier log used by the storage manager to determine MVCC visibility snapshots.",
       "d": "A partition boundary mapping table that routes incoming rows to physical partition child relations."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "CREATE INDEX idx_users_email ON users USING btree (email);"
   },
   {
     "category": "Data Definition (DDL)",
@@ -393,7 +428,8 @@
       "c": "A virtual relation defined by a stored SQL query, expanded inline via the PostgreSQL query rewrite rule system during query analysis without independent physical storage.",
       "d": "A specialized foreign data wrapper that allows cross-database querying across distinct PostgreSQL clusters."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "CREATE VIEW active_users AS SELECT id, email FROM users WHERE is_active = TRUE;"
   },
   {
     "category": "Data Definition (DDL)",
@@ -404,7 +440,8 @@
       "c": "An unlogged table that is automatically populated during server startup by reading static configuration files.",
       "d": "A partitioned parent table that distributes incoming write operations across distributed cluster nodes."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "CREATE MATERIALIZED VIEW monthly_sales_summary AS SELECT date_trunc('month', sale_date) AS month, SUM(amount) AS total FROM sales GROUP BY 1;"
   },
   {
     "category": "Data Definition (DDL)",
@@ -415,7 +452,8 @@
       "c": "The binary layout specification of tuple headers and user attributes stored within 8KB shared buffer pages.",
       "d": "A global authentication domain shared across all separate database clusters on the same operating system host."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "CREATE SCHEMA IF NOT EXISTS analytics AUTHORIZATION data_admin;"
   },
   {
     "category": "Data Definition (DDL)",
@@ -426,7 +464,8 @@
       "c": "The top-level logical isolation container in a PostgreSQL cluster with its own dedicated system catalogs and data dictionary, distinct from other databases on the cluster.",
       "d": "A dedicated tablespace on the local filesystem reserved for storing unlogged temporary relation data."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "CREATE DATABASE staging_db WITH OWNER = dev_admin ENCODING = 'UTF8';"
   },
   {
     "category": "Data Definition (DDL)",
@@ -437,7 +476,8 @@
       "c": "A procedural rule that intercepts client network connections and enforces TLS cryptographic handshakes.",
       "d": "An execution privilege profile assigned to background worker processes for autovacuum operations."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "CREATE ROLE reporting_user WITH LOGIN PASSWORD 'secure_pass' NOSUPERUSER;"
   },
   {
     "category": "Data Definition (DDL)",
@@ -448,7 +488,8 @@
       "c": "A client-side connection pooler parameter that determines max client connections per backend pool.",
       "d": "An internal operating system service account that owns the PostgreSQL data directory binaries."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "CREATE USER api_worker WITH ENCRYPTED PASSWORD 'api_secret_hash';"
   },
   {
     "category": "Data Definition (DDL)",
@@ -459,7 +500,8 @@
       "c": "A clause that clusters related table partitions together into a shared physical tablespace.",
       "d": "A legacy SQL syntax alias for a ROLE created WITHOUT LOGIN, commonly used to bundle privileges and grant them to multiple member roles."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "CREATE GROUP analysts WITH USER alice, bob;"
   },
   {
     "category": "Data Definition (DDL)",
@@ -470,7 +512,8 @@
       "c": "A compiled C module that can commit or roll back the calling client outer transaction at arbitrary execution points.",
       "d": "A server-side trigger handler that cannot accept user arguments and cannot return any value to the caller."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "CREATE OR REPLACE FUNCTION add_tax(subtotal NUMERIC) RETURNS NUMERIC AS $$\nBEGIN\n  RETURN subtotal * 1.08;\nEND;\n$$ LANGUAGE plpgsql IMMUTABLE;"
   },
   {
     "category": "Data Definition (DDL)",
@@ -481,7 +524,8 @@
       "c": "A client-side script executed by psql that preprocesses meta-commands before sending queries to the server.",
       "d": "A background maintenance task registered in pg_cron that runs at scheduled cron intervals."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "CREATE OR REPLACE PROCEDURE transfer_funds(sender INT, receiver INT, amount NUMERIC)\nLANGUAGE plpgsql AS $$\nBEGIN\n  UPDATE accounts SET balance = balance - amount WHERE id = sender;\n  UPDATE accounts SET balance = balance + amount WHERE id = receiver;\n  COMMIT;\nEND;\n$$;"
   },
   {
     "category": "Data Definition (DDL)",
@@ -492,7 +536,8 @@
       "c": "A database object bound to a table or view that automatically executes a specified trigger function BEFORE, AFTER, or INSTEAD OF specific DML/DDL events.",
       "d": "A transaction log monitor that notifies streaming replication standbys when a WAL buffer has flushed to disk."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "CREATE TRIGGER trg_update_timestamp\nBEFORE UPDATE ON articles\nFOR EACH ROW EXECUTE FUNCTION update_modified_column();"
   },
   {
     "category": "Data Definition (DDL)",
@@ -503,7 +548,8 @@
       "c": "A continuous stream of write-ahead log records identified by monotonically increasing Log Sequence Numbers (LSNs).",
       "d": "A specialized single-row relation that generates a sequence of monotonic integer numbers in a crash-safe and concurrency-safe manner, independent of transaction rollbacks."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "CREATE SEQUENCE order_number_seq START WITH 1000 INCREMENT BY 1 NO CYCLE;"
   },
   {
     "category": "Data Definition (DDL)",
@@ -514,7 +560,8 @@
       "c": "An execution classification that distinguishes parallel-safe functions from parallel-restricted functions.",
       "d": "A storage engine parameter specifying whether column data is stored uncompressed, compressed, or out-of-line in TOAST."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "CREATE TYPE order_status AS ENUM ('pending', 'processing', 'shipped', 'cancelled');"
   },
   {
     "category": "Data Definition (DDL)",
@@ -525,7 +572,8 @@
       "c": "A cluster of related databases that share common collation definitions and global authentication credentials.",
       "d": "A range of permitted integer values defined on sequence objects to prevent 32-bit overflow."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "CREATE DOMAIN us_postal_code AS TEXT CHECK (VALUE ~ '^[0-9]{5}(-[0-9]{4})?$');"
   },
   {
     "category": "Data Definition (DDL)",
@@ -536,7 +584,8 @@
       "c": "A package that bundles SQL objects (functions, data types, operators, and index access methods) into a single manageable unit that can be installed or dropped atomically.",
       "d": "A runtime configuration flag that enables experimental PostgreSQL query planner algorithms."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";"
   },
   {
     "category": "Data Definition (DDL)",
@@ -547,7 +596,8 @@
       "c": "The logical namespace within a database schema that groups related tables for permission management.",
       "d": "The total allocated virtual memory address space available to a PostgreSQL backend worker process."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "CREATE TABLESPACE fast_nvme LOCATION '/mnt/fast_storage/pg_data';"
   },
   {
     "category": "Data Definition (DDL)",
@@ -558,7 +608,8 @@
       "c": "A network protocol layer that compresses character data before transmission across client sockets.",
       "d": "A hashing function used to distribute rows evenly across hash partitions in a partitioned table."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "CREATE COLLATION case_insensitive (provider = icu, locale = 'und-u-ks-level2', deterministic = false);"
   },
   {
     "category": "Data Definition (DDL)",
@@ -569,7 +620,8 @@
       "c": "A Row-Level Security (RLS) rule that defines conditional filters and expressions controlling which rows a specific role can select, insert, update, or delete.",
       "d": "A server resource limit that restricts maximum CPU core consumption per database user."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "CREATE POLICY user_access_policy ON accounts FOR SELECT USING (user_id = current_user_id());"
   },
   {
     "category": "Data Definition (DDL)",
@@ -580,7 +632,8 @@
       "c": "A connection authorization rule defined in pg_hba.conf that controls IP-based authentication methods.",
       "d": "A planner cost coefficient that determines the relative penalty of random disk page reads versus sequential reads."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "CREATE OR REPLACE RULE log_delete AS ON DELETE TO employees DO ALSO INSERT INTO employee_audit VALUES (OLD.id, NOW());"
   },
   {
     "category": "Data Definition (DDL)",
@@ -591,7 +644,8 @@
       "c": "A connection parameter specifying the target database user identity for connection authentication.",
       "d": "A catalog attribute designating which operating system user originally initialized the PostgreSQL data directory."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "ALTER TABLE analytics.daily_traffic OWNER TO analytics_lead;"
   },
   {
     "category": "Data Definition (DDL)",
@@ -602,7 +656,8 @@
       "c": "A directive that renames an active client connection session in pg_stat_activity for debugging purposes.",
       "d": "A migration command that duplicates a relation under a new name while deprecating the original table."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "ALTER TABLE customer_registrations RENAME TO users;"
   },
   {
     "category": "Filtering, Logic & Conditions",
@@ -613,7 +668,8 @@
       "c": "Set operator that performs an intersection between two relational row streams.",
       "d": "Logical operator that returns TRUE if at least one of the two boolean operands evaluates to TRUE."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT * FROM products WHERE in_stock = TRUE AND price < 50.00;"
   },
   {
     "category": "Filtering, Logic & Conditions",
@@ -624,7 +680,8 @@
       "c": "A pattern-matching delimiter used in regular expression searches inside LIKE clauses.",
       "d": "Bitwise operator that computes the exclusive disjunction of binary byte values."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT * FROM tickets WHERE status = 'urgent' OR priority_score >= 90;"
   },
   {
     "category": "Filtering, Logic & Conditions",
@@ -635,7 +692,8 @@
       "c": "Unary boolean operator that inverts the truth value of an expression, returning FALSE for TRUE, TRUE for FALSE, and NULL for NULL.",
       "d": "A transaction directive that aborts the current statement if a null pointer is encountered."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT * FROM members WHERE NOT is_suspended;"
   },
   {
     "category": "Filtering, Logic & Conditions",
@@ -646,7 +704,8 @@
       "c": "A pattern-matching predicate that checks whether a substring exists anywhere within a text column.",
       "d": "Membership test evaluating whether a scalar expression matches any value in a list of literals or a subquery result set (semantically equivalent to = ANY)."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT * FROM employees WHERE department_id IN (10, 20, 30);"
   },
   {
     "category": "Filtering, Logic & Conditions",
@@ -657,7 +716,8 @@
       "c": "A window frame specification that defines partitions based on timestamp intervals.",
       "d": "A distance metric operator used in geometric spatial queries with PostGIS geometries."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT * FROM events WHERE event_date BETWEEN '2026-01-01' AND '2026-12-31';"
   },
   {
     "category": "Filtering, Logic & Conditions",
@@ -668,7 +728,8 @@
       "c": "Computes Levenshtein distance metrics between two string expressions to evaluate approximate phonetic similarity.",
       "d": "A full-text search operator that matches tsvector documents against a tsquery search term."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT * FROM customers WHERE email LIKE '%@gmail.com';"
   },
   {
     "category": "Filtering, Logic & Conditions",
@@ -679,7 +740,8 @@
       "c": "PostgreSQL-specific extension to LIKE that performs case-insensitive pattern matching using % and _ wildcards according to active collation.",
       "d": "A regular expression matching operator equivalent to the POSIX ~* operator."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT * FROM articles WHERE title ILIKE '%postgresql%';"
   },
   {
     "category": "Filtering, Logic & Conditions",
@@ -690,7 +752,8 @@
       "c": "A geometric proximity operator that finds nearest-neighbor points within bounding boxes.",
       "d": "SQL-standard pattern matching operator that blends LIKE wildcards with POSIX regular expression syntax, translating internally into regex patterns."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT * FROM phone_numbers WHERE digits SIMILAR TO '[0-9]{3}-[0-9]{4}';"
   },
   {
     "category": "Filtering, Logic & Conditions",
@@ -701,7 +764,8 @@
       "c": "A table constraint that prevents any column in a table from containing NULL values.",
       "d": "A check that returns TRUE if a column contains either NULL or an empty string."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT * FROM shipments WHERE delivered_at IS NULL;"
   },
   {
     "category": "Filtering, Logic & Conditions",
@@ -712,7 +776,8 @@
       "c": "A validation rule that checks whether a text column contains at least one non-whitespace character.",
       "d": "An index expression that excludes dead MVCC tuples from partial index trees."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT id, profile_picture_url FROM users WHERE profile_picture_url IS NOT NULL;"
   },
   {
     "category": "Filtering, Logic & Conditions",
@@ -723,7 +788,8 @@
       "c": "Null-safe inequality comparison operator that treats NULL as an ordinary value, returning FALSE if both operands are NULL and TRUE if one is NULL.",
       "d": "An operator that compares two arrays and returns TRUE only if they share no common elements."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT * FROM revisions WHERE old_status IS DISTINCT FROM new_status;"
   },
   {
     "category": "Filtering, Logic & Conditions",
@@ -734,7 +800,8 @@
       "c": "A foreign key matching rule that allows composite keys to match partially null reference keys.",
       "d": "Null-safe equality comparison operator that treats NULL as an ordinary value, returning TRUE if both operands are NULL or have equal values."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT * FROM comparison_table WHERE col_a IS NOT DISTINCT FROM col_b;"
   },
   {
     "category": "Filtering, Logic & Conditions",
@@ -745,7 +812,8 @@
       "c": "An assertion statement in PL/pgSQL that raises an unhandled exception if a condition is violated.",
       "d": "A logical operator that converts any non-null expression into the boolean value TRUE."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT * FROM feature_flags WHERE is_enabled IS TRUE;"
   },
   {
     "category": "Filtering, Logic & Conditions",
@@ -756,7 +824,8 @@
       "c": "An operator that inverts a boolean value and converts NULL into TRUE.",
       "d": "A validation clause that rejects empty rows during bulk ingestion."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT * FROM verification_tokens WHERE is_used IS FALSE;"
   },
   {
     "category": "Filtering, Logic & Conditions",
@@ -767,7 +836,8 @@
       "c": "Boolean test predicate that evaluates whether a boolean expression evaluates to NULL (unknown in three-valued SQL logic).",
       "d": "An error code handler that intercepts unrecognized exceptions in PL/pgSQL blocks."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT * FROM sensor_signals WHERE (temperature > 100.0) IS UNKNOWN;"
   },
   {
     "category": "Filtering, Logic & Conditions",
@@ -778,7 +848,8 @@
       "c": "A transaction status check that tests whether a savepoint is active.",
       "d": "Subquery predicate that evaluates to TRUE as soon as the inner query produces at least one row, evaluated efficiently as a Semi-Join by the planner."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT c.name FROM customers c WHERE EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.id);"
   },
   {
     "category": "Filtering, Logic & Conditions",
@@ -789,7 +860,8 @@
       "c": "An execution hint allowing the planner to choose any index access method without costing.",
       "d": "A role permission modifier that grants all privileges across all schema objects."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT * FROM employees WHERE salary > ANY (SELECT base_salary FROM salary_brackets);"
   },
   {
     "category": "Filtering, Logic & Conditions",
@@ -800,7 +872,8 @@
       "c": "A sampling clause that returns a random percentage of rows from a physical relation.",
       "d": "A conditional constraint that allows partial foreign key matching across nullable columns."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT * FROM tasks WHERE estimated_hours < SOME (ARRAY[4, 8, 16]);"
   },
   {
     "category": "Filtering, Logic & Conditions",
@@ -811,7 +884,8 @@
       "c": "Compares a scalar value to every element of an array or subquery result, returning TRUE only if the comparison condition holds for all elements.",
       "d": "An execution directive forcing the query planner to analyze all possible join permutations."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT * FROM products WHERE price < ALL (SELECT price FROM premium_catalog);"
   },
   {
     "category": "Joins & Relations",
@@ -822,7 +896,8 @@
       "c": "A string concatenation function that joins an array of text elements using a specified delimiter.",
       "d": "Relational operator that combines columns from two table references based on join conditions, defaulting to an INNER JOIN if an outer modifier is omitted."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT orders.id, customers.name FROM orders JOIN customers ON orders.customer_id = customers.id;"
   },
   {
     "category": "Joins & Relations",
@@ -833,7 +908,8 @@
       "c": "Combines two tables strictly on shared primary-foreign key relationships without allowing arbitrary expressions.",
       "d": "A nested loop join strategy that caches the inner relation entirely in shared buffer memory."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT p.name, c.name FROM products p INNER JOIN categories c ON p.category_id = c.id;"
   },
   {
     "category": "Joins & Relations",
@@ -844,7 +920,8 @@
       "c": "An anti-join that returns only rows from the left relation that have no matching rows in the right relation.",
       "d": "A physical scan method that reads index leaf pages from left to right in key order."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT u.id, u.name, o.id AS order_id FROM users u LEFT JOIN orders o ON u.id = o.user_id;"
   },
   {
     "category": "Joins & Relations",
@@ -855,7 +932,8 @@
       "c": "Returns all rows from the right relation combined with matching rows from the left relation, populating left-side columns with NULL when no match exists.",
       "d": "A role permission check verifying whether the executing user possesses write privileges on the target relation."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT e.name, d.department_name FROM employees e RIGHT JOIN departments d ON e.department_id = d.id;"
   },
   {
     "category": "Joins & Relations",
@@ -866,7 +944,8 @@
       "c": "A join that executes an index scan on both tables simultaneously using bitmap index scans.",
       "d": "Returns all rows from both relations, matching rows where join conditions evaluate to TRUE and substituting NULL for non-matching sides."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT a.lead_id, b.client_id FROM leads a FULL JOIN clients b ON a.email = b.email;"
   },
   {
     "category": "Joins & Relations",
@@ -877,7 +956,8 @@
       "c": "A join between two tables residing in different schemas or separate databases.",
       "d": "A set operation that returns rows present in either the left or right relation, but not both."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT s.size_name, c.color_name FROM shirt_sizes s CROSS JOIN shirt_colors c;"
   },
   {
     "category": "Joins & Relations",
@@ -888,7 +968,8 @@
       "c": "A geospatial join that identifies intersecting polygons based on spatial containment.",
       "d": "A join that preserves the natural physical insertion order of rows on disk."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT student_name, course_title FROM students NATURAL JOIN enrollments;"
   },
   {
     "category": "Joins & Relations",
@@ -899,7 +980,8 @@
       "c": "Full SQL-standard syntax equivalent to LEFT JOIN, returning all rows from the left table and padding missing right-table columns with NULL.",
       "d": "A join that forces the planner to place the left relation as the outer loop in a Nested Loop plan."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT a.account_number, t.amount FROM accounts a LEFT OUTER JOIN transactions t ON a.id = t.account_id;"
   },
   {
     "category": "Joins & Relations",
@@ -910,7 +992,8 @@
       "c": "A join that filters out any rows where the right relation contains duplicate join keys.",
       "d": "Full SQL-standard syntax equivalent to RIGHT JOIN, returning all rows from the right table and padding missing left-table columns with NULL."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT p.name, d.division_name FROM projects p RIGHT OUTER JOIN divisions d ON p.division_id = d.id;"
   },
   {
     "category": "Joins & Relations",
@@ -921,7 +1004,8 @@
       "c": "An execution strategy that builds hash tables for both tables in work_mem before probing matches.",
       "d": "A union of an INNER JOIN, a LEFT JOIN, and an anti-join across three distinct relations."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT p.partner_id, v.vendor_id FROM partners p FULL OUTER JOIN vendors v ON p.tax_id = v.tax_id;"
   },
   {
     "category": "Joins & Relations",
@@ -932,7 +1016,8 @@
       "c": "A configuration keyword that toggles boolean server settings in postgresql.conf to true.",
       "d": "Specifies the target column list to be indexed within a CREATE INDEX statement."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT * FROM orders o JOIN order_items i ON o.id = i.order_id AND o.status = 'active';"
   },
   {
     "category": "Joins & Relations",
@@ -943,7 +1028,8 @@
       "c": "Specifies a comma-separated list of shared column names for an equality join, projecting each matched column only once in the resulting relation.",
       "d": "A clause in DELETE statements that joins secondary relations to provide filtering conditions."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT employee_id, first_name, department_name FROM employees JOIN departments USING (department_id);"
   },
   {
     "category": "Set Operations",
@@ -954,7 +1040,8 @@
       "c": "Combines the result sets of two or more queries into a single result, automatically removing duplicate rows through a Sort or HashAggregate operation.",
       "d": "Joins two tables on matching column positions rather than matching column names or join conditions."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT email FROM retail_customers UNION SELECT email FROM wholesale_customers;"
   },
   {
     "category": "Set Operations",
@@ -965,7 +1052,8 @@
       "c": "Performs a full outer join across all matching column names across the input relations.",
       "d": "Executes multiple queries in parallel and returns only rows that appear in all combined query sets."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT transaction_date, amount FROM card_payments UNION ALL SELECT transaction_date, amount FROM cash_payments;"
   },
   {
     "category": "Set Operations",
@@ -976,7 +1064,8 @@
       "c": "Returns rows that exist in either query but excludes rows that appear simultaneously in both queries.",
       "d": "Performs a cross-join between two queries and filters out tuples that contain NULL values."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT user_id FROM newsletter_subscribers INTERSECT SELECT user_id FROM paying_customers;"
   },
   {
     "category": "Set Operations",
@@ -987,7 +1076,8 @@
       "c": "Returns distinct matching rows from both queries and raises an exception if any column data types differ.",
       "d": "Returns only rows where every single column contains a non-null distinct value across both relations."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT course_code FROM fall_schedule INTERSECT ALL SELECT course_code FROM spring_schedule;"
   },
   {
     "category": "Set Operations",
@@ -998,7 +1088,8 @@
       "c": "Excludes specific column expressions from the target projection list during a SELECT * query.",
       "d": "Returns rows that appear in the second query but are absent from the first query result set."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT id FROM all_users EXCEPT SELECT user_id FROM banned_users;"
   },
   {
     "category": "Set Operations",
@@ -1009,7 +1100,8 @@
       "c": "Returns rows from the first query that do not appear in the second query, preserving duplicate rows proportional to the count difference between the queries.",
       "d": "Suppresses all server warning messages and notices during statement execution."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT product_id FROM inventory_stock EXCEPT ALL SELECT product_id FROM backorders;"
   },
   {
     "category": "Common Table Expressions (CTE)",
@@ -1020,7 +1112,8 @@
       "c": "Specifies storage parameters and fillfactors applied when creating or altering physical index structures.",
       "d": "An execution modifier that forces subqueries to evaluate in parallel across worker processes."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "WITH high_value_orders AS (\n  SELECT customer_id, SUM(total) AS spend FROM orders GROUP BY customer_id HAVING SUM(total) > 1000\n)\nSELECT c.name, hvo.spend FROM customers c JOIN high_value_orders hvo ON c.id = hvo.customer_id;"
   },
   {
     "category": "Common Table Expressions (CTE)",
@@ -1031,7 +1124,8 @@
       "c": "Enables an infinite loop construct within procedural SQL functions for event polling.",
       "d": "Instructs the optimizer to recursively inline all nested subquery expressions into a single flattened query tree."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "WITH RECURSIVE employee_hierarchy AS (\n  SELECT emp_id, manager_id, 1 AS level FROM employees WHERE manager_id IS NULL\n  UNION ALL\n  SELECT e.emp_id, e.manager_id, h.level + 1 FROM employees e JOIN employee_hierarchy h ON e.manager_id = h.emp_id\n)\nSELECT * FROM employee_hierarchy;"
   },
   {
     "category": "Window Functions",
@@ -1042,7 +1136,8 @@
       "c": "A clause in CREATE VIEW that enables automatic materialization of query results.",
       "d": "A query hint that forces the planner to override default cost estimates."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT employee_id, department_id, salary, AVG(salary) OVER (PARTITION BY department_id) AS dept_avg FROM employees;"
   },
   {
     "category": "Window Functions",
@@ -1053,7 +1148,8 @@
       "c": "Splits a large transaction into smaller atomic subtransactions to prevent WAL overflow.",
       "d": "Reorganizes an index B-tree structure into separate sub-trees based on hash keys."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT student_name, class_id, grade, RANK() OVER (PARTITION BY class_id ORDER BY grade DESC) FROM exam_results;"
   },
   {
     "category": "Window Functions",
@@ -1064,7 +1160,8 @@
       "c": "Defines a logical value range based on value offsets from the current row's ORDER BY key.",
       "d": "A table partitioning clause that allocates partition bounds using integer row IDs."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT order_date, daily_revenue, SUM(daily_revenue) OVER (ORDER BY order_date ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS rolling_3day_sum FROM sales;"
   },
   {
     "category": "Window Functions",
@@ -1075,7 +1172,8 @@
       "c": "Defines a window frame based on logical value offsets from the current row's ordering expression, treating peer rows with identical sort values together.",
       "d": "A filter clause that restricts query results to values falling between two numeric limits."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT sale_timestamp, amount, AVG(amount) OVER (ORDER BY sale_timestamp RANGE BETWEEN INTERVAL '1 hour' PRECEDING AND CURRENT ROW) FROM transactions;"
   },
   {
     "category": "Window Functions",
@@ -1086,7 +1184,8 @@
       "c": "A set operation clause that compares distinct group summaries between two queries.",
       "d": "Defines a window frame based on offsets in groups of peer rows sharing identical values according to the window's ORDER BY clause."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT region, score, DENSE_RANK() OVER (ORDER BY score), AVG(salary) OVER (ORDER BY score GROUPS BETWEEN 1 PRECEDING AND 1 FOLLOWING) FROM candidate_scores;"
   },
   {
     "category": "Window Functions",
@@ -1097,7 +1196,8 @@
       "c": "A replication parameter that allows standbys to lag indefinitely behind the primary.",
       "d": "A cursor option that allows fetching records prior to the current transaction start."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT sale_date, revenue, SUM(revenue) OVER (ORDER BY sale_date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumulative_revenue FROM daily_sales;"
   },
   {
     "category": "Window Functions",
@@ -1108,7 +1208,8 @@
       "c": "A trigger configuration that defers execution until all subsequent queries complete.",
       "d": "A query optimizer hint that permits unbounded parallel worker generation."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT task_id, priority, LAST_VALUE(task_id) OVER (ORDER BY priority ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) FROM task_list;"
   },
   {
     "category": "Window Functions",
@@ -1119,7 +1220,8 @@
       "c": "Frame boundary specification indicating that the window frame starts or ends at the current row (or its peer group depending on ROWS/RANGE mode).",
       "d": "A trigger pseudo-variable representing the new state of a row during an UPDATE operation."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT day, views, SUM(views) OVER (ORDER BY day ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS rolling_weekly_views FROM page_views;"
   },
   {
     "category": "Window Functions",
@@ -1130,7 +1232,8 @@
       "c": "A temporal operator that checks whether one timestamp occurred strictly before another.",
       "d": "Specifies a relative frame boundary that is a designated number of rows or value offset prior to the current row within a window frame."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT log_time, latency, AVG(latency) OVER (ORDER BY log_time ROWS BETWEEN 5 PRECEDING AND CURRENT ROW) FROM api_metrics;"
   },
   {
     "category": "Window Functions",
@@ -1141,7 +1244,8 @@
       "c": "A transaction chaining command that immediately begins a new transaction upon commit.",
       "d": "A constraint validation mode that defers checks until dependent statements execute."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT id, price, LEAD(price, 1) OVER (ORDER BY id ROWS BETWEEN CURRENT ROW AND 1 FOLLOWING) FROM stock_ticks;"
   },
   {
     "category": "Window Functions",
@@ -1152,7 +1256,8 @@
       "c": "A filter clause that hides the current user row from audit logging tables.",
       "d": "An exclusion constraint that prevents duplicate entries for the currently inserted record."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT student_id, score, AVG(score) OVER (ORDER BY score ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING EXCLUDE CURRENT ROW) FROM test_scores;"
   },
   {
     "category": "Window Functions",
@@ -1163,7 +1268,8 @@
       "c": "Window frame exclusion specification that omits the current row and all of its peer rows with identical ORDER BY values from the frame calculation.",
       "d": "An index storage setting that prevents duplicate key groups from being compressed."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT team, points, SUM(points) OVER (ORDER BY points RANGE BETWEEN 10 PRECEDING AND 10 FOLLOWING EXCLUDE GROUP) FROM tournament_ranks;"
   },
   {
     "category": "Window Functions",
@@ -1174,7 +1280,8 @@
       "c": "A unique index option that raises an error when duplicate keys are encountered.",
       "d": "Window frame exclusion specification that omits peer rows of the current row from the frame calculation while retaining the current row itself."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT contestant_id, score, RANK() OVER (ORDER BY score RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW EXCLUDE TIES) FROM competition;"
   },
   {
     "category": "Window Functions",
@@ -1185,7 +1292,8 @@
       "c": "A locking clause that prevents any other transaction from acquiring locks on the table.",
       "d": "A row-level security policy that grants access to all rows without exception."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT timestamp, metric_val, AVG(metric_val) OVER (ORDER BY timestamp ROWS BETWEEN 3 PRECEDING AND 3 FOLLOWING EXCLUDE NO OTHERS) FROM telemetry;"
   },
   {
     "category": "Control Flow & Null Handling",
@@ -1196,7 +1304,8 @@
       "c": "A switch statement in PL/pgSQL that can only perform exact equality matching against integer literals.",
       "d": "Conditional expression construct (searched or simple) that evaluates a series of conditions and returns the result of the first matching branch."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT order_id, total, CASE WHEN total > 500 THEN 'Platinum' WHEN total > 100 THEN 'Gold' ELSE 'Standard' END AS tier FROM orders;"
   },
   {
     "category": "Control Flow & Null Handling",
@@ -1207,7 +1316,8 @@
       "c": "A cursor polling keyword that pauses execution until an asynchronous NOTIFY message arrives.",
       "d": "A scheduling clause in pg_cron that defines the cron execution interval."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT name, CASE WHEN score >= 90 THEN 'A' WHEN score >= 80 THEN 'B' ELSE 'C' END AS letter_grade FROM grades;"
   },
   {
     "category": "Control Flow & Null Handling",
@@ -1218,7 +1328,8 @@
       "c": "A pipeline operator that chains query results directly into another query without intermediate spooling.",
       "d": "An ordering modifier that specifies secondary sort columns in an ORDER BY clause."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT item_name, CASE WHEN stock_qty = 0 THEN 'Out of Stock' ELSE 'Available' END AS stock_status FROM inventory;"
   },
   {
     "category": "Control Flow & Null Handling",
@@ -1229,7 +1340,8 @@
       "c": "Specifies the fallback result expression evaluated when none of the preceding WHEN conditions in a CASE expression evaluate to TRUE (returning NULL if omitted).",
       "d": "A default parameter keyword in function declarations used when arguments are omitted."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT username, CASE WHEN role = 'admin' THEN 'Full Access' ELSE 'Restricted' END AS access_level FROM accounts;"
   },
   {
     "category": "Control Flow & Null Handling",
@@ -1240,7 +1352,8 @@
       "c": "Terminates a client session connection and exits the database backend process.",
       "d": "Syntactic keyword that terminates a CASE conditional expression (or delimits code blocks in PL/pgSQL compound statements)."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT employee_id, CASE WHEN salary < 30000 THEN 'Review Needed' END AS status FROM payroll;"
   },
   {
     "category": "Control Flow & Null Handling",
@@ -1251,7 +1364,8 @@
       "c": "Concatenates a series of string arguments, automatically converting NULL values into empty strings.",
       "d": "An aggregate function that combines non-null array elements into a unified set."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT id, COALESCE(mobile_phone, home_phone, work_phone, 'N/A') AS contact_number FROM contact_directory;"
   },
   {
     "category": "Control Flow & Null Handling",
@@ -1262,7 +1376,8 @@
       "c": "A conditional constraint that permits a column to be NULL only if another specified column is also NULL.",
       "d": "A null-testing function that returns a boolean TRUE if its argument evaluates to NULL."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT department_id, total_sales / NULLIF(staff_count, 0) AS sales_per_rep FROM branch_performance;"
   },
   {
     "category": "Control Flow & Null Handling",
@@ -1273,7 +1388,8 @@
       "c": "Evaluates a list of scalar expressions and returns the largest value, ignoring NULL arguments unless every single argument is NULL.",
       "d": "A query hint instructing the optimizer to allocate the maximum allowable memory to sort operations."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT product_id, GREATEST(minimum_order_qty, current_inventory, 1) AS batch_target FROM inventory;"
   },
   {
     "category": "Control Flow & Null Handling",
@@ -1284,7 +1400,8 @@
       "c": "A planner cost estimation heuristic that favors sequential scans over index scans for small tables.",
       "d": "Evaluates a list of scalar expressions and returns the smallest value, ignoring NULL arguments unless every single argument is NULL."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT order_id, LEAST(estimated_tax, max_tax_cap) AS effective_tax FROM checkout_carts;"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1295,7 +1412,8 @@
       "c": "A 2-byte signed integer type optimized for low-memory enumerated values.",
       "d": "An unsigned 32-bit integer data type storing non-negative numbers up to 4,294,967,295."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "CREATE TABLE counters (id INT GENERATED ALWAYS AS IDENTITY, hit_count INT NOT NULL);"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1306,7 +1424,8 @@
       "c": "An 8-byte numeric type used to store high-volume primary key sequence values.",
       "d": "A variable-width integer format that uses run-length encoding to compress small integers."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "CREATE TABLE player_levels (player_id UUID, current_level INTEGER DEFAULT 1);"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1317,7 +1436,8 @@
       "c": "A 2-byte signed integer type storing numbers from -32,768 to +32,767 (int2), designed to conserve disk and memory storage for constrained integer ranges.",
       "d": "A floating-point type that truncates all fractional digits upon insertion."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "CREATE TABLE flight_seats (flight_id INT, row_number SMALLINT CHECK (row_number BETWEEN 1 AND 50));"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1328,7 +1448,8 @@
       "c": "A 4-byte signed integer that automatically upgrades to an 8-byte integer upon overflow.",
       "d": "An 8-byte signed integer type storing whole numbers from -9,223,372,036,854,775,808 to +9,223,372,036,854,775,807 (int8), ideal for large sequence primary keys."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "CREATE TABLE event_stream (event_id BIGINT GENERATED ALWAYS AS IDENTITY, payload JSONB);"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1339,7 +1460,8 @@
       "c": "A 64-bit integer type that internally shifts values by four decimal places to represent currency.",
       "d": "A fixed-size 8-byte decimal type with a maximum scale of 4 decimal places."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "CREATE TABLE financial_ledger (entry_id INT, debit NUMERIC(15, 4), credit NUMERIC(15, 4));"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1350,7 +1472,8 @@
       "c": "A specialized integer format used to format numbers with currency symbols in psql output.",
       "d": "A fixed-length numeric type restricted to exactly two decimal places for monetary amounts."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "CREATE TABLE tax_rates (jurisdiction_code VARCHAR(10), rate DECIMAL(5, 4));"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1361,7 +1484,8 @@
       "c": "Inexact, variable-precision 4-byte floating-point type complying with IEEE 754 single precision (approx. 6 decimal digits of precision, float4).",
       "d": "A complex number data type consisting of real and imaginary floating-point components."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "CREATE TABLE weather_observations (station_id INT, temperature_celsius REAL);"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1372,7 +1496,8 @@
       "c": "An exact 64-bit fixed-point type used in financial transactions.",
       "d": "Inexact, variable-precision 8-byte floating-point type complying with IEEE 754 double precision (approx. 15 decimal digits of precision, float8)."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "CREATE TABLE orbital_trajectories (satellite_id INT, velocity_km_s DOUBLE PRECISION);"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1383,7 +1508,8 @@
       "c": "A table constraint that forces transactions to execute in strict serial order.",
       "d": "An 8-byte sequential counter guaranteed to generate gapless monotonically increasing integers."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "CREATE TABLE categories (category_id SERIAL PRIMARY KEY, category_name TEXT NOT NULL);"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1394,7 +1520,8 @@
       "c": "An unlogged table type designed for high-throughput batch message queuing.",
       "d": "A distributed UUID generator that combines timestamp and MAC address bytes."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "CREATE TABLE audit_records (id BIGSERIAL PRIMARY KEY, message TEXT, logged_at TIMESTAMPTZ DEFAULT NOW());"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1405,7 +1532,8 @@
       "c": "Fixed-length character data type blank-padded with spaces up to the declared length n, where trailing spaces are semantically ignored during comparisons.",
       "d": "A binary character type that stores UTF-16 code points."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "CREATE TABLE country_codes (iso_code CHAR(2) PRIMARY KEY, country_name TEXT);"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1416,7 +1544,8 @@
       "c": "A character data type that automatically strips punctuation and converts letters to lowercase.",
       "d": "Variable-length character type with an optional maximum length limit n, storing strings up to n characters without blank-padding spaces."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "CREATE TABLE registered_devices (device_uuid UUID, mac_address VARCHAR(17), device_name VARCHAR(100));"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1427,7 +1556,8 @@
       "c": "A fixed-length string type that stores text out-of-line on disk without TOAST compression.",
       "d": "A deprecated data type replaced by VARCHAR in modern SQL standards."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "CREATE TABLE blog_posts (post_id INT PRIMARY KEY, title TEXT, body_markdown TEXT);"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1438,7 +1568,8 @@
       "c": "A two-valued logical type that converts all NULL values into FALSE automatically.",
       "d": "A 4-byte enumerated type with two permitted enum labels: 'true' and 'false'."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "CREATE TABLE user_settings (user_id INT, dark_mode_enabled BOOLEAN DEFAULT TRUE);"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1449,7 +1580,8 @@
       "c": "4-byte calendar date type storing year, month, and day without time-of-day or timezone information, covering a range from 4713 BC to 5874897 AD.",
       "d": "A string formatted representation of ISO-8601 calendar dates."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "CREATE TABLE employee_contracts (contract_id INT, start_date DATE NOT NULL, end_date DATE);"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1460,7 +1592,8 @@
       "c": "A timestamp that automatically synchronizes with the operating system NTP daemon.",
       "d": "Time-of-day type without time zone (typically 8 bytes), storing hours, minutes, seconds, and fractional microsecond precision (up to 6 digits)."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "CREATE TABLE store_hours (store_id INT, opens_at TIME NOT NULL, closes_at TIME NOT NULL);"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1471,7 +1604,8 @@
       "c": "A temporal type that automatically converts stored dates into the client local timezone upon display.",
       "d": "A 16-byte high-precision datetime type including GPS leap second adjustments."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "CREATE TABLE system_events (event_id INT, event_wall_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP);"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1482,7 +1616,8 @@
       "c": "A daylight-saving-time tracking table that logs timezone shift historical data.",
       "d": "An immutable UTC timestamp that cannot be modified after initial creation."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "CREATE TABLE deployment_runs (run_id UUID PRIMARY KEY, deployed_at TIMESTAMPTZ DEFAULT NOW());"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1493,7 +1628,8 @@
       "c": "16-byte temporal span data type storing elapsed time as independent months, days, and microsecond components, supporting arithmetic on timestamps.",
       "d": "A numeric range type defining upper and lower floating-point boundary values."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT NOW(), NOW() + INTERVAL '14 days 6 hours' AS warranty_expiration;"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1504,7 +1640,8 @@
       "c": "A document-store extension that converts JSON keys into relational table columns.",
       "d": "Textual JSON data type that stores exact text copies of JSON input (preserving whitespace and duplicate keys), requiring re-parsing on every query evaluation."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "CREATE TABLE webhook_payloads (id INT PRIMARY KEY, raw_payload JSON);"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1515,7 +1652,8 @@
       "c": "A legacy JSON data type that converts JSON documents into XML structures.",
       "d": "A base64 encoded string format used to transmit JSON payloads over binary wire protocol."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT id, metadata->>'author' FROM documents WHERE metadata @> '{\"tags\": [\"postgresql\", \"database\"]}';"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1526,7 +1664,8 @@
       "c": "A schema markup format used to configure database replication parameters in XML files.",
       "d": "A binary compressed document format optimized for SOAP web service endpoints."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "CREATE TABLE invoice_archives (invoice_id INT, invoice_xml XML);"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1537,7 +1676,8 @@
       "c": "16-byte Universally Unique Identifier type conforming to RFC 4122, storing 128-bit identifiers more compactly and efficiently than 36-character text representations.",
       "d": "A cryptographic hash type storing 256-bit SHA-2 digest outputs."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "CREATE TABLE app_users (id UUID DEFAULT gen_random_uuid() PRIMARY KEY, email TEXT UNIQUE);"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1548,7 +1688,8 @@
       "c": "A partition structure that splits tables based on an array of boundary values.",
       "d": "Composite type constructor allowing any valid PostgreSQL base type to be stored as a multi-dimensional, variable-length collection with 1-based indexing."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "CREATE TABLE article_tags (article_id INT, tags TEXT[] DEFAULT ARRAY['news', 'tech']);"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1559,7 +1700,8 @@
       "c": "A network protocol buffer used to stream large object data via client sockets.",
       "d": "A bit-string type that restricts input to fixed sequences of 1s and 0s."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "CREATE TABLE file_uploads (file_id UUID, file_name TEXT, file_bytes BYTEA);"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1570,7 +1712,8 @@
       "c": "A network routing table type that calculates shortest paths using Dijkstra algorithms.",
       "d": "A text type that validates whether an input string is a valid Internet domain name."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT client_ip, request_uri FROM access_logs WHERE client_ip << inet '192.168.1.0/24';"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1581,7 +1724,8 @@
       "c": "IPv4 and IPv6 network specification type that strictly enforces that no non-zero bits exist to the right of the subnet netmask (unlike INET which allows host bits).",
       "d": "A domain name resolution type that resolves hostnames to IP addresses asynchronously."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "CREATE TABLE network_zones (zone_name TEXT, network_mask CIDR NOT NULL);"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1592,7 +1736,8 @@
       "c": "An operating system process identifier tracking client machine hardware specs.",
       "d": "6-byte Media Access Control (MAC) address data type for Ethernet hardware addresses, supporting common standard input formats (colons, hyphens, dots)."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "CREATE TABLE hardware_interfaces (interface_id INT, hardware_mac MACADDR NOT NULL);"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1603,7 +1748,8 @@
       "c": "A point-in-time recovery target identifier specifying a transaction restore position.",
       "d": "A full-text search token representing punctuation markers in text documents."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "CREATE TABLE branch_locations (branch_id INT, coordinates POINT); -- point(37.7749, -122.4194)"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1614,7 +1760,8 @@
       "c": "A finite geometric line segment connecting two distinct planar coordinate endpoints.",
       "d": "A line number tracker used in PL/pgSQL runtime exception stack traces."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "CREATE TABLE map_reference_lines (id INT, divider_line LINE); -- Ax + By + C = 0"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1625,7 +1772,8 @@
       "c": "Geometric data type representing a closed planar boundary composed of an ordered sequence of interconnected 2D coordinate points (pairs of double precision floats).",
       "d": "A spatial partitioning method that indexes geometric shapes using quadtrees."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "CREATE TABLE delivery_zones (zone_id INT, boundary_polygon POLYGON);"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1636,7 +1784,8 @@
       "c": "A network socket buffer vector that batches asynchronous message transmissions.",
       "d": "Text search document vector type that stores a sorted list of distinct normalized lexemes (words) with optional positional and weight information for full-text search."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT title FROM books WHERE to_tsvector('english', description) @@ to_tsquery('english', 'database & performance');"
   },
   {
     "category": "Data Types (Foundational)",
@@ -1647,7 +1796,8 @@
       "c": "A transaction status query function that returns the active snapshot state of the backend.",
       "d": "A diagnostic query utility that monitors slow-running queries in pg_stat_statements."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT id, headline FROM news_feed WHERE body_vector @@ to_tsquery('postgres & (tuning | vacuum)');"
   },
   {
     "category": "Constraints & Indexes",
@@ -1658,7 +1808,8 @@
       "c": "An encryption key used by the database engine to decrypt data blocks on disk.",
       "d": "A clustering key that permanently dictates the physical sort order of heap pages."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "CREATE TABLE accounts (account_id BIGINT PRIMARY KEY, username VARCHAR(50) NOT NULL);"
   },
   {
     "category": "Constraints & Indexes",
@@ -1669,7 +1820,8 @@
       "c": "Referential integrity constraint ensuring that values in referencing columns match candidate key values in a referenced parent table.",
       "d": "A security policy that restricts access to users connecting from foreign IP addresses."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "CREATE TABLE orders (\n  id INT PRIMARY KEY,\n  user_id INT,\n  CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE\n);"
   },
   {
     "category": "Constraints & Indexes",
@@ -1680,7 +1832,8 @@
       "c": "A parameter mode indicator in procedural languages used to pass variables by reference.",
       "d": "Clause within a foreign key constraint definition designating the target referenced parent relation and its candidate key columns."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "CREATE TABLE comments (comment_id INT PRIMARY KEY, post_id INT REFERENCES posts(id) ON DELETE CASCADE);"
   },
   {
     "category": "Constraints & Indexes",
@@ -1691,7 +1844,8 @@
       "c": "An index scan method that returns only the first matching tuple and terminates immediately.",
       "d": "A table creation modifier that generates a globally unique identifier for the relation."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "CREATE TABLE members (member_id INT PRIMARY KEY, ssn VARCHAR(11) UNIQUE NOT NULL);"
   },
   {
     "category": "Constraints & Indexes",
@@ -1702,7 +1856,8 @@
       "c": "A transaction command that forces an immediate checkpoint to flush dirty buffers to disk.",
       "d": "A diagnostic tool that inspects execution plans for potential performance bottlenecks."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "CREATE TABLE employee_salaries (id INT, salary NUMERIC(10, 2) CONSTRAINT positive_salary CHECK (salary > 0));"
   },
   {
     "category": "Constraints & Indexes",
@@ -1713,7 +1868,8 @@
       "c": "Column specification that supplies a predetermined value or expression when an INSERT statement does not explicitly provide one.",
       "d": "A configuration reset directive that restores postgresql.conf parameters to factory settings."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "CREATE TABLE task_items (task_id INT PRIMARY KEY, status VARCHAR(20) DEFAULT 'unassigned');"
   },
   {
     "category": "Constraints & Indexes",
@@ -1724,7 +1880,8 @@
       "c": "A check constraint that raises a notice whenever a null value is inserted into a column.",
       "d": "Column constraint that prohibits NULL values from being stored in the column, enforced directly during tuple validation without index overhead."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "CREATE TABLE user_credentials (user_id INT, password_hash TEXT NOT NULL);"
   },
   {
     "category": "Constraints & Indexes",
@@ -1735,7 +1892,8 @@
       "c": "An index directive that prevents dead MVCC tuples from being included in index pages.",
       "d": "A permissions setting that denies access to specific sensitive columns in a table."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "CREATE TABLE room_bookings (\n  room_id INT,\n  booking_during TSRANGE,\n  EXCLUDE USING gist (room_id WITH =, booking_during WITH &&)\n);"
   },
   {
     "category": "Constraints & Indexes",
@@ -1746,7 +1904,8 @@
       "c": "An index creation option that postpones index construction until the initial bulk load completes.",
       "d": "A query execution mode that delays query execution until server load decreases."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "ALTER TABLE invoice_items ADD CONSTRAINT fk_invoice FOREIGN KEY (invoice_id) REFERENCES invoices(id) DEFERRABLE INITIALLY DEFERRED;"
   },
   {
     "category": "Constraints & Indexes",
@@ -1757,7 +1916,8 @@
       "c": "Specifies that a deferrable constraint is postponed to transaction commit time by default unless explicitly altered via SET CONSTRAINTS.",
       "d": "A background task schedule that delays execution until database boot completes."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "CREATE TABLE circular_a (b_id INT, CONSTRAINT fk_b FOREIGN KEY (b_id) REFERENCES circular_b(id) DEFERRABLE INITIALLY DEFERRED);"
   },
   {
     "category": "Constraints & Indexes",
@@ -1768,7 +1928,8 @@
       "c": "A trigger execution rule that fires trigger functions before constraint checking.",
       "d": "Specifies that a deferrable constraint is enforced immediately after each statement by default unless explicitly deferred via SET CONSTRAINTS."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "ALTER TABLE order_details ADD CONSTRAINT fk_order FOREIGN KEY (order_id) REFERENCES orders(id) DEFERRABLE INITIALLY IMMEDIATE;"
   },
   {
     "category": "Constraints & Indexes",
@@ -1779,7 +1940,8 @@
       "c": "A join strategy that performs an exhaustive comparison across all columns in two relations.",
       "d": "An index scan method that requires all index columns to be specified in query predicates."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "CREATE TABLE composite_child (a INT, b INT, FOREIGN KEY (a, b) REFERENCES composite_parent (a, b) MATCH FULL);"
   },
   {
     "category": "Constraints & Indexes",
@@ -1790,7 +1952,8 @@
       "c": "A basic join condition that matches rows based strictly on single-column integer comparisons.",
       "d": "An index scan mode that skips partial match evaluations in multi-column indexes."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "CREATE TABLE items (c1 INT, c2 INT, FOREIGN KEY (c1, c2) REFERENCES parent_table (p1, p2) MATCH SIMPLE);"
   },
   {
     "category": "Constraints & Indexes",
@@ -1801,7 +1964,8 @@
       "c": "Referential action or drop option that automatically propagates deletions/updates to referencing rows, or automatically drops dependent database objects.",
       "d": "A lock escalation mechanism that upgrades shared row locks into exclusive table locks."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "ALTER TABLE order_items ADD CONSTRAINT fk_parent_order FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE;"
   },
   {
     "category": "Constraints & Indexes",
@@ -1812,7 +1976,8 @@
       "c": "A connection limiter that throttles incoming client connections from specific subnets.",
       "d": "Referential action or drop option that prevents the deletion or update of a referenced row (or dropping of an object) if dependent rows or objects exist."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "ALTER TABLE department_staff ADD CONSTRAINT fk_department FOREIGN KEY (dept_id) REFERENCES departments(id) ON DELETE RESTRICT;"
   },
   {
     "category": "Constraints & Indexes",
@@ -1823,7 +1988,8 @@
       "c": "A data cleansing operation that converts empty strings into SQL NULL values across a column.",
       "d": "An index option that instructs B-trees to exclude null keys from leaf pages."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "ALTER TABLE support_tickets ADD CONSTRAINT fk_assigned_agent FOREIGN KEY (agent_id) REFERENCES agents(id) ON DELETE SET NULL;"
   },
   {
     "category": "Constraints & Indexes",
@@ -1834,7 +2000,8 @@
       "c": "A DDL clause that modifies the default tablespace for newly created database objects.",
       "d": "A role assignment directive that grants a user their standard default privileges."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "ALTER TABLE memberships ADD CONSTRAINT fk_plan FOREIGN KEY (plan_id) REFERENCES plans(id) ON DELETE SET DEFAULT;"
   },
   {
     "category": "Constraints & Indexes",
@@ -1845,7 +2012,8 @@
       "c": "Modifier for CREATE/DROP INDEX or REINDEX that builds or removes indexes without acquiring exclusive write locks, allowing ongoing table modifications.",
       "d": "A replication directive that streams WAL changes simultaneously to multiple standby nodes."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "CREATE INDEX CONCURRENTLY idx_users_last_login ON users (last_login);"
   },
   {
     "category": "Constraints & Indexes",
@@ -1856,7 +2024,8 @@
       "c": "A join modifier that incorporates non-matching rows into the intermediate result set.",
       "d": "Clause in CREATE INDEX that appends non-key payload columns to index leaf pages to facilitate index-only scans without expanding the B-tree search key."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "CREATE UNIQUE INDEX idx_users_email_inc ON users (email) INCLUDE (full_name, status);"
   },
   {
     "category": "Transaction Control (TCL)",
@@ -1867,7 +2036,8 @@
       "c": "A statement that initializes an external connection pooler session.",
       "d": "Declares the start of an execution plan analysis within an EXPLAIN block."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "BEGIN ISOLATION LEVEL SERIALIZABLE;\nSELECT balance FROM accounts WHERE id = 10;\nCOMMIT;"
   },
   {
     "category": "Transaction Control (TCL)",
@@ -1878,7 +2048,8 @@
       "c": "A replication signal that acknowledges receipt of a WAL record on a synchronous standby.",
       "d": "Closes an active cursor portal while keeping the underlying transaction open."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "BEGIN;\nUPDATE bank_balances SET balance = balance + 100 WHERE id = 1;\nCOMMIT;"
   },
   {
     "category": "Transaction Control (TCL)",
@@ -1889,7 +2060,8 @@
       "c": "Aborts the current transaction block, discarding all modifications made during the transaction and releasing all held locks and system resources.",
       "d": "Undoes the last executed SQL statement while keeping the transaction block active."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "BEGIN;\nUPDATE accounts SET balance = balance - 1000 WHERE id = 5;\nROLLBACK;"
   },
   {
     "category": "Transaction Control (TCL)",
@@ -1900,7 +2072,8 @@
       "c": "A replication restart point that tracks the confirmed flush LSN of a standby node.",
       "d": "Establishes an intermediate rollback checkpoint within an active transaction block, allowing partial rollback of subsequent statements without aborting the transaction."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "BEGIN;\nINSERT INTO cart VALUES (1);\nSAVEPOINT my_savepoint;\nINSERT INTO cart VALUES (2);\nROLLBACK TO SAVEPOINT my_savepoint;\nCOMMIT;"
   },
   {
     "category": "Transaction Control (TCL)",
@@ -1911,7 +2084,8 @@
       "c": "Forces an immediate disk flush of all WAL records generated since the savepoint was declared.",
       "d": "Unlocks all row-level locks acquired between the savepoint creation and the current statement."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SAVEPOINT sp1;\nUPDATE items SET stock = stock - 1;\nRELEASE SAVEPOINT sp1;"
   },
   {
     "category": "Transaction Control (TCL)",
@@ -1922,7 +2096,8 @@
       "c": "Validates schema constraints and foreign keys before executing data manipulation statements.",
       "d": "Allocates shared memory and work_mem quotas prior to launching a long-running batch job."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "BEGIN;\nUPDATE accounts SET balance = balance - 200 WHERE id = 8;\nPREPARE TRANSACTION 'tx_transfer_8_to_9';"
   },
   {
     "category": "Transaction Control (TCL)",
@@ -1933,7 +2108,8 @@
       "c": "Second phase of a two-phase commit (2PC) protocol that permanently commits a transaction previously prepared and identified by a transaction ID string.",
       "d": "Validates and applies schema alterations that were staged in a dry-run migration."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "COMMIT PREPARED 'tx_transfer_8_to_9';"
   },
   {
     "category": "Transaction Control (TCL)",
@@ -1944,7 +2120,8 @@
       "c": "Reverts a server configuration parameter that was prepared using ALTER SYSTEM.",
       "d": "Cancels and rolls back a transaction previously prepared via two-phase commit (2PC), releasing all held locks and associated persistent state."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "ROLLBACK PREPARED 'tx_transfer_8_to_9';"
   },
   {
     "category": "Transaction Control (TCL)",
@@ -1955,7 +2132,8 @@
       "c": "Overrides the server global default transaction isolation level permanently in postgresql.conf.",
       "d": "Binds a transaction to a specific CPU socket or NUMA node for optimized memory locality."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "BEGIN;\nSET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY;\nSELECT * FROM audit_logs;\nCOMMIT;"
   },
   {
     "category": "Transaction Control (TCL)",
@@ -1966,7 +2144,8 @@
       "c": "A sandbox setting that restricts untrusted procedural language functions from accessing filesystem APIs.",
       "d": "A metric measuring the physical disk fragmentation between distinct database relations."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "BEGIN;\nSET TRANSACTION ISOLATION LEVEL READ COMMITTED;"
   },
   {
     "category": "Transaction Control (TCL)",
@@ -1977,7 +2156,8 @@
       "c": "Highest SQL isolation level that emulates strictly serial transaction execution, tracking read-write dependencies (SIREAD locks) to prevent serialization anomalies.",
       "d": "A table storage option that stores rows sequentially in primary key order on physical disk."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "BEGIN ISOLATION LEVEL SERIALIZABLE;\nSELECT SUM(balance) FROM accounts;\nCOMMIT;"
   },
   {
     "category": "Transaction Control (TCL)",
@@ -1988,7 +2168,8 @@
       "c": "A replication mode that enables repeated streaming of archived WAL segments to replicas.",
       "d": "Isolation level where all statements in a transaction see a static snapshot taken before the first non-transaction-control query, preventing non-repeatable reads and phantoms."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;\nSELECT count(*) FROM orders;\nCOMMIT;"
   },
   {
     "category": "Transaction Control (TCL)",
@@ -1999,7 +2180,8 @@
       "c": "A transaction mode that only permits read operations and raises an error on any attempt to write.",
       "d": "An optimization setting that caches committed tuples in client-side memory to minimize network round trips."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SET SESSION CHARACTERISTICS AS TRANSACTION ISOLATION LEVEL READ COMMITTED;"
   },
   {
     "category": "Transaction Control (TCL)",
@@ -2010,7 +2192,8 @@
       "c": "A diagnostic mode that inspects corrupted shared buffer pages before crash recovery finishes.",
       "d": "A maintenance state allowing administrative reads while a table is locked for exclusive rebuilding."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "BEGIN TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;\n-- Executed internally as READ COMMITTED in PostgreSQL"
   },
   {
     "category": "Data Control & Security (DCL)",
@@ -2021,7 +2204,8 @@
       "c": "A configuration command that permanently sets role-level memory allowances in postgresql.conf.",
       "d": "A transaction command that elevates transaction isolation to Serializable."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA public TO web_service_role;"
   },
   {
     "category": "Data Control & Security (DCL)",
@@ -2032,7 +2216,8 @@
       "c": "Rolls back an uncommitted transaction and deletes its corresponding WAL segment.",
       "d": "Drops all database objects created by a specified user from the system catalogs."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "REVOKE DELETE, TRUNCATE ON TABLE sensitive_finance_data FROM guest_analyst;"
   },
   {
     "category": "Data Control & Security (DCL)",
@@ -2043,7 +2228,8 @@
       "c": "Shorthand specifier that grants or revokes all applicable access permissions on a database object simultaneously (excluding ownership rights).",
       "d": "A role attribute that automatically assigns superuser status to a newly created database user."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "GRANT ALL PRIVILEGES ON DATABASE customer_portal TO portal_admin;"
   },
   {
     "category": "Data Control & Security (DCL)",
@@ -2054,7 +2240,8 @@
       "c": "An execution option permitting functions to execute with the privileges of the defining role.",
       "d": "Allows the recipient role to grant the conferred privileges on the target object to other roles."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "GRANT SELECT ON customer_accounts TO regional_manager WITH GRANT OPTION;"
   },
   {
     "category": "Data Control & Security (DCL)",
@@ -2065,7 +2252,8 @@
       "c": "A row-locking protocol that prevents concurrent updates from modifying the same tuple.",
       "d": "An access log audit system that records row-level read operations in server error logs."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "ALTER TABLE customer_orders ENABLE ROW LEVEL SECURITY;"
   },
   {
     "category": "Data Control & Security (DCL)",
@@ -2076,7 +2264,8 @@
       "c": "A connection parameter that disables client-side certificate validation during SSL handshakes.",
       "d": "A table modifier that temporarily disables foreign key checking during bulk data loading."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "ALTER ROLE audit_service WITH BYPASSRLS;"
   },
   {
     "category": "Utility, Maintenance & Config",
@@ -2087,7 +2276,8 @@
       "c": "Displays the execution plan generated by the PostgreSQL query planner for a statement, detailing plan nodes, startup/total costs, and estimated rows.",
       "d": "A performance analysis tool that profiles CPU register usage during query execution."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "EXPLAIN (ANALYZE, BUFFERS, COSTS) SELECT * FROM customers WHERE email = 'test@example.com';"
   },
   {
     "category": "Utility, Maintenance & Config",
@@ -2098,7 +2288,8 @@
       "c": "Monitors query response times in shared memory and logs slow queries exceeding log_min_duration_statement.",
       "d": "Collects statistical data regarding column value distributions, null fractions, and most common values, storing them in pg_statistic for the query planner."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "ANALYZE VERBOSE public.customer_transactions;"
   },
   {
     "category": "Utility, Maintenance & Config",
@@ -2109,7 +2300,8 @@
       "c": "Clears all cached query execution plans and prepared statements from shared server memory.",
       "d": "Removes temporary relations created by disconnected client sessions from the temporary tablespace."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "VACUUM (VERBOSE, ANALYZE) public.orders;"
   },
   {
     "category": "Utility, Maintenance & Config",
@@ -2120,7 +2312,8 @@
       "c": "A buffer cache parameter that forces shared_buffers to retain cached pages without eviction.",
       "d": "A replication mode that ensures every transaction is written to all standby replicas before returning success."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "VACUUM (FULL, VERBOSE) public.heavy_churn_table;"
   },
   {
     "category": "Utility, Maintenance & Config",
@@ -2131,7 +2324,8 @@
       "c": "VACUUM option that aggressively freezes transaction IDs in tuple headers (replacing them with FrozenTransactionId), updating relfrozenxid to advance wraparound thresholds.",
       "d": "Pauses background autovacuum worker processes during peak transaction processing hours."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "VACUUM (FREEZE, VERBOSE) public.historical_archive_data;"
   },
   {
     "category": "Utility, Maintenance & Config",
@@ -2142,7 +2336,8 @@
       "c": "A replication command that synchronizes schema objects across primary and secondary nodes.",
       "d": "Physically reorders a table's heap storage to match the index order of a specified B-tree index, creating a fresh copy of the table under an AccessExclusiveLock."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "CLUSTER users USING idx_users_email;"
   },
   {
     "category": "Utility, Maintenance & Config",
@@ -2153,7 +2348,8 @@
       "c": "Converts an existing B-tree index into a BRIN index to conserve disk storage.",
       "d": "Re-reads index metadata from system catalogs into backend local memory cache."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "REINDEX TABLE CONCURRENTLY public.high_traffic_orders;"
   },
   {
     "category": "Utility, Maintenance & Config",
@@ -2164,7 +2360,8 @@
       "c": "Lists all active client connections currently registered in pg_stat_activity.",
       "d": "Outputs the raw SQL definition of a view or stored function from system catalogs."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SHOW shared_buffers; -- Displays current buffer pool allocation"
   },
   {
     "category": "Utility, Maintenance & Config",
@@ -2175,7 +2372,8 @@
       "c": "Modifies the value of a run-time configuration parameter (GUC variable) for the duration of the current session or transaction.",
       "d": "Declares an enumerated set of allowed values for an application-specific domain type."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SET work_mem = '64MB';"
   },
   {
     "category": "Utility, Maintenance & Config",
@@ -2186,7 +2384,8 @@
       "c": "Aborts an active transaction and reverts database state to the last checkpoint.",
       "d": "Resets a specified run-time configuration parameter (or all parameters via RESET ALL) back to its compiled or postgresql.conf default value."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "RESET search_path;"
   },
   {
     "category": "Utility, Maintenance & Config",
@@ -2197,7 +2396,8 @@
       "c": "Enables network traffic sniffing to capture raw PostgreSQL wire protocol packets for debugging.",
       "d": "Starts an event monitor that tracks filesystem I/O operations on the data directory."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "LISTEN new_user_registered_channel;"
   },
   {
     "category": "Utility, Maintenance & Config",
@@ -2208,7 +2408,8 @@
       "c": "Writes a high-priority warning message to the PostgreSQL server log file.",
       "d": "Broadcasts a replication heartbeat to standby replica nodes across the network."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "NOTIFY new_user_registered_channel, '{\"user_id\": 842, \"status\": \"active\"}';"
   },
   {
     "category": "Utility, Maintenance & Config",
@@ -2219,7 +2420,8 @@
       "c": "Unregisters the current client session from listening to a specified asynchronous notification channel (or all channels via UNLISTEN *).",
       "d": "Suppresses client-side notice and warning messages for the remainder of the session."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "UNLISTEN new_user_registered_channel;"
   },
   {
     "category": "Utility, Maintenance & Config",
@@ -2230,7 +2432,8 @@
       "c": "Pre-warms the shared buffer pool by reading relation pages into RAM during server boot.",
       "d": "Loads a dynamic shared library file (such as a compiled C extension .so) into the PostgreSQL backend server process address space."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "LOAD 'pg_stat_statements';"
   },
   {
     "category": "Utility, Maintenance & Config",
@@ -2241,7 +2444,8 @@
       "c": "An execution clause that forces a query plan to execute immediately without optimization.",
       "d": "A transaction directive that commits the current statement in an autonomous transaction."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "DO $$ BEGIN\n  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'app_user') THEN\n    CREATE ROLE app_user LOGIN;\n  END IF;\nEND $$;"
   },
   {
     "category": "Utility, Maintenance & Config",
@@ -2252,7 +2456,8 @@
       "c": "Dispatches an asynchronous remote procedure call (RPC) to an external foreign server.",
       "d": "Initiates a client-side macro command in interactive psql sessions."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "CALL process_monthly_billing('2026-09-01', TRUE);"
   },
   {
     "category": "Type Casting, Aliasing & Misc",
@@ -2263,7 +2468,8 @@
       "c": "Assigns an alias identifier to a column expression, table reference, or CTE, or specifies the body definition of a function/procedure.",
       "d": "A security qualifier that declares a function to execute with caller permissions."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT price AS retail_price, price * 0.85 AS discounted_price FROM catalog_items;"
   },
   {
     "category": "Type Casting, Aliasing & Misc",
@@ -2274,7 +2480,8 @@
       "c": "A memory allocation directive that pins buffer pool pages in shared RAM.",
       "d": "SQL-standard syntax (CAST(expression AS type)) for explicitly converting an expression from one data type into another, equivalent to the :: operator."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT CAST('2026-09-03' AS DATE), CAST('12345' AS INTEGER);"
   },
   {
     "category": "Type Casting, Aliasing & Misc",
@@ -2285,7 +2492,8 @@
       "c": "A horizontal table partitioning method that distributes rows across physical disks.",
       "d": "An index scan option that reads leaf pages horizontally across the B-tree level."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT u.username, o.id, o.amount FROM users u, LATERAL (\n  SELECT id, amount FROM orders WHERE orders.user_id = u.id ORDER BY amount DESC LIMIT 2\n) o;"
   },
   {
     "category": "Type Casting, Aliasing & Misc",
@@ -2296,7 +2504,8 @@
       "c": "A concurrency clause that grants exclusive read access to a single transaction.",
       "d": "An isolation setting that prevents dirty reads during concurrent batch jobs."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "SELECT * FROM ONLY parent_table; -- Excludes rows from child inheritance or partitions"
   },
   {
     "category": "Type Casting, Aliasing & Misc",
@@ -2307,7 +2516,8 @@
       "c": "Overrides the collation (linguistic sorting and character comparison rules) for an expression, column definition, or index key.",
       "d": "A full-text search dictionary that groups derived words into root lexemes."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT name FROM employees ORDER BY name COLLATE \"en_US.utf8\" ASC;"
   },
   {
     "category": "Type Casting, Aliasing & Misc",
@@ -2318,7 +2528,8 @@
       "c": "A calendar utility that formats date values according to ISO-8601 representation.",
       "d": "SQL-standard function returning the current calendar date at the start of the current transaction, remaining constant throughout the entire transaction."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT * FROM subscriptions WHERE expiration_date < CURRENT_DATE;"
   },
   {
     "category": "Type Casting, Aliasing & Misc",
@@ -2329,7 +2540,8 @@
       "c": "A high-resolution wall-clock function that re-reads system time on every invocation.",
       "d": "A connection parameter defining the timeout threshold for idle client sessions."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT order_id, CURRENT_TIME AS logged_at FROM dispatch_queue;"
   },
   {
     "category": "Type Casting, Aliasing & Misc",
@@ -2340,7 +2552,8 @@
       "c": "A replication timestamp tracking when a WAL segment was replayed on a standby.",
       "d": "The creation timestamp recorded in pg_class when a relation was originally created."
     },
-    "answer": "b"
+    "answer": "b",
+    "postanswer": "INSERT INTO audit_log (event, triggered_at) VALUES ('login_attempt', CURRENT_TIMESTAMP);"
   },
   {
     "category": "Type Casting, Aliasing & Misc",
@@ -2351,7 +2564,8 @@
       "c": "Returns the role name of the effective user identity under which the current statement is executing (which changes during SET ROLE or inside SECURITY DEFINER functions).",
       "d": "A system catalog table that stores active connection credentials."
     },
-    "answer": "c"
+    "answer": "c",
+    "postanswer": "SELECT CURRENT_USER, SESSION_USER;"
   },
   {
     "category": "Type Casting, Aliasing & Misc",
@@ -2362,7 +2576,8 @@
       "c": "An application role specified in the client connection string application_name.",
       "d": "Returns the role name of the user who originally established the client connection session, which remains fixed even when SET ROLE is executed."
     },
-    "answer": "d"
+    "answer": "d",
+    "postanswer": "SELECT session_user, current_user FROM pg_stat_activity WHERE pid = pg_backend_pid();"
   },
   {
     "category": "Type Casting, Aliasing & Misc",
@@ -2373,6 +2588,7 @@
       "c": "A pseudo-role that owns internal system catalogs and internal C functions.",
       "d": "The operating system user that initiated the postmaster background process."
     },
-    "answer": "a"
+    "answer": "a",
+    "postanswer": "SELECT SYSTEM_USER; -- Returns authentication method and user, e.g. peer:username"
   }
 ]

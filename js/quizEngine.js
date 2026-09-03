@@ -153,7 +153,8 @@ export class QuizEngine {
       multiplier,
       currentScore: this.score,
       currentStreak: this.streak,
-      explanation: current.options[current.answer]
+      explanation: current.options[current.answer],
+      postanswer: current.postanswer || current.example || null
     };
 
     this.history.push({
