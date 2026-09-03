@@ -6,12 +6,14 @@
 import { DeckLoader } from './deckLoader.js';
 import { QuizEngine } from './quizEngine.js';
 import { HighscoreManager } from './highscores.js';
+import { ArcadeAudio } from './audio.js';
 
 class App {
   constructor() {
     this.deckLoader = new DeckLoader();
     this.quizEngine = new QuizEngine();
     this.highscores = new HighscoreManager();
+    this.audio = new ArcadeAudio();
 
     this.advanceTimeout = null;
     this.currentPendingResult = null;
@@ -32,8 +34,16 @@ class App {
 
     // Global / Top Controls
     this.btnCrtToggle = document.getElementById('btn-crt-toggle');
+    this.btnAudioToggle = document.getElementById('btn-audio-toggle');
     this.btnNavScores = document.getElementById('btn-nav-scores');
     this.btnNavHome = document.getElementById('btn-nav-home');
+
+    // Sync Audio toggle button state
+    if (this.btnAudioToggle) {
+      const isMuted = this.audio.isMuted;
+      this.btnAudioToggle.textContent = isMuted ? '🔇 AUDIO: OFF' : '🔊 AUDIO: ON';
+      this.btnAudioToggle.classList.toggle('active', !isMuted);
+    }
 
     // Menu View Elements
     this.selectCategory = document.getElementById('select-category');
@@ -88,15 +98,49 @@ class App {
       localStorage.setItem('code_quiz_crt_pref', isDisabled ? 'off' : 'on');
     });
 
+    // Audio toggle
+    if (this.btnAudioToggle) {
+      this.btnAudioToggle.addEventListener('click', () => {
+        const isUnmuted = this.audio.toggleMute();
+        this.btnAudioToggle.textContent = isUnmuted ? '🔊 AUDIO: ON' : '🔇 AUDIO: OFF';
+        this.btnAudioToggle.classList.toggle('active', isUnmuted);
+        if (isUnmuted) {
+          this.audio.playBlip();
+          if (this.views.quiz.classList.contains('active') && !this.audio.bgmPlaying) {
+            this.audio.startBgm();
+          }
+        } else {
+          this.audio.stopBgm();
+        }
+      });
+    }
+
     // Navigation
-    this.btnNavScores.addEventListener('click', () => this.showLeaderboard());
-    this.btnNavHome.addEventListener('click', () => this.showView('menu'));
-    this.btnLeaderboardBack.addEventListener('click', () => this.showView('menu'));
-    this.btnResultsHome.addEventListener('click', () => this.showView('menu'));
-    this.btnPlayAgain.addEventListener('click', () => this.startQuiz());
+    this.btnNavScores.addEventListener('click', () => {
+      this.audio.playBlip();
+      this.showLeaderboard();
+    });
+    this.btnNavHome.addEventListener('click', () => {
+      this.audio.playBlip();
+      this.audio.stopBgm();
+      this.showView('menu');
+    });
+    this.btnLeaderboardBack.addEventListener('click', () => {
+      this.audio.playBlip();
+      this.showView('menu');
+    });
+    this.btnResultsHome.addEventListener('click', () => {
+      this.audio.playBlip();
+      this.showView('menu');
+    });
+    this.btnPlayAgain.addEventListener('click', () => {
+      this.audio.playBlip();
+      this.startQuiz();
+    });
 
     // Disk Loader Dialog
     this.btnOpenDiskLoader.addEventListener('click', () => {
+      this.audio.playBlip();
       if (typeof this.dialogDiskLoader.showModal === 'function') {
         this.dialogDiskLoader.showModal();
       } else {
@@ -226,6 +270,9 @@ class App {
   }
 
   showView(name) {
+    if (name !== 'quiz') {
+      this.audio.stopBgm();
+    }
     Object.values(this.views).forEach(el => el.classList.remove('active'));
     if (this.views[name]) {
       this.views[name].classList.add('active');
@@ -273,6 +320,7 @@ class App {
 
     this.showView('quiz');
     this.renderQuestion();
+    this.audio.startBgm();
     this.quizEngine.startTimer((formattedTime) => {
       this.hudTime.textContent = formattedTime;
     });
@@ -328,8 +376,21 @@ class App {
   handleAnswerSelect(choice) {
     if (this.quizEngine.isAnswerLocked) return;
 
+    this.audio.playOptionSelect();
+
     const result = this.quizEngine.submitAnswer(choice);
     if (!result) return;
+
+    // Sound effect on answer
+    if (result.isCorrect) {
+      if (result.currentStreak >= 2) {
+        this.audio.playCombo(result.currentStreak);
+      } else {
+        this.audio.playCorrect();
+      }
+    } else {
+      this.audio.playWrong();
+    }
 
     this.currentPendingResult = result;
 
@@ -451,6 +512,8 @@ class App {
   }
 
   advanceNextQuestion() {
+    this.audio.playBlip();
+
     if (this.advanceTimeout) {
       clearTimeout(this.advanceTimeout);
       this.advanceTimeout = null;
@@ -465,6 +528,7 @@ class App {
   }
 
   finishQuiz() {
+    this.audio.stopBgm();
     this.quizEngine.stopTimer();
     const summary = this.quizEngine.getRoundSummary();
 
@@ -472,9 +536,11 @@ class App {
     if (summary.accuracy >= 70) {
       this.resultsBadge.className = 'results-badge victory';
       this.resultsBadge.textContent = '★ MISSION ACCOMPLISHED ★';
+      this.audio.playVictory();
     } else {
       this.resultsBadge.className = 'results-badge game-over';
       this.resultsBadge.textContent = '☠ GAME OVER ☠';
+      this.audio.playGameOver();
     }
 
     this.statFinalScore.textContent = summary.score.toLocaleString();
