@@ -41,7 +41,7 @@ class App {
     // Sync Audio toggle button state
     if (this.btnAudioToggle) {
       const isMuted = this.audio.isMuted;
-      this.btnAudioToggle.textContent = isMuted ? '🔇 AUDIO: OFF' : '🔊 AUDIO: ON';
+      this.btnAudioToggle.textContent = isMuted ? '🔇' : '🔊';
       this.btnAudioToggle.classList.toggle('active', !isMuted);
     }
 
@@ -93,7 +93,7 @@ class App {
     this.btnCrtToggle.addEventListener('click', () => {
       document.body.classList.toggle('crt-disabled');
       const isDisabled = document.body.classList.contains('crt-disabled');
-      this.btnCrtToggle.textContent = isDisabled ? '📺 CRT: OFF' : '📺 CRT: ON';
+      this.btnCrtToggle.textContent = isDisabled ? '📺' : '📺';
       this.btnCrtToggle.classList.toggle('active', !isDisabled);
       localStorage.setItem('code_quiz_crt_pref', isDisabled ? 'off' : 'on');
     });
@@ -102,7 +102,7 @@ class App {
     if (this.btnAudioToggle) {
       this.btnAudioToggle.addEventListener('click', () => {
         const isUnmuted = this.audio.toggleMute();
-        this.btnAudioToggle.textContent = isUnmuted ? '🔊 AUDIO: ON' : '🔇 AUDIO: OFF';
+        this.btnAudioToggle.textContent = isUnmuted ? '🔊' : '🔇';
         this.btnAudioToggle.classList.toggle('active', isUnmuted);
         if (isUnmuted) {
           this.audio.playBlip();
@@ -218,7 +218,7 @@ class App {
     const crtPref = localStorage.getItem('code_quiz_crt_pref');
     if (crtPref === 'off') {
       document.body.classList.add('crt-disabled');
-      this.btnCrtToggle.textContent = '📺 CRT: OFF';
+      this.btnCrtToggle.textContent = '📺';
       this.btnCrtToggle.classList.remove('active');
     }
 
