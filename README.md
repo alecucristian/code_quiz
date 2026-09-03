@@ -17,6 +17,11 @@
   - Authentic CRT screen scanlines overlay with a live `📺 CRT: ON/OFF` toggle button.
   - Pixel typography using Google Fonts (`Press Start 2P` for arcade marquees, paired with `Space Mono` for crisp readability of complex definitions).
   - Tactile 3D button press animations and pulsing combo multipliers.
+- **Pure 8-Bit Web Audio Synthesizer (BGM & SFX)**:
+  - Built entirely using the Web Audio API with zero external audio files or latency.
+  - Authentic 8-bit square/triangle/sawtooth wave sound effects for button clicks, option picks, coin pickups, wrong buzzers, combo powerups, and victory/game over fanfares.
+  - Catchy 1980s retro arcade walking-bass background music (BGM) loop during quiz battles.
+  - **Mute Button**: Instant `🔊 AUDIO: ON` / `🔇 AUDIO: OFF` button in the top header with preference saved to `localStorage`.
 - **Built-in Deck: 216 PostgreSQL Questions**:
   - Covers 15 functional categories including Data Query Language (DQL), Data Manipulation (DML), Data Definition (DDL), Window Functions, MVCC Concurrency & Lock Modes (`FOR UPDATE`, `FOR NO KEY UPDATE`), Constraints, and more.
   - Every question features 4 comprehensive, technical definitions with subtle, challenging distractors.
@@ -52,6 +57,7 @@
 | :--- | :--- |
 | **Select Answer** | Click on option card OR press <kbd>A</kbd>, <kbd>B</kbd>, <kbd>C</kbd>, <kbd>D</kbd> |
 | **Advance Question** | Click `NEXT >>` / `CONTINUE >>` OR press <kbd>Enter</kbd> / <kbd>Space</kbd> |
+| **Toggle Audio (Mute)** | Click `🔊 AUDIO: ON/OFF` in the top header |
 | **Toggle Scanlines** | Click `📺 CRT: ON/OFF` in the top header |
 | **Return to Menu** | Click `🏠 MENU` |
 | **View Leaderboard** | Click `🏆 SCORES` |
