@@ -23,6 +23,9 @@
 - **Custom Deck Loader ("Insert Disk")**:
   - Drag-and-drop or browse any custom `.json` quiz file directly from your machine.
   - Automatic category extraction and validation without modifying any code.
+- **2 Distinct Gameplay Modes**:
+  - **📖 Standard Mode (Study & Practice)**: Perfect for learning. After submitting an answer (whether correct or wrong), the quiz pauses indefinitely so you can thoroughly review the comprehensive definition and inspect the realistic PostgreSQL SQL query example. You manually advance when ready by clicking `CONTINUE >>` or pressing <kbd>Enter</kbd> / <kbd>Space</kbd>.
+  - **⚡ Speedrun Mode (Arcade Rush)**: Tailored for high-speed runs and arcade reflexes. Questions automatically advance immediately after answering so you can race the clock and max out your speed bonus!
 - **Dynamic Round Lengths**:
   - **Quick Run**: 10 questions
   - **Standard**: 25 questions
@@ -33,11 +36,9 @@
   - Base points: `1,000 PTS` per correct answer.
   - Speed bonus: Up to `+1,000 PTS` for lightning-fast responses within 12 seconds.
   - Combo streaks: Consecutive correct answers trigger escalating score multipliers (`x1.2`, `x1.5`, `x1.8`, `x2.0 COMBO! 🔥`).
-- **Review Mode on Missed Answers**:
-  - Correct answers flash green and advance after 1.6s.
-  - Incorrect answers **never auto-skip** — the question pauses indefinitely, highlighting your answer and the correct definition with glowing badges, allowing you to study at your own pace before pressing `[ENTER]` or clicking `CONTINUE >>`.
 - **Hall of Fame Leaderboard**:
   - Automatically records your top scores, accuracy, elapsed time, and deck info to browser `localStorage`.
+  - Distinguishes scores earned in `[📖 STD]` vs `[⚡ RUN]` modes.
   - Enter your arcade pilot handle (3–12 characters) to claim a spot on the leaderboard.
 - **Mobile-First & Zero Dependencies**:
   - Fully responsive from 360px portrait smartphones to 4K ultra-wide monitors.
