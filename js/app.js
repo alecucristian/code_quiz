@@ -256,7 +256,7 @@ class App {
     const meta = this.deckLoader.deckMeta;
     const deck = this.deckLoader.currentDeck;
     this.deckNameDisplay.textContent = meta.name.toUpperCase();
-    this.deckCountDisplay.textContent = `${deck.length} QUESTIONS AVAILABLE`;
+    this.deckCountDisplay.textContent = `(${deck.length} Qs)`;
 
     // Populate categories
     const categories = this.deckLoader.getCategories();

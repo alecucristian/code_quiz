@@ -40,29 +40,22 @@
     <section id="view-menu" class="view active" aria-labelledby="arcade-main-heading">
       <div class="marquee-hero">
         <h1 id="arcade-main-heading" class="arcade-title">CODE QUIZ</h1>
-        <p class="arcade-subtitle">★ 1984 RETRO ARCADE EDITION ★</p>
-        <span class="marquee-flasher">PRESS START TO PLAY</span>
+        <p class="arcade-subtitle">★ 1984 ARCADE EDITION ★</p>
       </div>
 
       <div class="chassis-card">
         <div class="card-title-bar">
-          <span class="card-title">🕹️ MISSION CONFIGURATION</span>
-          <button id="btn-open-disk-loader" class="btn-mini" title="Insert custom JSON question file">💾 INSERT DISK</button>
-        </div>
-
-        <!-- Active Deck Display -->
-        <div class="config-group">
-          <label class="config-label">ACTIVE QUESTION DISK</label>
-          <div class="arcade-input" id="deck-name-display">POSTGRESQL INTERNALS &amp; SYNTAX</div>
-          <div class="deck-status-bar">
-            <span>STATUS: READY</span>
-            <span id="deck-count-display" class="deck-count">216 QUESTIONS AVAILABLE</span>
+          <div class="deck-chip">
+            <span class="deck-chip-icon">💾</span>
+            <span id="deck-name-display" class="deck-chip-name">POSTGRESQL</span>
+            <span id="deck-count-display" class="deck-chip-count">(216 Qs)</span>
           </div>
+          <button id="btn-open-disk-loader" class="btn-mini" title="Insert custom JSON question file">DISK</button>
         </div>
 
         <!-- Category Selector -->
         <div class="config-group">
-          <label for="select-category" class="config-label">SELECT CATEGORY</label>
+          <label for="select-category" class="config-label">CATEGORY</label>
           <select id="select-category" class="arcade-select">
             <option value="ALL">★ ALL CATEGORIES ★</option>
           </select>
@@ -70,56 +63,38 @@
 
         <!-- Game Mode Selector -->
         <div class="config-group">
-          <label class="config-label">SELECT GAME MODE</label>
+          <label class="config-label">MODE</label>
           <div class="arcade-pill-group arcade-pill-group-2">
             <div class="arcade-pill">
               <input type="radio" id="mode-standard" name="game-mode" value="standard" checked>
-              <label for="mode-standard" class="pill-label">
-                <span>📖 STANDARD</span>
-                <span class="pill-desc">Manual Advance (Study &amp; Read)</span>
-              </label>
+              <label for="mode-standard" class="pill-label">📖 STANDARD</label>
             </div>
             <div class="arcade-pill">
               <input type="radio" id="mode-speedrun" name="game-mode" value="speedrun">
-              <label for="mode-speedrun" class="pill-label">
-                <span>⚡ SPEEDRUN</span>
-                <span class="pill-desc">Auto-Advance (Fast Paced)</span>
-              </label>
+              <label for="mode-speedrun" class="pill-label">⚡ SPEEDRUN</label>
             </div>
           </div>
         </div>
 
         <!-- Round Sizing Selector -->
         <div class="config-group">
-          <label class="config-label">SELECT ROUND LENGTH</label>
+          <label class="config-label">QUESTIONS</label>
           <div class="arcade-pill-group">
             <div class="arcade-pill">
               <input type="radio" id="round-10" name="round-size" value="10" checked>
-              <label for="round-10" class="pill-label">
-                <span>QUICK RUN</span>
-                <span class="pill-desc">10 Qs</span>
-              </label>
+              <label for="round-10" class="pill-label">10 Qs</label>
             </div>
             <div class="arcade-pill">
               <input type="radio" id="round-25" name="round-size" value="25">
-              <label for="round-25" class="pill-label">
-                <span>STANDARD</span>
-                <span class="pill-desc">25 Qs</span>
-              </label>
+              <label for="round-25" class="pill-label">25 Qs</label>
             </div>
             <div class="arcade-pill">
               <input type="radio" id="round-50" name="round-size" value="50">
-              <label for="round-50" class="pill-label">
-                <span>MARATHON</span>
-                <span class="pill-desc">50 Qs</span>
-              </label>
+              <label for="round-50" class="pill-label">50 Qs</label>
             </div>
             <div class="arcade-pill">
               <input type="radio" id="round-all" name="round-size" value="ALL">
-              <label for="round-all" class="pill-label">
-                <span>SURVIVAL</span>
-                <span class="pill-desc">ALL Qs</span>
-              </label>
+              <label for="round-all" class="pill-label">ALL</label>
             </div>
           </div>
         </div>
@@ -127,7 +102,7 @@
         <!-- Start Button -->
         <button id="btn-start-game" class="arcade-btn-primary">
           <span>🚀</span>
-          <span>START MISSION [1 PLAYER]</span>
+          <span>START MISSION</span>
         </button>
       </div>
     </section>
@@ -160,10 +135,9 @@
       <div class="question-card">
         <div class="question-meta-row">
           <span id="question-category" class="question-category">CATEGORY</span>
-          <span id="question-mode-badge" class="question-mode-badge">📖 STANDARD MODE</span>
+          <span id="question-mode-badge" class="question-mode-badge">📖 STANDARD</span>
         </div>
         <h2 id="question-title" class="question-title">TARGET KEYWORD</h2>
-        <p class="question-prompt">IDENTIFY THE ACCURATE DEFINITION:</p>
       </div>
 
       <!-- Options Container -->
@@ -217,6 +191,7 @@
             maxlength="12" 
             autocomplete="off" 
             spellcheck="false" 
+            size="1"
             required
           >
           <button type="submit" class="btn-submit-score">SAVE</button>
@@ -224,14 +199,16 @@
       </form>
 
       <!-- Action Buttons -->
-      <button id="btn-play-again" class="arcade-btn-primary">
-        <span>🔄</span>
-        <span>PLAY AGAIN</span>
-      </button>
-      <button id="btn-results-home" class="arcade-btn-secondary">
-        <span>🏠</span>
-        <span>RETURN TO MAIN MENU</span>
-      </button>
+      <div class="results-actions">
+        <button id="btn-play-again" class="arcade-btn-primary">
+          <span>🔄</span>
+          <span>PLAY AGAIN</span>
+        </button>
+        <button id="btn-results-home" class="arcade-btn-secondary">
+          <span>🏠</span>
+          <span>MAIN MENU</span>
+        </button>
+      </div>
     </section>
 
     <!-- ====================================================================
