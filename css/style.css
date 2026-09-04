@@ -142,7 +142,7 @@ body::before {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.35rem 0.85rem;
+  padding: max(0.35rem, env(safe-area-inset-top, 0.35rem)) max(0.85rem, env(safe-area-inset-right, 0.85rem)) 0.35rem max(0.85rem, env(safe-area-inset-left, 0.85rem));
   background: var(--bg-cabinet);
   border-bottom: 2px solid var(--neon-pink);
   box-shadow: 0 2px 10px rgba(255, 0, 127, 0.28);
@@ -221,7 +221,7 @@ body::before {
   width: 100%;
   max-width: 660px;
   margin: 0 auto;
-  padding: 0.65rem 0.85rem;
+  padding: 0.65rem max(0.85rem, env(safe-area-inset-right, 0.85rem)) max(0.65rem, env(safe-area-inset-bottom, 0.65rem)) max(0.85rem, env(safe-area-inset-left, 0.85rem));
   display: flex;
   flex-direction: column;
   overflow: hidden !important;
@@ -1181,3 +1181,28 @@ body::before {
 .arcade-footer {
   display: none !important;
 }
+
+/* ==========================================================================
+   PWA INSTALL & UTILITIES
+   ========================================================================== */
+.hidden {
+  display: none !important;
+}
+
+#btn-pwa-install {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  animation: pulse-pwa-install 2s infinite ease-in-out;
+}
+
+@keyframes pulse-pwa-install {
+  0%, 100% {
+    box-shadow: 0 0 4px rgba(0, 240, 255, 0.4);
+    border-color: var(--neon-cyan);
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.8), 0 0 4px var(--neon-yellow);
+    border-color: var(--neon-yellow);
+  }
+}
+

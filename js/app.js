@@ -20,6 +20,7 @@ class App {
 
     this.initElements();
     this.initEventListeners();
+    this.initPWA();
     this.boot();
   }
 
@@ -583,6 +584,57 @@ class App {
   showLeaderboard() {
     this.highscores.renderTable(this.tableLeaderboardBody);
     this.showView('leaderboard');
+  }
+
+  initPWA() {
+    this.btnPwaInstall = document.getElementById('btn-pwa-install');
+    this.deferredInstallPrompt = null;
+
+    // Register Service Worker for offline capability
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker
+          .register('./sw.js')
+          .then((reg) => {
+            console.log('[PWA] Service Worker registered successfully, scope:', reg.scope);
+            // Check server for updates on every app launch
+            reg.update();
+          })
+          .catch((err) => {
+            console.warn('[PWA] Service Worker registration failed:', err);
+          });
+      });
+    }
+
+    // Capture browser install prompt
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      this.deferredInstallPrompt = e;
+      if (this.btnPwaInstall) {
+        this.btnPwaInstall.classList.remove('hidden');
+      }
+    });
+
+    if (this.btnPwaInstall) {
+      this.btnPwaInstall.addEventListener('click', async () => {
+        if (!this.deferredInstallPrompt) return;
+        this.audio.playBeep();
+        this.deferredInstallPrompt.prompt();
+        const choice = await this.deferredInstallPrompt.userChoice;
+        if (choice && choice.outcome === 'accepted') {
+          console.log('[PWA] User accepted installation prompt');
+        }
+        this.deferredInstallPrompt = null;
+        this.btnPwaInstall.classList.add('hidden');
+      });
+    }
+
+    window.addEventListener('appinstalled', () => {
+      console.log('[PWA] Code Quiz installed to home screen / device');
+      if (this.btnPwaInstall) {
+        this.btnPwaInstall.classList.add('hidden');
+      }
+    });
   }
 }
 
