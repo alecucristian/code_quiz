@@ -3,9 +3,9 @@
 // Enables offline gameplay, asset caching, and standalone PWA experience
 // ==========================================================================
 
-const CACHE_NAME = 'code-quiz-arcade-v4';
+const CACHE_NAME = 'code-quiz-arcade-v6';
 
-// Core assets required for full offline operation
+// Core assets required for full offline operation (including all 4 built-in decks)
 const PRECACHE_ASSETS = [
   './',
   './index.html',
@@ -17,6 +17,10 @@ const PRECACHE_ASSETS = [
   './js/highscores.js',
   './js/audio.js',
   './questions/decks.json',
+  './questions/postgresql.json',
+  './questions/python.json',
+  './questions/http_status_codes.json',
+  './questions/design_patterns.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/icon-maskable-192.png',
@@ -24,7 +28,7 @@ const PRECACHE_ASSETS = [
   './icons/icon.svg'
 ];
 
-// Install Event: Pre-cache app shell
+// Install Event: Pre-cache all app shell and question assets
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -35,7 +39,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activate Event: Clean up outdated caches
+// Activate Event: Clean up outdated caches and claim clients immediately
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -48,7 +52,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch Event: Cache-First with Network Revalidation (Stale-While-Revalidate)
+// Fetch Event: Network-First for HTML/Code/Decks (instant fresh updates), Cache-First for fonts/icons
 self.addEventListener('fetch', (event) => {
   const request = event.request;
 
@@ -57,16 +61,16 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Handle Google Fonts and external resources caching
   const url = new URL(request.url);
-  const isGoogleFont = url.hostname.includes('fonts.googleapis.com') || url.hostname.includes('fonts.gstatic.com');
+  const isStaticMedia = url.pathname.includes('/icons/') || 
+                        url.hostname.includes('fonts.googleapis.com') || 
+                        url.hostname.includes('fonts.gstatic.com');
 
-  event.respondWith(
-    caches.match(request).then((cachedResponse) => {
-      // Return cached response immediately if available
-      const fetchPromise = fetch(request)
-        .then((networkResponse) => {
-          // Verify valid response
+  if (isStaticMedia) {
+    // Cache-First with background revalidation for icons & fonts
+    event.respondWith(
+      caches.match(request).then((cachedResponse) => {
+        const fetchPromise = fetch(request).then((networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
             const responseToCache = networkResponse.clone();
             caches.open(CACHE_NAME).then((cache) => {
@@ -74,15 +78,35 @@ self.addEventListener('fetch', (event) => {
             });
           }
           return networkResponse;
-        })
-        .catch(() => {
-          // If offline and request is a navigation (HTML page), return index.html
-          if (request.mode === 'navigate') {
-            return caches.match('./index.html') || caches.match('./');
-          }
         });
+        return cachedResponse || fetchPromise;
+      })
+    );
+    return;
+  }
 
-      return cachedResponse || fetchPromise;
-    })
+  // Network-First for app shell, scripts, and question JSONs
+  event.respondWith(
+    fetch(request)
+      .then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(request, responseToCache);
+          });
+        }
+        return networkResponse;
+      })
+      .catch(async () => {
+        // Fallback to cache when offline or network fails
+        const cachedResponse = await caches.match(request);
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+        // If offline and request is a page navigation, return index.html
+        if (request.mode === 'navigate') {
+          return (await caches.match('./index.html')) || caches.match('./');
+        }
+      })
   );
 });

@@ -56,9 +56,9 @@
       <div class="chassis-card">
         <div class="card-title-bar">
           <div class="deck-chip" id="deck-chip-trigger" role="button" tabindex="0" title="Click to browse arcade disks">
-            <span id="deck-chip-icon" class="deck-chip-icon">💾</span>
-            <span id="deck-name-display" class="deck-chip-name">LOADING DISK...</span>
-            <span id="deck-count-display" class="deck-chip-count"></span>
+            <span id="deck-chip-icon" class="deck-chip-icon">🐘</span>
+            <span id="deck-name-display" class="deck-chip-name">POSTGRESQL INTERNALS &amp; SYNTAX</span>
+            <span id="deck-count-display" class="deck-chip-count">(216 Qs)</span>
           </div>
           <button id="btn-open-disk-loader" class="btn-mini" title="Browse arcade disks or insert custom JSON">DISK</button>
         </div>
@@ -70,7 +70,18 @@
             <button type="button" id="btn-browse-decks" class="btn-text-action" title="Browse and search all arcade disks">BROWSE ALL 🔍</button>
           </div>
           <select id="select-deck" class="arcade-select">
-            <option value="">LOADING ARCADE DISKS...</option>
+            <optgroup label="── DATABASES ──">
+              <option value="postgresql" selected>🐘 PostgreSQL Internals &amp; Syntax (216 Qs)</option>
+            </optgroup>
+            <optgroup label="── LANGUAGES ──">
+              <option value="python">🐍 Python Core &amp; Advanced (150 Qs)</option>
+            </optgroup>
+            <optgroup label="── SOFTWARE ARCHITECTURE ──">
+              <option value="design_patterns">📐 Software Design Patterns (60 Qs)</option>
+            </optgroup>
+            <optgroup label="── WEB &amp; NETWORKING ──">
+              <option value="http_status_codes">🌐 HTTP Status Codes &amp; Semantics (60 Qs)</option>
+            </optgroup>
           </select>
         </div>
 

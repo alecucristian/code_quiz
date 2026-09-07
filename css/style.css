@@ -138,18 +138,39 @@ body::before {
 /* ==========================================================================
    TOP CONTROL BAR
    ========================================================================== */
-.top-bar {
+.top-bar,
+.arcade-top-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.35rem 0.85rem;
+  padding: clamp(0.15rem, 0.6vh, 0.35rem) clamp(0.35rem, 1.5vw, 0.85rem);
   background: var(--bg-cabinet);
   border-bottom: 2px solid var(--neon-pink);
   box-shadow: 0 2px 10px rgba(255, 0, 127, 0.28);
   flex-shrink: 0;
   z-index: 100;
-  height: 42px;
+  height: clamp(34px, 5.2vh, 42px);
+  min-height: 34px;
+  max-height: 42px;
   box-sizing: border-box;
+  width: 100%;
+}
+
+.top-bar-left,
+.top-bar-right,
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.2rem, 1vw, 0.45rem);
+  min-width: 0;
+}
+
+.arcade-badge {
+  font-family: var(--font-pixel);
+  font-size: clamp(0.48rem, 1.4vw, 0.62rem);
+  color: var(--neon-yellow);
+  text-shadow: var(--glow-yellow);
+  white-space: nowrap;
 }
 
 .brand-badge {
@@ -173,20 +194,14 @@ body::before {
   100% { transform: scale(1.18); filter: drop-shadow(0 0 8px var(--neon-yellow)); }
 }
 
-.top-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-}
-
 /* Arcade Mini Buttons */
 .btn-mini {
   background: var(--bg-card);
   border: 1.5px solid var(--neon-cyan);
   color: var(--neon-cyan);
   font-family: var(--font-pixel);
-  font-size: 0.8rem;
-  padding: 0.25rem 0.45rem;
+  font-size: clamp(0.55rem, 1.5vw, 0.75rem);
+  padding: clamp(0.12rem, 0.4vh, 0.25rem) clamp(0.22rem, 1vw, 0.45rem);
   cursor: pointer;
   border-radius: var(--radius-pixel);
   transition: all 0.15s ease;
@@ -194,6 +209,8 @@ body::before {
   align-items: center;
   justify-content: center;
   line-height: 1;
+  min-height: 26px;
+  white-space: nowrap;
 }
 
 .btn-mini:hover, .btn-mini:focus-visible {
@@ -213,20 +230,20 @@ body::before {
 /* ==========================================================================
    APP CONTAINER & VIEW ROUTING
    ========================================================================== */
+.arcade-bezel,
 .app-container {
   flex: 1;
   min-height: 0;
-  height: calc(100dvh - 42px);
-  max-height: calc(100dvh - 42px);
+  height: 100dvh;
+  max-height: 100dvh;
   width: 100%;
   max-width: 660px;
   margin: 0 auto;
-  padding: 0.65rem 0.85rem;
+  padding: 0 clamp(0.35rem, 1.8vw, 0.75rem) clamp(0.3rem, 1vh, 0.65rem);
   display: flex;
   flex-direction: column;
   overflow: hidden !important;
   box-sizing: border-box;
-  justify-content: center;
 }
 
 .view,
@@ -236,12 +253,14 @@ body::before {
 #view-leaderboard {
   display: none !important;
   flex-direction: column;
+  flex: 1;
+  min-height: 0;
   height: 100%;
   max-height: 100%;
-  min-height: 0;
   overflow: hidden !important;
   animation: view-fade-in 0.15s ease-out;
   box-sizing: border-box;
+  padding-top: clamp(0.18rem, 0.7vh, 0.45rem);
 }
 
 .view.active,
@@ -523,21 +542,24 @@ body::before {
    ========================================================================== */
 #view-quiz.active {
   justify-content: space-between;
-  gap: 0.55rem;
+  gap: clamp(0.2rem, 0.9vh, 0.45rem);
+  height: 100%;
+  min-height: 0;
+  overflow: hidden !important;
 }
 
 .arena-hud {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 0.5rem;
+  gap: clamp(0.25rem, 1vw, 0.5rem);
   background: var(--bg-cabinet);
-  border: 1.8px solid var(--neon-cyan);
+  border: 1.5px solid var(--neon-cyan);
   border-radius: 6px;
-  padding: 0.35rem 0.75rem;
+  padding: clamp(0.12rem, 0.4vh, 0.3rem) clamp(0.35rem, 1.5vw, 0.65rem);
   box-shadow: var(--glow-cyan);
   flex-shrink: 0;
-  height: 44px;
+  height: clamp(32px, 5vh, 40px);
   box-sizing: border-box;
 }
 
@@ -551,16 +573,16 @@ body::before {
 
 .hud-label {
   font-family: var(--font-pixel);
-  font-size: 0.52rem;
+  font-size: clamp(0.42rem, 1.2vw, 0.5rem);
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 0.1rem;
+  margin-bottom: 0.05rem;
 }
 
 .hud-val {
   font-family: var(--font-arcade);
-  font-size: 1.35rem;
+  font-size: clamp(1.05rem, 2.5vw, 1.35rem);
   line-height: 1;
   font-weight: bold;
 }
@@ -583,9 +605,9 @@ body::before {
 .question-card {
   background: var(--bg-cabinet);
   border: 2px solid var(--neon-pink);
-  box-shadow: inset 0 0 12px rgba(255, 0, 127, 0.18), var(--glow-pink);
+  box-shadow: inset 0 0 10px rgba(255, 0, 127, 0.18), var(--glow-pink);
   border-radius: 6px;
-  padding: 0.75rem 1rem;
+  padding: clamp(0.25rem, 0.8vh, 0.55rem) clamp(0.45rem, 1.8vw, 0.85rem);
   text-align: center;
   flex-shrink: 0;
 }
@@ -594,13 +616,13 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  margin-bottom: 0.35rem;
+  gap: clamp(0.25rem, 1vw, 0.45rem);
+  margin-bottom: 0.15rem;
 }
 
 .question-category, .question-mode-badge {
-  font-size: 0.55rem;
-  padding: 0.2rem 0.55rem;
+  font-size: clamp(0.44rem, 1.2vw, 0.52rem);
+  padding: 0.12rem 0.4rem;
   border-radius: 3px;
   letter-spacing: 0.5px;
   font-family: var(--font-pixel);
@@ -627,35 +649,35 @@ body::before {
 
 .question-title {
   font-family: var(--font-pixel);
-  font-size: clamp(1.25rem, 4.2vw, 1.85rem);
+  font-size: clamp(0.85rem, 3.2vw, 1.45rem);
   color: #ffffff;
-  text-shadow: 0 0 12px rgba(255, 255, 255, 0.8), 2px 2px 0px #000;
-  letter-spacing: 1.5px;
-  line-height: 1.25;
-  margin: 0.2rem 0;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 2px 2px 0px #000;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  margin: 0.1rem 0;
 }
 
-/* Options Grid: evenly stretches across the vertical space */
+/* Options Grid: evenly stretches across vertical space */
 .options-grid {
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
-  flex: 1;
+  gap: clamp(0.18rem, 0.7vh, 0.38rem);
+  flex: 1 1 auto;
   min-height: 0;
   justify-content: stretch;
 }
 
 .option-btn {
-  flex: 1;
+  flex: 1 1 0;
   min-height: 0;
   background: var(--bg-card);
-  border: 1.8px solid var(--text-dim);
+  border: 1.5px solid var(--text-dim);
   border-radius: 6px;
-  padding: 0.55rem 0.85rem;
+  padding: clamp(0.25rem, 0.7vh, 0.5rem) clamp(0.45rem, 1.5vw, 0.75rem);
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: clamp(0.35rem, 1.2vw, 0.6rem);
   text-align: left;
   transition: all 0.12s ease;
   position: relative;
@@ -674,21 +696,21 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1.6rem;
-  height: 1.6rem;
+  width: clamp(1.2rem, 3.2vh, 1.5rem);
+  height: clamp(1.2rem, 3.2vh, 1.5rem);
   background: rgba(0, 240, 255, 0.15);
   border: 1.5px solid var(--neon-cyan);
   color: var(--neon-cyan);
   font-family: var(--font-pixel);
-  font-size: 0.75rem;
+  font-size: clamp(0.6rem, 1.8vh, 0.72rem);
   border-radius: 4px;
   flex-shrink: 0;
 }
 
 .option-text {
   font-family: var(--font-body);
-  font-size: clamp(0.78rem, 2vw, 0.9rem);
-  line-height: 1.35;
+  font-size: clamp(0.68rem, 1.8vh, 0.84rem);
+  line-height: 1.22;
   color: var(--text-main);
   flex: 1;
 }
@@ -728,48 +750,121 @@ body::before {
   cursor: default;
 }
 
+/* Fluid Answered State: Options compress smoothly when feedback is active */
+#view-quiz.is-answered .options-grid {
+  gap: clamp(0.12rem, 0.5vh, 0.25rem);
+  flex: 0 1 auto;
+}
+
+#view-quiz.is-answered .option-btn {
+  padding: clamp(0.18rem, 0.5vh, 0.35rem) clamp(0.4rem, 1.2vw, 0.65rem);
+  min-height: 0;
+}
+
+#view-quiz.is-answered .option-letter {
+  width: clamp(1.1rem, 2.8vh, 1.35rem);
+  height: clamp(1.1rem, 2.8vh, 1.35rem);
+  font-size: clamp(0.55rem, 1.5vh, 0.65rem);
+}
+
+#view-quiz.is-answered .option-text {
+  font-size: clamp(0.64rem, 1.6vh, 0.78rem);
+  line-height: 1.18;
+}
+
 /* Feedback Status Banner */
 #feedback-container {
   flex-shrink: 0;
+  width: 100%;
 }
 
 .feedback-banner {
-  padding: 0.45rem 0.75rem;
+  padding: clamp(0.25rem, 0.8vh, 0.45rem) clamp(0.45rem, 1.5vw, 0.75rem);
   border-radius: 6px;
   font-family: var(--font-pixel);
-  font-size: 0.65rem;
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: clamp(0.15rem, 0.5vh, 0.3rem);
   animation: banner-pop 0.15s ease-out;
 }
 
-.feedback-title-row {
+.feedback-header-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.4rem;
+  gap: 0.5rem;
+  width: 100%;
 }
 
-.feedback-action-row {
+.feedback-title-meta {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 0.15rem;
+  align-items: center;
+  gap: clamp(0.35rem, 1.5vw, 0.65rem);
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.feedback-status-title {
+  font-family: var(--font-pixel);
+  font-size: clamp(0.6rem, 1.8vw, 0.75rem);
+  color: var(--neon-green);
+  white-space: nowrap;
+}
+
+.feedback-status-title.wrong {
+  color: var(--neon-red);
+}
+
+.feedback-bonus {
+  font-family: var(--font-arcade);
+  font-size: clamp(1rem, 2.8vw, 1.25rem);
+  color: var(--neon-yellow);
+  line-height: 1;
+}
+
+.feedback-subtext {
+  font-family: var(--font-arcade);
+  font-size: clamp(0.85rem, 2.2vw, 1.05rem);
+  color: var(--neon-cyan);
+  line-height: 1;
+}
+
+.btn-advance {
+  background: var(--neon-cyan);
+  border: none;
+  color: #05050b;
+  font-family: var(--font-pixel);
+  font-size: clamp(0.58rem, 1.6vw, 0.72rem);
+  padding: clamp(0.25rem, 0.7vh, 0.45rem) clamp(0.55rem, 1.8vw, 0.95rem);
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.btn-advance:active {
+  transform: scale(0.96);
 }
 
 .code-example-box,
 .sql-example-box {
   background: #070712;
-  border: 1.5px solid var(--neon-cyan);
+  border: 1.2px solid var(--neon-cyan);
   border-radius: 4px;
   overflow: hidden;
-  margin-top: 0.2rem;
+  margin-top: 0.1rem;
 }
 
 .code-example-header,
 .sql-example-header {
   background: rgba(0, 240, 255, 0.15);
-  padding: 0.2rem 0.5rem;
+  padding: 0.12rem 0.45rem;
   border-bottom: 1px solid var(--neon-cyan);
   display: flex;
   align-items: center;
@@ -778,23 +873,23 @@ body::before {
 .code-example-badge,
 .sql-example-badge {
   font-family: var(--font-pixel);
-  font-size: 0.52rem;
+  font-size: clamp(0.42rem, 1.2vw, 0.5rem);
   color: var(--neon-yellow);
 }
 
 .code-example-code,
 .sql-example-code {
-  padding: 0.35rem 0.6rem;
+  padding: clamp(0.2rem, 0.6vh, 0.35rem) 0.5rem;
   margin: 0;
   font-family: 'Space Mono', 'VT323', monospace;
-  font-size: clamp(0.72rem, 1.8vw, 0.85rem);
+  font-size: clamp(0.64rem, 1.5vw, 0.78rem);
   color: #00ffcc;
   white-space: pre-wrap;
   word-break: break-word;
-  line-height: 1.3;
+  line-height: 1.2;
   background: rgba(0, 0, 0, 0.4);
-  max-height: 65px;
-  overflow: hidden;
+  max-height: clamp(30px, 7vh, 50px);
+  overflow-y: auto;
 }
 
 @keyframes banner-pop {
@@ -814,24 +909,6 @@ body::before {
   border: 1.5px solid var(--neon-red);
   color: var(--neon-red);
   box-shadow: var(--glow-red);
-}
-
-.feedback-bonus {
-  font-family: var(--font-arcade);
-  font-size: 1.25rem;
-  color: var(--neon-yellow);
-}
-
-.btn-advance {
-  background: var(--neon-cyan);
-  border: none;
-  color: #05050b;
-  font-family: var(--font-pixel);
-  font-size: 0.68rem;
-  padding: 0.45rem 0.95rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
 }
 
 .btn-continue-action {
@@ -1479,6 +1556,242 @@ body::before {
   50% {
     box-shadow: 0 0 10px rgba(0, 240, 255, 0.8), 0 0 4px var(--neon-yellow);
     border-color: var(--neon-yellow);
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE SCALING: MOBILE & COMPACT VIEWPORT MEDIA QUERIES
+   ========================================================================== */
+
+/* Narrow Mobile Screens (<= 480px width) */
+@media (max-width: 480px) {
+  .arcade-badge {
+    display: none; /* Hide decorative badge on narrow mobile to keep header strictly 1 line */
+  }
+
+  .top-bar,
+  .arcade-top-bar {
+    padding: 0.2rem 0.45rem;
+    height: 36px;
+  }
+
+  .btn-mini {
+    padding: 0.12rem 0.32rem;
+    font-size: 0.62rem;
+    min-height: 24px;
+  }
+
+  .arena-hud {
+    height: 34px;
+    padding: 0.15rem 0.4rem;
+  }
+
+  .hud-val {
+    font-size: 1.1rem;
+  }
+
+  .question-card {
+    padding: 0.3rem 0.5rem;
+  }
+
+  .question-title {
+    font-size: clamp(0.82rem, 3.8vw, 1.2rem);
+  }
+
+  .options-grid {
+    gap: 0.22rem;
+  }
+
+  .option-btn {
+    padding: 0.28rem 0.5rem;
+  }
+
+  .option-letter {
+    width: 1.25rem;
+    height: 1.25rem;
+    font-size: 0.62rem;
+  }
+
+  .option-text {
+    font-size: 0.72rem;
+    line-height: 1.2;
+  }
+
+  .feedback-banner {
+    padding: 0.25rem 0.45rem;
+  }
+
+  .btn-advance {
+    padding: 0.28rem 0.65rem;
+    font-size: 0.62rem;
+    min-height: 32px;
+  }
+
+  /* Results stats grid on narrow mobile */
+  .results-stats-grid {
+    gap: 0.35rem;
+  }
+
+  .stat-box {
+    padding: 0.4rem 0.3rem;
+  }
+
+  .stat-value {
+    font-size: 1.3rem;
+  }
+
+  .results-badge {
+    font-size: 0.95rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+/* Compact Height Devices (<= 720px height, e.g. iPhone SE, budget phones, on-screen browser bars) */
+@media (max-height: 720px) {
+  .top-bar,
+  .arcade-top-bar {
+    height: 34px;
+    min-height: 34px;
+  }
+
+  .arena-hud {
+    height: 32px;
+    min-height: 32px;
+    padding: 0.1rem 0.35rem;
+  }
+
+  .hud-label {
+    font-size: 0.42rem;
+    margin-bottom: 0;
+  }
+
+  .hud-val {
+    font-size: 1.05rem;
+  }
+
+  .question-card {
+    padding: 0.22rem 0.45rem;
+  }
+
+  .question-meta-row {
+    margin-bottom: 0.08rem;
+  }
+
+  .question-category, .question-mode-badge {
+    font-size: 0.42rem;
+    padding: 0.08rem 0.32rem;
+  }
+
+  .question-title {
+    font-size: clamp(0.78rem, 2.6vh, 1.15rem);
+    line-height: 1.15;
+    margin: 0.05rem 0;
+  }
+
+  .options-grid {
+    gap: 0.18rem;
+  }
+
+  .option-btn {
+    padding: 0.22rem 0.45rem;
+  }
+
+  .option-letter {
+    width: 1.2rem;
+    height: 1.2rem;
+    font-size: 0.58rem;
+  }
+
+  .option-text {
+    font-size: 0.68rem;
+    line-height: 1.15;
+  }
+
+  /* Answered state on compact screens */
+  #view-quiz.is-answered .options-grid {
+    gap: 0.12rem;
+  }
+
+  #view-quiz.is-answered .option-btn {
+    padding: 0.15rem 0.4rem;
+  }
+
+  #view-quiz.is-answered .option-letter {
+    width: 1.05rem;
+    height: 1.05rem;
+    font-size: 0.52rem;
+  }
+
+  #view-quiz.is-answered .option-text {
+    font-size: 0.62rem;
+    line-height: 1.12;
+  }
+
+  .feedback-banner {
+    padding: 0.2rem 0.4rem;
+    gap: 0.15rem;
+  }
+
+  .feedback-status-title {
+    font-size: 0.58rem;
+  }
+
+  .feedback-bonus,
+  .feedback-subtext {
+    font-size: 0.88rem;
+  }
+
+  .btn-advance {
+    min-height: 28px;
+    padding: 0.2rem 0.55rem;
+    font-size: 0.58rem;
+  }
+
+  .code-example-box,
+  .sql-example-box {
+    margin-top: 0.08rem;
+  }
+
+  .code-example-header,
+  .sql-example-header {
+    padding: 0.08rem 0.35rem;
+  }
+
+  .code-example-code,
+  .sql-example-code {
+    max-height: 35px;
+    font-size: 0.62rem;
+    padding: 0.15rem 0.35rem;
+  }
+
+  /* Menu screen compact */
+  .marquee-hero {
+    margin: 0.1rem 0;
+  }
+
+  .arcade-title {
+    font-size: 1.3rem;
+    margin-bottom: 0.1rem;
+  }
+
+  .arcade-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .chassis-card {
+    padding: 0.45rem 0.75rem;
+    gap: 0.35rem;
+  }
+
+  .card-title-bar {
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.1rem;
+  }
+
+  .arcade-btn-primary {
+    min-height: 34px;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.68rem;
   }
 }
 

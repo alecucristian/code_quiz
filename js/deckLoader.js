@@ -85,6 +85,24 @@ export class DeckLoader {
           category: 'Languages',
           badgeText: '⚡ PYTHON CODE EXAMPLE',
           description: '150 core questions covering built-ins, types, OOP, dunder methods, async & stdlib'
+        }),
+        this.normalizeDeckMeta({
+          id: 'http_status_codes',
+          name: 'HTTP Status Codes & Semantics',
+          file: 'http_status_codes.json',
+          icon: '🌐',
+          category: 'Web & Networking',
+          badgeText: '⚡ HTTP RESPONSE EXAMPLE',
+          description: '60 questions covering 1xx-5xx status codes, headers & caching semantics'
+        }),
+        this.normalizeDeckMeta({
+          id: 'design_patterns',
+          name: 'Software Design Patterns',
+          file: 'design_patterns.json',
+          icon: '📐',
+          category: 'Software Architecture',
+          badgeText: '⚡ DESIGN PATTERN EXAMPLE',
+          description: '60 questions covering Creational, Structural, Behavioral & Cloud patterns'
         })
       ];
     }

@@ -272,17 +272,22 @@ class App {
       this.btnCrtToggle.classList.remove('active');
     }
 
-    // Load dynamic deck registry from manifest (questions/decks.json) + custom disks
-    await this.deckLoader.loadRegistry();
-    this.populateDeckOptions();
-    this.renderDeckBrowserFilters();
-    this.renderDeckCards('ALL', '');
+    try {
+      // Load dynamic deck registry from manifest (questions/decks.json) + custom disks
+      await this.deckLoader.loadRegistry();
+      this.populateDeckOptions();
+      this.renderDeckBrowserFilters();
+      this.renderDeckCards('ALL', '');
 
-    // Restore last active deck or default to first available deck
-    const available = this.deckLoader.getAvailableDecks();
-    const savedDeckId = localStorage.getItem('code_quiz_active_deck') || (available[0] ? available[0].id : null);
-    if (savedDeckId) {
-      await this.loadDeck(savedDeckId);
+      // Restore last active deck or default to first available deck
+      const available = this.deckLoader.getAvailableDecks();
+      const savedDeckId = localStorage.getItem('code_quiz_active_deck') || (available[0] ? available[0].id : 'postgresql');
+      if (savedDeckId) {
+        await this.loadDeck(savedDeckId);
+      }
+    } catch (err) {
+      console.error('[App] Error during boot:', err);
+      this.populateDeckOptions();
     }
   }
 
@@ -580,6 +585,9 @@ class App {
     this.questionCategory.textContent = q.category.toUpperCase();
     this.questionTitle.textContent = q.title;
     this.feedbackContainer.innerHTML = '';
+    if (this.viewQuiz) {
+      this.viewQuiz.classList.remove('is-answered');
+    }
 
     // Render Option Cards
     this.optionsContainer.innerHTML = '';
@@ -687,6 +695,10 @@ class App {
     const banner = document.createElement('div');
     banner.className = `feedback-banner ${isCorrect ? 'correct' : 'wrong'}`;
 
+    if (this.viewQuiz) {
+      this.viewQuiz.classList.add('is-answered');
+    }
+
     const badgeText = this.getExampleBadgeText();
     const exampleSnippet = result.postanswer ? `
       <div class="code-example-box sql-example-box">
@@ -709,29 +721,25 @@ class App {
         bonusText += ` (${result.multiplier}x COMBO!)`;
       }
       banner.innerHTML = `
-        <div class="feedback-content-main">
-          <div class="feedback-title-row">
-            <span>★ CORRECT! ★</span>
+        <div class="feedback-header-row">
+          <div class="feedback-title-meta">
+            <span class="feedback-status-title">★ CORRECT! ★</span>
             <span class="feedback-bonus">${bonusText}</span>
           </div>
-          ${exampleSnippet}
-        </div>
-        <div class="feedback-action-row">
           <button class="${buttonClass}" id="btn-advance-now">${buttonLabel}</button>
         </div>
+        ${exampleSnippet}
       `;
     } else {
       banner.innerHTML = `
-        <div class="feedback-content-main">
-          <div class="feedback-title-row">
-            <div>✖ INCORRECT — REVIEW ANSWER BELOW</div>
-            <span class="feedback-subtext">CORRECT CHOICE: [${result.correctAnswer.toUpperCase()}]</span>
+        <div class="feedback-header-row">
+          <div class="feedback-title-meta">
+            <span class="feedback-status-title wrong">✖ INCORRECT</span>
+            <span class="feedback-subtext">CORRECT: [${result.correctAnswer.toUpperCase()}]</span>
           </div>
-          ${exampleSnippet}
-        </div>
-        <div class="feedback-action-row">
           <button class="${buttonClass}" id="btn-advance-now">${buttonLabel}</button>
         </div>
+        ${exampleSnippet}
       `;
     }
 
@@ -755,6 +763,10 @@ class App {
       this.advanceTimeout = null;
     }
 
+    if (this.viewQuiz) {
+      this.viewQuiz.classList.remove('is-answered');
+    }
+
     const hasMore = this.quizEngine.nextQuestion();
     if (hasMore) {
       this.renderQuestion();
@@ -764,6 +776,9 @@ class App {
   }
 
   finishQuiz() {
+    if (this.viewQuiz) {
+      this.viewQuiz.classList.remove('is-answered');
+    }
     this.audio.stopBgm();
     this.quizEngine.stopTimer();
     const summary = this.quizEngine.getRoundSummary();
@@ -839,6 +854,16 @@ class App {
             console.warn('[PWA] Service Worker registration failed:', err);
           });
       });
+
+      // Reload page cleanly when new Service Worker takes control
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+          refreshing = true;
+          console.log('[PWA] New service worker active, refreshing page...');
+          window.location.reload();
+        }
+      });
     }
 
     // Capture browser install prompt
@@ -882,7 +907,15 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
-// Bootstrap application on DOM ready
-document.addEventListener('DOMContentLoaded', () => {
-  window.app = new App();
-});
+// Bootstrap application on DOM ready or immediately if already loaded
+function initApp() {
+  if (!window.app) {
+    window.app = new App();
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
