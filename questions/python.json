@@ -1,0 +1,1802 @@
+[
+  {
+    "category": "Built-in Functions",
+    "title": "len()",
+    "options": {
+      "a": "Returns the total number of items stored in a sequence or collection by invoking its internal length protocol.",
+      "b": "Measures the exact physical memory byte size occupied by a dynamic object instance within the CPython process memory.",
+      "c": "Calculates the maximum recursive depth limit permitted for iterative traversal across nested data structures in memory.",
+      "d": "Computes the total count of unique hashable individual elements currently indexed inside an arbitrary collection structure."
+    },
+    "answer": "a",
+    "postanswer": "items = ['apple', 'banana', 'cherry']\nprint(len(items))  # Output: 3"
+  },
+  {
+    "category": "Built-in Functions",
+    "title": "range()",
+    "options": {
+      "a": "Allocates a contiguous memory buffer holding an array of pre-computed integers from start to stop limits.",
+      "b": "Represents an immutable sequence of numbers commonly used for looping a specific number of times in for loops.",
+      "c": "A generator function yielding randomly generated integer sequences within lower and upper numeric intervals.",
+      "d": "Returns a mutable list containing all integer values generated incrementally between two given boundary limits."
+    },
+    "answer": "b",
+    "postanswer": "for i in range(2, 10, 3):\n    print(i, end=' ')  # Output: 2 5 8"
+  },
+  {
+    "category": "Built-in Functions",
+    "title": "enumerate()",
+    "options": {
+      "a": "Converts an unordered dictionary mapping into a sequence of sorted key-value pairs indexed by integer values.",
+      "b": "Constructs an explicit lookup index table in memory to accelerate repeated random key searches on iterables.",
+      "c": "Returns an enumerate object yielding successive index-item tuples from an iterable starting at an offset.",
+      "d": "Transforms any sequence into an immutable enum class structure containing symbolic names bound to numerals."
+    },
+    "answer": "c",
+    "postanswer": "fruits = ['apple', 'banana']\nfor idx, val in enumerate(fruits, start=1):\n    print(idx, val)"
+  },
+  {
+    "category": "Built-in Functions",
+    "title": "zip()",
+    "options": {
+      "a": "Compresses a stream of binary records in memory using standard Deflate algorithms for efficient storage output.",
+      "b": "Interweaves two collections by merging keys and values directly into a single flat list ordered by insertion offsets.",
+      "c": "Calculates the Cartesian product of several sequence collections, returning all valid paired combinations.",
+      "d": "Aggregates elements from multiple iterables into tuples, terminating when the shortest input iterable stops."
+    },
+    "answer": "d",
+    "postanswer": "names = ['Alice', 'Bob']\nscores = [85, 92]\ncombined = list(zip(names, scores))  # [('Alice', 85), ('Bob', 92)]"
+  },
+  {
+    "category": "Built-in Functions",
+    "title": "print()",
+    "options": {
+      "a": "Outputs text representations of objects to a text stream file, separated by sep and terminated by an end char.",
+      "b": "Renders formatted graphical UI text individual elements onto the standard system console display canvas during calls.",
+      "c": "Appends formatted debugging message strings directly into the active system logging stream at execution runtime.",
+      "d": "Transmits unbuffered raw binary byte streams directly across standard output file descriptors to consoles in memory."
+    },
+    "answer": "a",
+    "postanswer": "print('Python', 'Arcade', sep=' - ', end='!\\n')\n# Output: Python - Arcade!"
+  },
+  {
+    "category": "Built-in Functions",
+    "title": "type()",
+    "options": {
+      "a": "Enforces strict static type annotations on function signatures and raises TypeError on parameter mismatches in memory.",
+      "b": "Returns the dynamic type object of an instance, or dynamically constructs a new class when passed 3 args.",
+      "c": "Casts any given object instance into an equivalent target C data type representation within memory buffers.",
+      "d": "Evaluates whether two objects share identical memory locations and lifetime allocations within the process in memory."
+    },
+    "answer": "b",
+    "postanswer": "print(type(42))  # <class 'int'>\nDynamicClass = type('DynamicClass', (), {'x': 10})"
+  },
+  {
+    "category": "Built-in Functions",
+    "title": "isinstance()",
+    "options": {
+      "a": "Evaluates whether two separate object references point to identical memory addresses in the runtime heap.",
+      "b": "Determines whether an object defines specific attributes or methods without inspecting its inheritance chain.",
+      "c": "Checks if an object is an instance or subclass of a given class or a tuple containing candidate class types.",
+      "d": "Compares two class definitions to determine whether they share an identical set of declared member attributes."
+    },
+    "answer": "c",
+    "postanswer": "value = [1, 2, 3]\nprint(isinstance(value, (list, tuple)))  # Output: True"
+  },
+  {
+    "category": "Built-in Functions",
+    "title": "id()",
+    "options": {
+      "a": "Computes a cryptographic SHA-256 digital hash fingerprint of an object instance's serialized memory representation.",
+      "b": "Generates a globally unique version-4 UUID identifier string for database primary key assignment runtime operations.",
+      "c": "Extracts the internal reference count indicating how many active pointers currently reference an instance inside memory.",
+      "d": "Returns an integer representing the identity of an object, guaranteed to be unique and constant for its life."
+    },
+    "answer": "d",
+    "postanswer": "a = [1, 2]\nb = a\nprint(id(a) == id(b))  # Output: True"
+  },
+  {
+    "category": "Built-in Functions",
+    "title": "hash()",
+    "options": {
+      "a": "Returns the integer hash value of a hashable object, used for quick key comparisons in dicts and sets.",
+      "b": "Calculates an MD5 checksum digest of an arbitrary binary records sequence for data verification purposes.",
+      "c": "Generates an encrypted byte string used to authenticate remote procedure calls between decoupled services in memory.",
+      "d": "Produces a unique sequential integer counter assigned by the memory allocator upon initial heap creation in memory."
+    },
+    "answer": "a",
+    "postanswer": "point = (10, 20)\nprint(type(hash(point)))  # Output: <class 'int'>"
+  },
+  {
+    "category": "Built-in Functions",
+    "title": "callable()",
+    "options": {
+      "a": "Checks whether a coroutine callable function is currently suspended awaiting asynchronous I/O completion inside a loop.",
+      "b": "Returns True if the specified argument appears callable, such as functions, methods, or classes with __call__.",
+      "c": "Determines whether a generator object instance has remaining items available before raising StopIteration inside runs.",
+      "d": "Validates that a callable function's required positional parameters have been fully provided together with valid arguments."
+    },
+    "answer": "b",
+    "postanswer": "class Greeter:\n    def __call__(self):\n        return 'hello'\ng = Greeter()\nprint(callable(g))  # Output: True"
+  },
+  {
+    "category": "Built-in Functions",
+    "title": "abs()",
+    "options": {
+      "a": "Rounds a floating-point number upwards to the nearest positive integer boundary regardless of sign flags in memory.",
+      "b": "Truncates the fractional decimal portion of a real number, discarding remaining digits completely without rounding up.",
+      "c": "Returns the non-negative magnitude or absolute value of a number, or the modulus distance of a complex value.",
+      "d": "Calculates the absolute difference between two separate numerical computed values supplied as distinct parameters."
+    },
+    "answer": "c",
+    "postanswer": "print(abs(-42))     # Output: 42\nprint(abs(3 + 4j))  # Output: 5.0"
+  },
+  {
+    "category": "Built-in Functions",
+    "title": "round()",
+    "options": {
+      "a": "Always rounds half-way values upward toward positive infinity regardless of whether the integer is even.",
+      "b": "Truncates trailing decimal digits beyond the specified precision count without modifying preceding values.",
+      "c": "Converts an arbitrary floating-point number directly into a formatted decimal string representation for display text.",
+      "d": "Rounds a number to a given precision in decimal digits, utilizing round-half-to-even bankers rounding logic."
+    },
+    "answer": "d",
+    "postanswer": "print(round(2.5))  # Output: 2\nprint(round(3.5))  # Output: 4"
+  },
+  {
+    "category": "Built-in Functions",
+    "title": "sum()",
+    "options": {
+      "a": "Sums the items of an iterable from left to right and returns the total, with an optional starting value.",
+      "b": "Concatenates an arbitrary sequence of strings or byte sequences directly into a single unified continuous stream.",
+      "c": "Calculates the statistical arithmetic mean across all numeric items provided in an arbitrary collection in memory.",
+      "d": "Performs bitwise OR reduction across a collection of integer flags, returning a consolidated bitmask value in memory."
+    },
+    "answer": "a",
+    "postanswer": "numbers = [10, 20, 30]\nprint(sum(numbers, start=5))  # Output: 65"
+  },
+  {
+    "category": "Built-in Functions",
+    "title": "min()",
+    "options": {
+      "a": "Identifies and removes the smallest element directly from a collection inside place, returning the modified sequence.",
+      "b": "Returns the smallest item from an iterable or the smallest among two or more arguments, supporting key funcs.",
+      "c": "Returns the zero-based index position of the minimum element found inside an ordered list or tuple array in memory.",
+      "d": "Computes the lower quartile boundary threshold across a dataset utilizing linear interpolation calculations in memory."
+    },
+    "answer": "b",
+    "postanswer": "words = ['python', 'c', 'rust']\nprint(min(words, key=len))  # Output: 'c'"
+  },
+  {
+    "category": "Built-in Functions",
+    "title": "max()",
+    "options": {
+      "a": "Identifies and returns the upper capacity limit configured for a fixed-size bounded queue or array buffer.",
+      "b": "Returns the highest possible integer value supported by the host machine architecture word size inside memory.",
+      "c": "Returns the largest item from an iterable or largest among two or more arguments, supporting key funcs.",
+      "d": "Sorts an input collection in descending order and produces a newly materialized list of sorted elements."
+    },
+    "answer": "c",
+    "postanswer": "words = ['python', 'c', 'rust']\nprint(max(words, key=len))  # Output: 'python'"
+  },
+  {
+    "category": "Built-in Functions",
+    "title": "divmod()",
+    "options": {
+      "a": "Divides two numbers and returns a floating-point quotient alongside an IEEE 754 precision error indicator.",
+      "b": "Calculates modular inverse values for public-key cryptographic key generation algorithms on integer inputs in memory.",
+      "c": "Splits a dividend into two equal numeric halves, returning them inside an immutable two-element tuple pair at runtime.",
+      "d": "Takes two numbers and returns a tuple containing their integer quotient and remainder using floor division."
+    },
+    "answer": "d",
+    "postanswer": "q, r = divmod(23, 5)\nprint(f'q={q}, r={r}')  # Output: q=4, r=3"
+  },
+  {
+    "category": "Built-in Functions",
+    "title": "pow()",
+    "options": {
+      "a": "Returns base to the power of exp, optionally calculating the result modulo a third argument efficiently.",
+      "b": "Computes the square root of a numeric value, raising ValueError if the passed argument is less than zero.",
+      "c": "Calculates the base-2 logarithm of an integer, returning the minimum exponent bits needed for storage.",
+      "d": "Multiplies two floating-point numbers using extended precision hardware registers to prevent numeric drift."
+    },
+    "answer": "a",
+    "postanswer": "print(pow(2, 3))       # Output: 8\nprint(pow(2, 3, 5))    # Output: 3 (8 % 5)"
+  },
+  {
+    "category": "Built-in Functions",
+    "title": "sorted()",
+    "options": {
+      "a": "Sorts an existing mutable list inside place, modifying original sequence pointers and returning None to callers.",
+      "b": "Returns a new sorted list from the elements of any iterable, accepting custom key and reverse arguments.",
+      "c": "Rearranges elements inside an iterable into a balanced binary search tree structure for logarithmic searches.",
+      "d": "Generates an immutable tuple containing elements sorted by their internal memory address values inside heap."
+    },
+    "answer": "b",
+    "postanswer": "nums = [5, 2, 8, 1]\nprint(sorted(nums, reverse=True))  # Output: [8, 5, 2, 1]"
+  },
+  {
+    "category": "Built-in Functions",
+    "title": "reversed()",
+    "options": {
+      "a": "Inverts a list inside place by swapping pointers and returns the modified reference to caller expressions in memory.",
+      "b": "Flips all boolean flags within an iterable sequence, turning True values to False and vice versa inside runs.",
+      "c": "Returns a reverse iterator that yields elements of a sequence in backwards order without duplicating data.",
+      "d": "Returns a newly allocated reversed list containing deep copies of every element inside the source collection in memory."
+    },
+    "answer": "c",
+    "postanswer": "data = [1, 2, 3]\nprint(list(reversed(data)))  # Output: [3, 2, 1]"
+  },
+  {
+    "category": "Built-in Functions",
+    "title": "repr()",
+    "options": {
+      "a": "Generates a localized, human-friendly display string intended exclusively for graphical end-user interfaces.",
+      "b": "Serializes an arbitrary object graph into a standard JSON string format for transmission over network sockets.",
+      "c": "Prints the memory layout, bytecode instructions, and internal C struct definitions of an object to stdout.",
+      "d": "Returns a printable string containing a formal representation of an object, ideally parsable by eval()."
+    },
+    "answer": "d",
+    "postanswer": "import datetime\nnow = datetime.date(2026, 9, 7)\nprint(repr(now))  # 'datetime.date(2026, 9, 7)'"
+  },
+  {
+    "category": "Core Data Types",
+    "title": "int",
+    "options": {
+      "a": "An arbitrary-precision integer type whose magnitude is bounded solely by available system memory resources.",
+      "b": "A fixed 64-bit signed two's complement integer type that overflows to negative minimum values upon excess.",
+      "c": "A numeric primitive type stored directly in CPU registers that prohibits arithmetic with floating values.",
+      "d": "A sequence of raw decimal digits represented as ASCII characters parsed at runtime during math calculations."
+    },
+    "answer": "a",
+    "postanswer": "huge = 10 ** 40\nprint(huge)  # Calculates exact integer without overflow"
+  },
+  {
+    "category": "Core Data Types",
+    "title": "float",
+    "options": {
+      "a": "An arbitrary-precision decimal type that completely eliminates base-2 fractional binary rounding errors in memory.",
+      "b": "Represents real numbers using double-precision 64-bit binary floating-point conforming to the IEEE 754 spec.",
+      "c": "A 32-bit single-precision floating-point value optimized strictly for high-throughput vector graphics source.",
+      "d": "A rational fraction type storing exact numerator and denominator integer pairs inside internal attributes inside memory."
+    },
+    "answer": "b",
+    "postanswer": "val = 0.1 + 0.2\nprint(val == 0.3)  # Output: False (due to binary float representation)"
+  },
+  {
+    "category": "Core Data Types",
+    "title": "complex",
+    "options": {
+      "a": "A composite data structure pairing numeric coordinates with unit vectors for spatial geometry calculations.",
+      "b": "An arbitrary mathematical tensor type designed to represent multi-dimensional matrices in linear algebra.",
+      "c": "Represents numbers with real and imaginary components, written using the suffix j for imaginary parts.",
+      "d": "A high-precision rational number type pairing an integer with an irrational multiplier constant in memory."
+    },
+    "answer": "c",
+    "postanswer": "z = 3 + 4j\nprint(z.real, z.imag, abs(z))  # Output: 3.0 4.0 5.0"
+  },
+  {
+    "category": "Core Data Types",
+    "title": "bool",
+    "options": {
+      "a": "A standalone primitive 1-bit enumeration type that raises TypeError if used inside arithmetic expressions in memory.",
+      "b": "A dynamic state flag that evaluates to true or false based exclusively on the current system worker thread status.",
+      "c": "An immutable string alias representing the literal characters 'true' or 'false' inside source code evaluation blocks.",
+      "d": "A logical data type with instances True and False, implemented as a direct subclass of the built-in int type."
+    },
+    "answer": "d",
+    "postanswer": "print(isinstance(True, int))  # Output: True\nprint(True + True)            # Output: 2"
+  },
+  {
+    "category": "Core Data Types",
+    "title": "NoneType",
+    "options": {
+      "a": "A singleton type whose sole instance None represents the absence of a value or default function returns.",
+      "b": "A null pointer reference that triggers a NullPointerException whenever accessed or passed as an argument.",
+      "c": "A special numeric constant equivalent to zero that automatically coerces to empty strings in concatenations.",
+      "d": "An uninitialized memory marker that causes the garbage collector to immediately deallocate referencing names."
+    },
+    "answer": "a",
+    "postanswer": "def no_return():\n    pass\nprint(no_return() is None)  # Output: True"
+  },
+  {
+    "category": "Core Data Types",
+    "title": "str",
+    "options": {
+      "a": "A mutable buffer of 8-bit ASCII characters that can be updated in place via direct index assignments.",
+      "b": "An immutable sequence of Unicode code points supporting text indexing, slicing, and string manipulation.",
+      "c": "A raw byte array encoded strictly in ASCII format that raises UnicodeDecodeError on non-Latin characters.",
+      "d": "A singly-linked list of individual character nodes dynamically allocated across the interpreter heap space."
+    },
+    "answer": "b",
+    "postanswer": "greeting = 'Hello, World!'\nprint(greeting[0:5])  # Output: 'Hello'"
+  },
+  {
+    "category": "Core Data Types",
+    "title": "bytes",
+    "options": {
+      "a": "A mutable array of arbitrary bit lengths used to execute low-level hardware bit-shifting instructions.",
+      "b": "A compressed string format which automatically decompresses into Unicode strings upon index access reads.",
+      "c": "An immutable sequence of integers in the range 0 to 255 representing raw binary data and byte sequences.",
+      "d": "An encoded text wrapper that translates character encodings dynamically according to system locale settings."
+    },
+    "answer": "c",
+    "postanswer": "raw = b'\\x48\\x65\\x6c\\x6c\\x6f'\nprint(raw.decode('ascii'))  # Output: 'Hello'"
+  },
+  {
+    "category": "Core Data Types",
+    "title": "bytearray",
+    "options": {
+      "a": "An immutable buffer mapping binary records directly into fixed C-struct representations inside local storage.",
+      "b": "A specialized string subclass allowing Unicode code points to be altered completely without copying string buffers.",
+      "c": "A worker thread-safe circular system memory queue storing serialized task payloads between concurrent worker threads.",
+      "d": "A mutable sequence of integers in the range 0 to 255 supporting in-place item assignment and slice updates."
+    },
+    "answer": "d",
+    "postanswer": "b_arr = bytearray(b'cat')\nb_arr[0] = ord('b')\nprint(b_arr)  # Output: bytearray(b'bat')"
+  },
+  {
+    "category": "Core Data Types",
+    "title": "memoryview",
+    "options": {
+      "a": "Exposes the Python buffer protocol, allowing zero-copy slice access and manipulation of binary data in memory.",
+      "b": "A visual profiling tool that generates graphical system memory heap allocation heatmaps during source code execution.",
+      "c": "An internal garbage collector inspection class tracking cyclic reference chains between living instances in memory.",
+      "d": "A persistent virtual memory mapping utility which maps files on disk directly into application address space in memory."
+    },
+    "answer": "a",
+    "postanswer": "data = bytearray(b'abcdef')\nmv = memoryview(data)\nmv[1:4] = b'XYZ'\nprint(data)  # Output: bytearray(b'aXYZef')"
+  },
+  {
+    "category": "Core Data Types",
+    "title": "list",
+    "options": {
+      "a": "A doubly linked list node structure optimizing arbitrary middle element insertions at O(1) time cost in memory.",
+      "b": "A mutable dynamic array of object references supporting fast amortized O(1) appending and random indexing.",
+      "c": "A fixed-size array requiring manual reallocation whenever the declared maximum element capacity is met in memory.",
+      "d": "An unordered collection of unique individual elements that automatically sorts items based on their natural order."
+    },
+    "answer": "b",
+    "postanswer": "nums = [1, 2, 3]\nnums.append(4)\nprint(nums)  # Output: [1, 2, 3, 4]"
+  },
+  {
+    "category": "Core Data Types",
+    "title": "tuple",
+    "options": {
+      "a": "A mutable sequence type whose size is locked upon initialization but whose item values can be overwritten.",
+      "b": "A set of key-value pairs stored in contiguous memory providing O(1) lookups by arbitrary string identifiers.",
+      "c": "An immutable sequence of arbitrary object references, commonly used for heterogeneous data and dict keys.",
+      "d": "A lightweight class constructor that automatically defines getter methods for all stored private variables."
+    },
+    "answer": "c",
+    "postanswer": "point = (10, 20)\nx, y = point\nprint(f'x={x}, y={y}')  # Output: x=10, y=20"
+  },
+  {
+    "category": "Core Data Types",
+    "title": "dict",
+    "options": {
+      "a": "A balanced red-black tree data structure providing logarithmic O(log N) key lookup and sorting operations in memory.",
+      "b": "An unordered list of key-value tuples searched sequentially utilizing linear scans during lookup evaluations.",
+      "c": "A memory-mapped database table mapping serialized string values to persistent disk sector block offsets.",
+      "d": "A hash table mapping hashable keys to arbitrary values, maintaining key insertion order in modern Python."
+    },
+    "answer": "d",
+    "postanswer": "user = {'name': 'Alice', 'role': 'admin'}\nprint(user.get('role'))  # Output: 'admin'"
+  },
+  {
+    "category": "Core Data Types",
+    "title": "set",
+    "options": {
+      "a": "An unordered collection of unique, hashable elements supporting mathematical operations like union and diff.",
+      "b": "An ordered sequence of individual elements that permits duplicates but optimizes index lookups utilizing binary search.",
+      "c": "An immutable key-value mapping structure where keys and computed values share identical references inside process heap in memory.",
+      "d": "A specialized array structure that preserves the chronological insertion timestamp for each stored element in memory."
+    },
+    "answer": "a",
+    "postanswer": "a = {1, 2, 3}\nb = {3, 4, 5}\nprint(a & b)  # Output: {3}"
+  },
+  {
+    "category": "Core Data Types",
+    "title": "frozenset",
+    "options": {
+      "a": "A set whose elements are automatically compressed and serialized to disk to conserve active heap memory.",
+      "b": "An immutable, hashable version of set whose elements cannot be modified, allowing it to serve as dict keys in memory.",
+      "c": "A thread-safe synchronized set that blocks concurrent write operations until read locks are fully released at runtime.",
+      "d": "A cached set structure whose elements expire and are removed automatically after a set timeout duration in memory."
+    },
+    "answer": "b",
+    "postanswer": "fs = frozenset([1, 2, 3])\nd = {fs: 'valid_key'}\nprint(d[fs])  # Output: 'valid_key'"
+  },
+  {
+    "category": "Advanced Collections",
+    "title": "collections.deque",
+    "options": {
+      "a": "A thread-safe priority queue which extracts stored items according to their assigned integer priority rank.",
+      "b": "A bounded ring buffer that writes overflow elements into temporary swap files when queue capacity is reached.",
+      "c": "A double-ended queue supporting memory-efficient O(1) appends and pops from both the left and right sides.",
+      "d": "An indexed sequence optimized for logarithmic middle element lookups using an internal skip-list index."
+    },
+    "answer": "c",
+    "postanswer": "from collections import deque\nd = deque([1, 2, 3], maxlen=3)\nd.append(4)\nprint(d)  # Output: deque([2, 3, 4], maxlen=3)"
+  },
+  {
+    "category": "Advanced Collections",
+    "title": "collections.defaultdict",
+    "options": {
+      "a": "A dictionary that automatically rejects keys that do not match a predefined schema or regex pattern check.",
+      "b": "A dictionary storing default system configuration values loaded from an external INI or YAML config file.",
+      "c": "A read-only dictionary that falls back to environment variables whenever a requested key is not present.",
+      "d": "A dict subclass that calls a user-provided factory function to provide default values for missing keys."
+    },
+    "answer": "d",
+    "postanswer": "from collections import defaultdict\ncounts = defaultdict(int)\ncounts['views'] += 1\nprint(counts['views'])  # Output: 1"
+  },
+  {
+    "category": "Advanced Collections",
+    "title": "collections.Counter",
+    "options": {
+      "a": "A dict subclass designed for counting hashable objects, functioning as a multiset with frequency methods.",
+      "b": "An atomic hardware counter utility providing synchronized increment operations across multiple CPU cores in memory.",
+      "c": "A sequence iteration monitor that raises an exception if a loop exceeds a configured maximum step threshold in memory.",
+      "d": "A performance metrics class that tracks execution runtimes and memory allocations of callable functions."
+    },
+    "answer": "a",
+    "postanswer": "from collections import Counter\nc = Counter('abracadabra')\nprint(c.most_common(2))  # Output: [('a', 5), ('b', 2)]"
+  },
+  {
+    "category": "Advanced Collections",
+    "title": "collections.OrderedDict",
+    "options": {
+      "a": "A sorted dictionary that automatically re-sorts its keys alphabetically after every insertion operation.",
+      "b": "A dict subclass with order-aware capabilities like move_to_end() and equality based strictly on key order.",
+      "c": "A dictionary which indexes keys based on their memory address order to optimize low-level cache efficiency.",
+      "d": "An immutable dictionary which guarantees keys will remain in the exact reverse order of initial declaration."
+    },
+    "answer": "b",
+    "postanswer": "from collections import OrderedDict\nod = OrderedDict.fromkeys('abc')\nod.move_to_end('a')\nprint(''.join(od.keys()))  # Output: 'bca'"
+  },
+  {
+    "category": "Advanced Collections",
+    "title": "collections.namedtuple",
+    "options": {
+      "a": "A mutable data structure generating relational database tables directly from Python tuple class definition syntax.",
+      "b": "A type decorator generating C-compatible memory structs for low-level foreign callable function interface bindings.",
+      "c": "A factory function for creating tuple subclasses with named fields accessible via attribute lookup and index.",
+      "d": "An immutable dictionary wrapper that enforces string keys and generates read-only property access member methods in memory."
+    },
+    "answer": "c",
+    "postanswer": "from collections import namedtuple\nPoint = namedtuple('Point', ['x', 'y'])\np = Point(10, 20)\nprint(p.x, p[1])  # Output: 10 20"
+  },
+  {
+    "category": "Advanced Collections",
+    "title": "collections.ChainMap",
+    "options": {
+      "a": "A linked list of dictionaries where each node replicates updates to all preceding nodes automatically in sync in memory.",
+      "b": "A functional records structure combining map and reduce pipelines into a single continuous processing stream.",
+      "c": "A cryptographic hashing container that chains block hashes together to produce an immutable audit journal in memory.",
+      "d": "Groups multiple dicts or mappings into a single view, searching them sequentially for lookups and updates."
+    },
+    "answer": "d",
+    "postanswer": "from collections import ChainMap\ndefaults = {'theme': 'dark', 'font': 'mono'}\nuser = {'theme': 'retro'}\ncm = ChainMap(user, defaults)\nprint(cm['theme'], cm['font'])  # Output: 'retro' 'mono'"
+  },
+  {
+    "category": "Advanced Collections",
+    "title": "heapq",
+    "options": {
+      "a": "Provides an implementation of the binary heap algorithm using standard lists, maintaining min-heap invariants.",
+      "b": "An operating system interface that allocates unmanaged heap system memory blocks outside the Python GC runtime.",
+      "c": "A tree-based dictionary structure that reorganizes individual elements utilizing AVL self-balancing tree rotation logic.",
+      "d": "A memory defragmentation module which compacts fragmented heap object instances directly into contiguous physical memory."
+    },
+    "answer": "a",
+    "postanswer": "import heapq\nh = [20, 10, 30]\nheapq.heapify(h)\nprint(heapq.heappop(h))  # Output: 10"
+  },
+  {
+    "category": "Advanced Collections",
+    "title": "bisect",
+    "options": {
+      "a": "Splits an arbitrary iterable into two equal halves using multi-threaded partitioning routines for speed.",
+      "b": "Provides algorithms for maintaining sorted lists via binary search without having to re-sort after insertions.",
+      "c": "Performs numerical root-finding utilizing the bisection member method across continuous single-variable functions.",
+      "d": "Truncates binary byte streams directly into fixed-width chunks for parallel parsing across multiple worker tasks."
+    },
+    "answer": "b",
+    "postanswer": "import bisect\nscores = [100, 200, 300]\nbisect.insort(scores, 250)\nprint(scores)  # Output: [100, 200, 250, 300]"
+  },
+  {
+    "category": "Advanced Collections",
+    "title": "types.MappingProxyType",
+    "options": {
+      "a": "A proxy cache that forwards network key-value lookups to a remote distributed Redis caching instance.",
+      "b": "A deep-copy wrapper that duplicates a dictionary whenever any read runtime operation is initiated by callers in memory.",
+      "c": "Creates a read-only proxy view of an underlying dictionary, reflecting dynamic changes while preventing writes.",
+      "d": "A lazy mapping loader that populates dictionary keys directly from disk sectors only when specifically accessed in memory."
+    },
+    "answer": "c",
+    "postanswer": "from types import MappingProxyType\norig = {'a': 1}\nproxy = MappingProxyType(orig)\n# proxy['a'] = 2 raises TypeError"
+  },
+  {
+    "category": "Advanced Collections",
+    "title": "array.array",
+    "options": {
+      "a": "A multidimensional matrix container supporting broadcast arithmetic operations identical to NumPy arrays.",
+      "b": "A variable-length heterogenous list that stores pointers to arbitrary Python object instances inside memory buffers.",
+      "c": "An associative array mapping integer keys to variable-length binary payloads on local file storage systems in memory.",
+      "d": "A space-efficient sequence of basic C data types constrained to a uniform typecode, optimizing memory usage."
+    },
+    "answer": "d",
+    "postanswer": "import array\narr = array.array('i', [1, 2, 3])  # Signed integers\nprint(arr.itemsize)  # Output: 4 bytes per int"
+  },
+  {
+    "category": "Strings, Slicing & Formatting",
+    "title": "str.split()",
+    "options": {
+      "a": "Splits a string by a specified delimiter substring and returns a list of token strings, with maxsplit option.",
+      "b": "Partitions a string into an immutable tuple containing the prefix, delimiter, and remainder after first match.",
+      "c": "Divides a string into two equal character segments based on byte length, discarding middle whitespace characters.",
+      "d": "Converts a continuous string into an iterator of individual single-character Unicode source point strings in order."
+    },
+    "answer": "a",
+    "postanswer": "tokens = 'a,b,c'.split(',')\nprint(tokens)  # Output: ['a', 'b', 'c']"
+  },
+  {
+    "category": "Strings, Slicing & Formatting",
+    "title": "str.join()",
+    "options": {
+      "a": "Performs a relational join between two string dictionaries matching keys against shared string prefixes.",
+      "b": "Concatenates an iterable of strings using the caller string as an inter-element separator between each item.",
+      "c": "Merges two strings together character by character, alternating between elements directly from each input sequence.",
+      "d": "Appends a collection of strings directly onto the end of an existing string buffer completely without creating copies."
+    },
+    "answer": "b",
+    "postanswer": "parts = ['Python', 'is', 'fun']\nprint(' '.join(parts))  # Output: 'Python is fun'"
+  },
+  {
+    "category": "Strings, Slicing & Formatting",
+    "title": "str.strip()",
+    "options": {
+      "a": "Removes all whitespace characters directly from throughout the entire string, including spaces between interior words.",
+      "b": "Strips out all non-ASCII control characters and escape sequences from the string while preserving words.",
+      "c": "Returns a copy of the string together with specified leading and trailing characters (whitespace by default) removed.",
+      "d": "Deletes all numerical digits from both ends of a string, leaving only alphabetic characters inside the copy."
+    },
+    "answer": "c",
+    "postanswer": "text = '   arcade mode   \\n'\nprint(f\"'{text.strip()}'\")  # Output: ''arcade mode''"
+  },
+  {
+    "category": "Strings, Slicing & Formatting",
+    "title": "str.replace()",
+    "options": {
+      "a": "Modifies characters in an existing string in place by mutating the internal Unicode character buffer array.",
+      "b": "Substitutes regular expression pattern matches together with replacement strings utilizing backtracking regex parsing.",
+      "c": "Swaps uppercase and lowercase characters throughout a string completely without altering any punctuation symbols in memory.",
+      "d": "Returns a copy with occurrences of an old substring replaced by a new substring, up to an optional count limit."
+    },
+    "answer": "d",
+    "postanswer": "msg = 'Hello World'\nprint(msg.replace('World', 'Arcade'))  # Output: 'Hello Arcade'"
+  },
+  {
+    "category": "Strings, Slicing & Formatting",
+    "title": "str.format()",
+    "options": {
+      "a": "Performs string formatting operations replacing bracketed replacement fields with positional or keyword args.",
+      "b": "Parses a raw text string into a formatted JSON or XML abstract syntax tree structure for serialization.",
+      "c": "Applies linting and indentation rules to a string of Python source code to produce PEP 8 formatted clean code.",
+      "d": "Converts all characters inside a string directly into standardized uppercase title case format following grammar rules."
+    },
+    "answer": "a",
+    "postanswer": "template = '{name} scored {score:,} pts'\nprint(template.format(name='Sam', score=12500))\n# Output: Sam scored 12,500 pts"
+  },
+  {
+    "category": "Strings, Slicing & Formatting",
+    "title": "f-strings",
+    "options": {
+      "a": "Pre-compiles string templates at import time into static byte buffers which prohibit dynamic runtime values.",
+      "b": "Evaluates expressions contained within replacement braces directly at runtime within string literal syntax.",
+      "c": "A specialized string type that formats numbers using floating-point scientific notation by default in output.",
+      "d": "Executes string interpolation by calling the external printf C library function across standard IO pipes."
+    },
+    "answer": "b",
+    "postanswer": "score = 99\nprint(f'Final score: {score + 1}!')  # Output: Final score: 100!"
+  },
+  {
+    "category": "Strings, Slicing & Formatting",
+    "title": "str.find() vs str.index()",
+    "options": {
+      "a": "find() performs case-insensitive search while index() enforces strict case-sensitive character matching.",
+      "b": "find() searches backwards from the end of the string while index() searches forwards from the starting index.",
+      "c": "find() returns -1 when a substring is not found, whereas index() raises a ValueError exception instead.",
+      "d": "find() produces the byte offset in memory while index() returns the logical Unicode code point position index."
+    },
+    "answer": "c",
+    "postanswer": "s = 'arcade'\nprint(s.find('z'))   # Output: -1\n# s.index('z')       # Raises ValueError"
+  },
+  {
+    "category": "Strings, Slicing & Formatting",
+    "title": "str.encode() & bytes.decode()",
+    "options": {
+      "a": "encode() compresses a string using gzip, whereas decode() decompresses compressed byte data back to text.",
+      "b": "encode() encrypts text using AES symmetric encryption, while decode() decrypts ciphertext with a key.",
+      "c": "encode() transforms text into base64 ASCII characters, while decode() converts base64 text into raw binary.",
+      "d": "encode() converts a str into bytes using a codec, whereas decode() converts bytes back into a str."
+    },
+    "answer": "d",
+    "postanswer": "raw = 'café'.encode('utf-8')\nprint(raw)            # Output: b'caf\\xc3\\xa9'\nprint(raw.decode('utf-8'))  # Output: 'café'"
+  },
+  {
+    "category": "Strings, Slicing & Formatting",
+    "title": "slice()",
+    "options": {
+      "a": "Constructs a slice object specifying start, stop, and step parameters used for sequence subscripting.",
+      "b": "Splits an in-memory buffer into separate sub-arrays allocated across distinct worker process heaps.",
+      "c": "A memory management instruction which frees unused trailing capacity from an oversized dynamic list.",
+      "d": "Extracts a fixed number of lines from a text file stream without loading the full file into system RAM."
+    },
+    "answer": "a",
+    "postanswer": "s = slice(1, 5, 2)\nletters = ['a', 'b', 'c', 'd', 'e', 'f']\nprint(letters[s])  # Output: ['b', 'd']"
+  },
+  {
+    "category": "Strings, Slicing & Formatting",
+    "title": "str.startswith()",
+    "options": {
+      "a": "Checks if the first character of a string is an alphanumeric letter matching an operating system locale.",
+      "b": "Returns True if the string starts with the specified prefix or any prefix in a passed tuple of strings.",
+      "c": "Validates that a string matches a regular expression pattern starting strictly from the initial character.",
+      "d": "Returns the zero-based index of the first character matching a prefix, raising an error if no match occurs."
+    },
+    "answer": "b",
+    "postanswer": "url = 'https://python.org'\nprint(url.startswith(('http://', 'https://')))  # Output: True"
+  },
+  {
+    "category": "Strings, Slicing & Formatting",
+    "title": "str.partition()",
+    "options": {
+      "a": "Partitions a string into an arbitrary list of words using whitespace characters as the default boundary.",
+      "b": "Divides a string into equal-length substrings of N characters, padding the final segment with null bytes.",
+      "c": "Splits the string at the first occurrence of a separator, returning a 3-tuple (head, sep, tail).",
+      "d": "Separates a string into two parts at the middle character offset, returning a 2-tuple containing both halves."
+    },
+    "answer": "c",
+    "postanswer": "user, sep, domain = 'alice@example.com'.partition('@')\nprint(f'{user} on {domain}')  # Output: 'alice on example.com'"
+  },
+  {
+    "category": "Strings, Slicing & Formatting",
+    "title": "str.translate()",
+    "options": {
+      "a": "Translates natural language text between different human languages using an external translation API.",
+      "b": "Converts ASCII characters directly into their corresponding hexadecimal character escape strings automatically.",
+      "c": "Transposes adjacent character pairs throughout a string to implement basic cryptographic cipher ciphers in memory.",
+      "d": "Returns a copy of the string where each character is mapped via a translation table from str.maketrans()."
+    },
+    "answer": "d",
+    "postanswer": "table = str.maketrans('aeiou', '12345')\nprint('arcade'.translate(table))  # Output: '1rc1d2'"
+  },
+  {
+    "category": "Control Flow & Pattern Matching",
+    "title": "if / elif / else",
+    "options": {
+      "a": "Executes the code block corresponding to the first truthy boolean condition, skipping remaining clauses.",
+      "b": "Evaluates all branch conditions concurrently inside worker threads, merging outputs into a consolidated tuple.",
+      "c": "A pattern matching construct that requires all branches to evaluate to True before executing any statements in memory.",
+      "d": "Selects source branches based on integer jump tables constructed by the compiler during bytecode analysis."
+    },
+    "answer": "a",
+    "postanswer": "score = 85\nif score >= 90:\n    grade = 'A'\nelif score >= 80:\n    grade = 'B'\nelse:\n    grade = 'C'\nprint(grade)  # Output: 'B'"
+  },
+  {
+    "category": "Control Flow & Pattern Matching",
+    "title": "for ... in",
+    "options": {
+      "a": "Executes a statement block a fixed number of times based on an internal CPU register decrement counter.",
+      "b": "Iterates over items produced by any iterable object, executing the loop body once for each yielded element.",
+      "c": "Spawns a greenlet micro-thread for each element inside a collection, running loop bodies in parallel workers.",
+      "d": "A vectorization directive instructing the compiler to execute SIMD hardware parallel arithmetic loops in memory."
+    },
+    "answer": "b",
+    "postanswer": "for char in 'ABC':\n    print(char, end=' ')\n# Output: A B C"
+  },
+  {
+    "category": "Control Flow & Pattern Matching",
+    "title": "while",
+    "options": {
+      "a": "Suspends the active process thread until an external operating system event signal is fired to wakeup.",
+      "b": "Polls a network socket continuously until records arrives, raising a TimeoutError if no packet is received.",
+      "c": "Repeatedly executes a block of code as long as the specified loop condition evaluates to a truthy value.",
+      "d": "Executes a block of source exactly once, repeating only if an unhandled exception is caught during execution."
+    },
+    "answer": "c",
+    "postanswer": "count = 3\nwhile count > 0:\n    print(count, end=' ')\n    count -= 1\n# Output: 3 2 1"
+  },
+  {
+    "category": "Control Flow & Pattern Matching",
+    "title": "break",
+    "options": {
+      "a": "Pauses loop execution temporarily and yields control back to the operating system task scheduler queue in memory.",
+      "b": "Exits all enclosing nested loops simultaneously, jumping execution to the outermost functional scope in memory.",
+      "c": "Skips the remaining statements in the current iteration cycle and continues with the next loop element at runtime.",
+      "d": "Immediately terminates the innermost enclosing loop without executing the loop's optional else suite."
+    },
+    "answer": "d",
+    "postanswer": "for n in range(10):\n    if n == 3:\n        break\nprint(n)  # Output: 3"
+  },
+  {
+    "category": "Control Flow & Pattern Matching",
+    "title": "continue",
+    "options": {
+      "a": "Skips the remainder of the current loop iteration and immediately proceeds to the next iteration step.",
+      "b": "Restarts the entire loop from the very first element, resetting all local loop counters back to zero.",
+      "c": "Forces an asynchronous task to yield its execution timeslice back to the main asyncio event loop runner.",
+      "d": "Jumps execution out of the current function, returning the current loop index to the calling environment."
+    },
+    "answer": "a",
+    "postanswer": "for n in range(5):\n    if n % 2 == 0:\n        continue\n    print(n, end=' ')  # Output: 1 3"
+  },
+  {
+    "category": "Control Flow & Pattern Matching",
+    "title": "for ... else",
+    "options": {
+      "a": "Executes the else block only if the iterable was completely empty and zero loop iterations were run in memory.",
+      "b": "Executes the else block only if the loop ran to completion without encountering any break statement.",
+      "c": "Executes the else block whenever an unhandled exception is raised during any iteration inside the loop in memory.",
+      "d": "Executes the else block concurrently with the loop body using an asynchronous background thread worker at runtime."
+    },
+    "answer": "b",
+    "postanswer": "for n in [2, 4, 6]:\n    if n % 2 != 0:\n        break\nelse:\n    print('All numbers are even!')\n# Output: All numbers are even!"
+  },
+  {
+    "category": "Control Flow & Pattern Matching",
+    "title": "pass",
+    "options": {
+      "a": "Passes the current function's arguments directly through to the superclass method in the MRO hierarchy.",
+      "b": "Yields the active thread timeslice to other pending threads, identical to invoking time.sleep(0) in code.",
+      "c": "A null operation statement that does nothing when executed, used where code syntax requires a statement.",
+      "d": "Suppresses any active exception inside the current try block, allowing execution to resume without handling."
+    },
+    "answer": "c",
+    "postanswer": "class AbstractHook:\n    def on_event(self):\n        pass  # Placeholder for subclasses"
+  },
+  {
+    "category": "Control Flow & Pattern Matching",
+    "title": "match / case",
+    "options": {
+      "a": "A regular expression evaluation switch testing string variables against regex patterns together with captured groups.",
+      "b": "A database SQL query builder evaluating table records against pattern predicates using query planners.",
+      "c": "A dictionary lookup optimizer which accelerates hash table key searches using compile-time jump tables.",
+      "d": "Structural pattern matching construct (PEP 634) evaluating subjects against patterns and binding names in memory."
+    },
+    "answer": "d",
+    "postanswer": "status = 404\nmatch status:\n    case 200:\n        print('OK')\n    case 404:\n        print('Not Found')\n# Output: 'Not Found'"
+  },
+  {
+    "category": "Control Flow & Pattern Matching",
+    "title": "_ (wildcard pattern)",
+    "options": {
+      "a": "Serves as a catch-all wildcard pattern inside a match/case statement, matching any value without binding it.",
+      "b": "A reserved keyword that deletes the preceding variable from the local scope dictionary at execution time.",
+      "c": "A placeholder syntax that automatically ignores all raised exceptions inside the matching case block source code.",
+      "d": "An alias for the NoneType singleton object instance inside structural pattern matching case comparison branches."
+    },
+    "answer": "a",
+    "postanswer": "command = 'QUIT'\nmatch command:\n    case 'START':\n        print('Starting')\n    case _:\n        print('Unknown command')\n# Output: 'Unknown command'"
+  },
+  {
+    "category": "Control Flow & Pattern Matching",
+    "title": "as (pattern capture)",
+    "options": {
+      "a": "Casts a matched object instance into a specified target data type before entering the case code block.",
+      "b": "Binds a matched subpattern to a variable name within a match/case pattern for subsequent use in the case block.",
+      "c": "Renames a dictionary key or sequence index within the evaluated subject before structural comparison at runtime.",
+      "d": "Declares that a pattern match should be evaluated asynchronously within a dedicated worker sub-worker thread in memory."
+    },
+    "answer": "b",
+    "postanswer": "data = [1, 2]\nmatch data:\n    case [x, y] as pair:\n        print(f'Matched pair: {pair}')\n# Output: 'Matched pair: [1, 2]'"
+  },
+  {
+    "category": "Control Flow & Pattern Matching",
+    "title": "walrus operator (:=)",
+    "options": {
+      "a": "A type annotation operator specifying that a variable must be strictly non-null and immutable in scope.",
+      "b": "A comparison operator checking both value equality and system memory identity between two operand references in memory.",
+      "c": "An assignment expression operator that assigns values to variables as part of a larger expression evaluation.",
+      "d": "A pointer dereferencing operator copying data directly from unmanaged C memory buffers directly into Python lists."
+    },
+    "answer": "c",
+    "postanswer": "if (n := len('arcade')) > 3:\n    print(f'String has {n} characters')\n# Output: String has 6 characters"
+  },
+  {
+    "category": "Control Flow & Pattern Matching",
+    "title": "ternary expression",
+    "options": {
+      "a": "A three-way comparison operator returning -1, 0, or 1 based on the relative ordering of two arguments.",
+      "b": "A logical operator that evaluates three boolean operands and returns True only if exactly one is truthy.",
+      "c": "A function declaration shortcut allowing functions to accept a maximum of three positional arguments.",
+      "d": "An inline conditional expression with the syntax (X if C else Y), returning X if C is truthy else Y."
+    },
+    "answer": "d",
+    "postanswer": "mode = 'retro' if score < 1000 else 'pro'\nprint(mode)  # Conditional inline value assignment"
+  },
+  {
+    "category": "Control Flow & Pattern Matching",
+    "title": "in / not in",
+    "options": {
+      "a": "Membership test operators testing whether a value exists inside a sequence, collection, or container object.",
+      "b": "Bitwise operators testing whether specific bit flags are enabled within a 64-bit integer mask parameter in memory.",
+      "c": "Scope inspection directives checking whether a variable name exists within the global module namespace.",
+      "d": "Memory inspection operators determining whether an object resides inside the garbage collection heap space."
+    },
+    "answer": "a",
+    "postanswer": "valid_users = {'admin', 'moderator'}\nprint('guest' not in valid_users)  # Output: True"
+  },
+  {
+    "category": "Control Flow & Pattern Matching",
+    "title": "is vs ==",
+    "options": {
+      "a": "is performs value comparison with type coercion, whereas == enforces strict identity matching in heap.",
+      "b": "is tests whether two references point to the exact same object, whereas == tests whether their values match.",
+      "c": "The is keyword is used for comparing numeric types, whereas == is reserved strictly for strings and collections in memory.",
+      "d": "is compares object instance hash computed values, whereas == compares the serialized byte representations of instances."
+    },
+    "answer": "b",
+    "postanswer": "a = [1, 2, 3]\nb = [1, 2, 3]\nprint(a == b)  # True (equal values)\nprint(a is b)  # False (different objects in memory)"
+  },
+  {
+    "category": "Iterators & Functional Tools",
+    "title": "iter()",
+    "options": {
+      "a": "Converts an arbitrary collection into an immutable generator object that caches all previous returns.",
+      "b": "Sorts the elements of an iterable utilizing quicksort and returns an indexed list for random access reads.",
+      "c": "Returns an iterator object by invoking __iter__(), or creates a callable iterator when passed a sentinel.",
+      "d": "Spawns an asynchronous background worker that fetches iterable individual elements concurrently directly into a queue."
+    },
+    "answer": "c",
+    "postanswer": "it = iter(['a', 'b', 'c'])\nprint(next(it))  # Output: 'a'"
+  },
+  {
+    "category": "Iterators & Functional Tools",
+    "title": "next()",
+    "options": {
+      "a": "Advances an iterator by two steps, skipping the intermediate element and returning the subsequent item.",
+      "b": "Resets an iterator back to its initial starting element completely without creating a new iterator object instance.",
+      "c": "Returns the index position of the upcoming element inside the sequence without consuming the element itself.",
+      "d": "Retrieves the next item from an iterator, raising StopIteration when exhausted unless a default is given."
+    },
+    "answer": "d",
+    "postanswer": "it = iter([10, 20])\nprint(next(it))            # Output: 10\nprint(next(it, 'done'))    # Output: 20\nprint(next(it, 'done'))    # Output: 'done'"
+  },
+  {
+    "category": "Iterators & Functional Tools",
+    "title": "StopIteration",
+    "options": {
+      "a": "An exception raised by an iterator's __next__() method to signal that no further items remain to yield.",
+      "b": "An operating system interrupt signal terminating infinite loops when memory allocation limits are met.",
+      "c": "An exception raised when a thread deadlocks while awaiting access to a locked synchronization primitive in memory.",
+      "d": "A runtime error triggered when a generator function attempts to yield an incompatible object records type."
+    },
+    "answer": "a",
+    "postanswer": "it = iter([])\ntry:\n    next(it)\nexcept StopIteration:\n    print('Iterator completed!')\n# Output: Iterator completed!"
+  },
+  {
+    "category": "Iterators & Functional Tools",
+    "title": "yield",
+    "options": {
+      "a": "Yields the active CPU timeslice to other operating system processes, identical to POSIX sched_yield.",
+      "b": "Suspends function execution and produces a value to the caller, resuming from that point on subsequent next().",
+      "c": "Permanently terminates a callable function and returns a generator object instance containing the final computed value.",
+      "d": "Sends an asynchronous notification message across an IPC pipe to a connected worker process executor during execution."
+    },
+    "answer": "b",
+    "postanswer": "def count_up():\n    yield 1\n    yield 2\ng = count_up()\nprint(list(g))  # Output: [1, 2]"
+  },
+  {
+    "category": "Iterators & Functional Tools",
+    "title": "yield from",
+    "options": {
+      "a": "Imports a specific generator function from an external module file into the local namespace scope.",
+      "b": "Yields all remaining items directly from an iterable simultaneously as a single atomic inside-memory tuple object.",
+      "c": "Delegates part of a generator's operations to another generator or iterable, establishing a transparent pipe.",
+      "d": "A coroutine barrier awaiting concurrent completion of multiple asynchronous futures inside an event loop in memory."
+    },
+    "answer": "c",
+    "postanswer": "def combined():\n    yield from [1, 2]\n    yield from ['a', 'b']\nprint(list(combined()))  # Output: [1, 2, 'a', 'b']"
+  },
+  {
+    "category": "Iterators & Functional Tools",
+    "title": "Generator Expression",
+    "options": {
+      "a": "A syntax creating an immutable tuple of pre-computed elements by eagerly evaluating an interior loop.",
+      "b": "An asynchronous expression spawning background worker threads to pre-fetch upcoming stream elements.",
+      "c": "A regular expression compiler converting string search patterns directly into efficient state-machine bytecode.",
+      "d": "A compact generator constructor using parentheses that computes elements lazily on demand to conserve system RAM."
+    },
+    "answer": "d",
+    "postanswer": "gen = (x * 2 for x in range(1000000))\nprint(next(gen))  # Output: 0 (computed on demand)"
+  },
+  {
+    "category": "Iterators & Functional Tools",
+    "title": "List Comprehension",
+    "options": {
+      "a": "A concise syntax for constructing a new list by applying an expression to each item in an iterable sequence.",
+      "b": "A memory compression routine that packs heterogenous lists into contiguous C-compatible byte arrays.",
+      "c": "A compile-time macro generating static array allocations inside the module's global constant lookup table in memory.",
+      "d": "A multi-threaded loop mapping callable function calls across a thread pool and collecting results directly into a list."
+    },
+    "answer": "a",
+    "postanswer": "evens = [x for x in range(10) if x % 2 == 0]\nprint(evens)  # Output: [0, 2, 4, 6, 8]"
+  },
+  {
+    "category": "Iterators & Functional Tools",
+    "title": "Dict Comprehension",
+    "options": {
+      "a": "Serializes an existing dictionary into an encoded JSON byte stream using zero-copy buffer operations.",
+      "b": "Constructs a new dictionary by evaluating key-value expression pairs over elements yielded by an iterable.",
+      "c": "Merges multiple dictionaries directly into a single combined hash table, resolving key collisions by averaging.",
+      "d": "A type checking construct that validates dictionary key and value types against schema definitions in memory."
+    },
+    "answer": "b",
+    "postanswer": "squares = {x: x**2 for x in range(4)}\nprint(squares)  # Output: {0: 0, 1: 1, 2: 4, 3: 9}"
+  },
+  {
+    "category": "Iterators & Functional Tools",
+    "title": "Set Comprehension",
+    "options": {
+      "a": "A frozen set constructor pre-computing hash codes for rapid membership checks in read-only tables.",
+      "b": "A mathematical solver computing the union and intersection of multiple sets inside a single pass in C.",
+      "c": "Constructs a new set by evaluating an expression over an iterable, automatically filtering out duplicate values.",
+      "d": "An array comprehension creating an ordered list of unique individual elements sorted by their system memory addresses."
+    },
+    "answer": "c",
+    "postanswer": "unique_lengths = {len(w) for w in ['hi', 'bye', 'yo', 'hello']}\nprint(unique_lengths)  # Output: {2, 3, 5}"
+  },
+  {
+    "category": "Iterators & Functional Tools",
+    "title": "map()",
+    "options": {
+      "a": "Constructs an associative hash map data structure mapping string keys to arbitrary Python objects.",
+      "b": "Creates a visual graph diagram showing data flow dependencies between functions in a module file.",
+      "c": "A GIS geographical mapping utility converting latitude and longitude coordinates directly into map points.",
+      "d": "Returns an iterator applying a specified function to every item of an iterable, yielding results lazily."
+    },
+    "answer": "d",
+    "postanswer": "result = list(map(str.upper, ['retro', 'arcade']))\nprint(result)  # Output: ['RETRO', 'ARCADE']"
+  },
+  {
+    "category": "Iterators & Functional Tools",
+    "title": "filter()",
+    "options": {
+      "a": "Constructs an iterator yielding items from an iterable for which a predicate function returns a truthy value.",
+      "b": "Removes elements from a mutable list in place, modifying the underlying array without returning items.",
+      "c": "Applies a regex expression to an input text stream, discarding all non-matching characters from text.",
+      "d": "A signal processing module that removes high-frequency noise directly from digital audio waveforms inside memory."
+    },
+    "answer": "a",
+    "postanswer": "nums = [1, -2, 3, -4]\npositives = list(filter(lambda x: x > 0, nums))\nprint(positives)  # Output: [1, 3]"
+  },
+  {
+    "category": "Iterators & Functional Tools",
+    "title": "any() & all()",
+    "options": {
+      "a": "any() checks if an object has any attributes; all() verifies which an object implements all dunders.",
+      "b": "any() returns True if at least one item is truthy; all() returns True only if every item is truthy.",
+      "c": "any() matches regular expressions across lines; all() matches patterns across the entire document.",
+      "d": "any() returns the first non-null element in a list; all() returns an immutable tuple of all elements."
+    },
+    "answer": "b",
+    "postanswer": "flags = [True, False, True]\nprint(any(flags))  # Output: True\nprint(all(flags))  # Output: False"
+  },
+  {
+    "category": "Iterators & Functional Tools",
+    "title": "functools.reduce()",
+    "options": {
+      "a": "Reduces an object's memory footprint by stripping unused attribute slots and debug metadata dictionaries.",
+      "b": "Compresses an iterable stream into a compact binary format using run-length encoding algorithms in memory.",
+      "c": "Applies a function cumulatively to iterable items from left to right, reducing them to a single scalar value.",
+      "d": "Simplifies mathematical fraction objects directly into lowest common denominator integer representations inside memory."
+    },
+    "answer": "c",
+    "postanswer": "from functools import reduce\nimport operator\nproduct = reduce(operator.mul, [1, 2, 3, 4], 1)\nprint(product)  # Output: 24"
+  },
+  {
+    "category": "Iterators & Functional Tools",
+    "title": "itertools.chain()",
+    "options": {
+      "a": "Binds several method invokes into a fluent chain where each return value serves as the next caller object.",
+      "b": "Creates a linked list connecting separate collection objects together via internal node memory pointers in memory.",
+      "c": "A cryptographic hashing tool chaining block hashes sequentially to verify blockchain ledger record blocks in memory.",
+      "d": "Treats multiple iterables as a single continuous sequence, chaining them end-to-end without data copies."
+    },
+    "answer": "d",
+    "postanswer": "from itertools import chain\ncombined = list(chain([1, 2], [3, 4]))\nprint(combined)  # Output: [1, 2, 3, 4]"
+  },
+  {
+    "category": "Object-Oriented Programming",
+    "title": "class",
+    "options": {
+      "a": "Defines a user-defined blueprint for creating object instances, establishing a namespace and type identity.",
+      "b": "Allocates a contiguous block of system memory on the C heap for raw data storage during execution.",
+      "c": "Declares a static C-struct type that prohibits runtime attribute additions or dynamic method overrides.",
+      "d": "An operating system worker thread classification flag defining process scheduling priority weights inside CPU."
+    },
+    "answer": "a",
+    "postanswer": "class Player:\n    def __init__(self, name):\n        self.name = name\np = Player('Sam')\nprint(p.name)  # Output: 'Sam'"
+  },
+  {
+    "category": "Object-Oriented Programming",
+    "title": "__init__()",
+    "options": {
+      "a": "The memory allocator method responsible for requesting raw heap space from the operating system kernel.",
+      "b": "The instance initialization method called immediately after a new object has been created to set up state.",
+      "c": "A class-level hook executed exactly once when the containing module is first imported by the runtime.",
+      "d": "A destructor method invoked by the garbage collector when an object instance's reference count drops to zero."
+    },
+    "answer": "b",
+    "postanswer": "class Score:\n    def __init__(self, points):\n        self.points = points\ns = Score(500)\nprint(s.points)  # Output: 500"
+  },
+  {
+    "category": "Object-Oriented Programming",
+    "title": "__new__()",
+    "options": {
+      "a": "A constructor method invoked when an object is deserialized from a pickled binary stream from storage.",
+      "b": "A garbage collector hook called to reset an instance's attributes prior to returning memory to the heap.",
+      "c": "A static method responsible for creating and returning a new instance of a class before initialization occurs.",
+      "d": "A dynamic compiler directive that generates specialized bytecode instructions for user class member methods in memory."
+    },
+    "answer": "c",
+    "postanswer": "class Singleton:\n    _instance = None\n    def __new__(cls):\n        if cls._instance is None:\n            cls._instance = super().__new__(cls)\n        return cls._instance"
+  },
+  {
+    "category": "Object-Oriented Programming",
+    "title": "self",
+    "options": {
+      "a": "A reserved language keyword that automatically binds method calls to the containing global module.",
+      "b": "An immutable pointer to the current Python thread execution frame stored inside the runtime stack in memory.",
+      "c": "A built-in class decorator that prevents external callers directly from modifying private instance variables in memory.",
+      "d": "The conventional name for the first parameter of instance methods, referencing the specific instance object in memory."
+    },
+    "answer": "d",
+    "postanswer": "class Counter:\n    def __init__(self):\n        self.val = 0\n    def inc(self):\n        self.val += 1"
+  },
+  {
+    "category": "Object-Oriented Programming",
+    "title": "super()",
+    "options": {
+      "a": "Returns a proxy object delegating method calls to parent or sibling classes according to the class MRO.",
+      "b": "A privilege escalation keyword that grants a function unrestricted access to private OS system calls.",
+      "c": "An optimization decorator that inlines parent class methods directly into child bytecode instructions.",
+      "d": "A global variable reference pointing to the top-level builtins module namespace inside the interpreter in memory."
+    },
+    "answer": "a",
+    "postanswer": "class Base:\n    def greet(self):\n        return 'Hello'\nclass Child(Base):\n    def greet(self):\n        return super().greet() + ' Arcade!'"
+  },
+  {
+    "category": "Object-Oriented Programming",
+    "title": "@classmethod",
+    "options": {
+      "a": "Converts a method into a static function that cannot access either class attributes or instance fields.",
+      "b": "Decorates a method so it receives the class object (cls) as its first argument instead of an instance reference.",
+      "c": "Marks a method as abstract, requiring every derived child subclass to provide an explicit implementation.",
+      "d": "A decorator that restricts method execution so it can only be invoked directly from within the containing class body."
+    },
+    "answer": "b",
+    "postanswer": "class Config:\n    default_level = 1\n    @classmethod\n    def set_level(cls, lvl):\n        cls.default_level = lvl"
+  },
+  {
+    "category": "Object-Oriented Programming",
+    "title": "@staticmethod",
+    "options": {
+      "a": "Locks a method's return value in a static memory cache, preventing re-execution on subsequent calls.",
+      "b": "Prevents child classes from overriding the method, enforcing final method behavior across hierarchies.",
+      "c": "Decorates a method receiving no implicit first argument (neither self nor cls), acting as a plain function.",
+      "d": "Compiles a Python function directly into static C machine code utilizing just-inside-time compilation at import time."
+    },
+    "answer": "c",
+    "postanswer": "class MathUtil:\n    @staticmethod\n    def add(a, b):\n        return a + b\nprint(MathUtil.add(10, 5))  # Output: 15"
+  },
+  {
+    "category": "Object-Oriented Programming",
+    "title": "@property",
+    "options": {
+      "a": "Declares a class attribute as an immutable constant that cannot be re-assigned after class creation.",
+      "b": "Registers an attribute together with the database ORM layer to generate automatic SQL schema migrations on disk.",
+      "c": "A serialization helper that exports selected object attributes into formatted JSON dictionary objects.",
+      "d": "Decorates a method to be accessed like an attribute, allowing custom getter, setter, and deleter logic."
+    },
+    "answer": "d",
+    "postanswer": "class Circle:\n    def __init__(self, r):\n        self._r = r\n    @property\n    def radius(self):\n        return self._r"
+  },
+  {
+    "category": "Object-Oriented Programming",
+    "title": "__slots__",
+    "options": {
+      "a": "Declares a fixed set of attribute names, saving memory by preventing the creation of an instance __dict__.",
+      "b": "Configures the maximum number of concurrent threads allowed to execute methods on an instance at once.",
+      "c": "A layout directive aligning object memory fields to 64-bit hardware CPU cache line boundaries in RAM.",
+      "d": "Defines event listener slots that trigger callback functions when specified object instance properties change."
+    },
+    "answer": "a",
+    "postanswer": "class FastPoint:\n    __slots__ = ('x', 'y')\n    def __init__(self, x, y):\n        self.x, self.y = x, y"
+  },
+  {
+    "category": "Object-Oriented Programming",
+    "title": "issubclass()",
+    "options": {
+      "a": "Verifies whether an instance's memory footprint is smaller than a specified parent class size in bytes.",
+      "b": "Checks if a class is a direct or indirect subclass of another class, or a tuple of candidate parent classes.",
+      "c": "Determines whether two classes implement an identical set of public method signatures without error.",
+      "d": "Checks whether a class has been registered together with the Python package index as a valid distributable type."
+    },
+    "answer": "b",
+    "postanswer": "print(issubclass(bool, int))   # Output: True\nprint(issubclass(list, dict))  # Output: False"
+  },
+  {
+    "category": "Object-Oriented Programming",
+    "title": "__del__()",
+    "options": {
+      "a": "A statement that immediately deletes an object from memory, bypassing the garbage collector entirely.",
+      "b": "A method invoked when a dictionary key or sequence index is deleted using the del keyword in statements.",
+      "c": "A finalizer method invoked by the runtime when an instance's reference count reaches zero before deallocation.",
+      "d": "A hook triggered whenever a class attribute is removed directly from the class namespace dictionary at execution runtime."
+    },
+    "answer": "c",
+    "postanswer": "class TempFile:\n    def __del__(self):\n        # Cleanup hook when reference count drops to 0\n        pass"
+  },
+  {
+    "category": "Object-Oriented Programming",
+    "title": "@dataclass",
+    "options": {
+      "a": "Converts a Python class into a persistent database table model with automatic ACID transaction support.",
+      "b": "Enforces strict static runtime type validation, raising TypeError on any invalid attribute assignment.",
+      "c": "Compresses class instance attributes directly into a compact binary format for zero-copy network transmission in memory.",
+      "d": "A decorator that automatically generates boilerplate methods like __init__, __repr__, and __eq__ from annotations."
+    },
+    "answer": "d",
+    "postanswer": "from dataclasses import dataclass\n@dataclass\nclass Highscore:\n    player: str\n    score: int\nhs = Highscore('Sam', 9900)\nprint(hs)  # Output: Highscore(player='Sam', score=9900)"
+  },
+  {
+    "category": "Object-Oriented Programming",
+    "title": "abc.ABC & @abstractmethod",
+    "options": {
+      "a": "Defines an Abstract Base Class requiring derived child classes to implement all declared abstract methods.",
+      "b": "A compiler optimization tool that pre-compiles interface method calls into fast C machine code stubs.",
+      "c": "A security module providing cryptographic certificate verification for remote procedure interface calls.",
+      "d": "A dynamic mocking framework used inside unit testing to generate stubbed response object instances for unit tests."
+    },
+    "answer": "a",
+    "postanswer": "from abc import ABC, abstractmethod\nclass Game(ABC):\n    @abstractmethod\n    def start(self):\n        pass"
+  },
+  {
+    "category": "Object-Oriented Programming",
+    "title": "Method Resolution Order (MRO)",
+    "options": {
+      "a": "The alphabetical sorting order of method definitions inside a class dictionary at module import time.",
+      "b": "The linear order in which base classes are searched for attributes and methods, computed via C3 linearization.",
+      "c": "A runtime call stack ordering mechanism determining thread execution precedence in concurrent programs.",
+      "d": "The priority queue ordering used by the event loop to execute pending asynchronous coroutines inside system memory."
+    },
+    "answer": "b",
+    "postanswer": "class A: pass\nclass B(A): pass\nprint([c.__name__ for c in B.__mro__])\n# Output: ['B', 'A', 'object']"
+  },
+  {
+    "category": "Object-Oriented Programming",
+    "title": "type() Metaclass",
+    "options": {
+      "a": "A static analyzer that reads type hints from source code files to generate TypeScript declaration files.",
+      "b": "An interface definition language generator creating C foreign function interface bindings dynamically.",
+      "c": "The default metaclass in Python; classes are instances of type, and type can dynamically construct new classes.",
+      "d": "A system memory profiler that measures the exact physical byte size of class definitions inside the interpreter in memory."
+    },
+    "answer": "c",
+    "postanswer": "ArcadeGame = type('ArcadeGame', (), {'genre': 'retro'})\ngame = ArcadeGame()\nprint(game.genre)  # Output: 'retro'"
+  },
+  {
+    "category": "Object-Oriented Programming",
+    "title": "__init_subclass__()",
+    "options": {
+      "a": "A constructor method executed when an instance of a subclass is instantiated by the application runtime.",
+      "b": "A security filter that validates whether child classes possess permission to inherit protected members.",
+      "c": "An event listener triggered when a subclass is removed directly from system memory by the garbage collection allocator.",
+      "d": "A class method hook invoked on a base class whenever a new subclass is derived from it, passing class arguments."
+    },
+    "answer": "d",
+    "postanswer": "class PluginBase:\n    plugins = []\n    def __init_subclass__(cls, **kwargs):\n        super().__init_subclass__(**kwargs)\n        cls.plugins.append(cls)"
+  },
+  {
+    "category": "Object-Oriented Programming",
+    "title": "__dict__",
+    "options": {
+      "a": "A dictionary or mapping proxy storing an object or class's writable attributes, enabling dynamic attribute lookup.",
+      "b": "A global interpreter cache storing all string literals declared within the current running script file.",
+      "c": "An internal lookup table mapping bytecode opcodes to corresponding C evaluation functions in the VM.",
+      "d": "A serialized JSON representation of an object instance generated automatically during system memory dump operations."
+    },
+    "answer": "a",
+    "postanswer": "class Player:\n    pass\np = Player()\np.score = 100\nprint(p.__dict__)  # Output: {'score': 100}"
+  },
+  {
+    "category": "Object-Oriented Programming",
+    "title": "Name Mangling",
+    "options": {
+      "a": "Obfuscates function names in compiled pyc bytecode files to protect proprietary source intellectual code.",
+      "b": "Transforms attributes prefixed with two underscores (__var) to _ClassName__var to prevent inheritance clashes.",
+      "c": "Converts camelCase identifiers to snake_case automatically during module parsing to satisfy PEP 8 style.",
+      "d": "A system memory optimization technique shortening long variable names to single-character identifiers inside heap."
+    },
+    "answer": "b",
+    "postanswer": "class Bank:\n    def __init__(self):\n        self.__pin = 1234\nb = Bank()\nprint(hasattr(b, '_Bank__pin'))  # Output: True"
+  },
+  {
+    "category": "Dunder Methods",
+    "title": "__str__() vs __repr__()",
+    "options": {
+      "a": "__str__() returns UTF-8 encoded bytes while __repr__() returns a Unicode string representation of objects.",
+      "b": "__str__() formats objects for network transmission while __repr__() formats objects for database storage.",
+      "c": "__str__() is intended to be user-friendly, while __repr__() is intended to be unambiguous and aid debugging.",
+      "d": "__str__() is invoked by print() only when debugging while __repr__() is invoked during production execution in memory."
+    },
+    "answer": "c",
+    "postanswer": "class Item:\n    def __str__(self): return 'Arcade Cabinet'\n    def __repr__(self): return 'Item(id=1)'\ni = Item()\nprint(str(i), repr(i))  # Output: Arcade Cabinet Item(id=1)"
+  },
+  {
+    "category": "Dunder Methods",
+    "title": "__eq__() & __ne__()",
+    "options": {
+      "a": "Verify whether two objects share identical memory addresses and lifetime reference counters in the heap.",
+      "b": "Enforce strict cryptographic digital signature verification between serialized objects inside memory blocks.",
+      "c": "Determine whether two instances possess identical attribute counts and bytecode instructions inside system memory.",
+      "d": "Define custom behavior for the equality (==) and inequality (!=) comparison operators between object instances."
+    },
+    "answer": "d",
+    "postanswer": "class Score:\n    def __init__(self, pts): self.pts = pts\n    def __eq__(self, o): return self.pts == o.pts\nprint(Score(10) == Score(10))  # Output: True"
+  },
+  {
+    "category": "Dunder Methods",
+    "title": "Rich Comparison Methods",
+    "options": {
+      "a": "Special methods (__lt__, __le__, __gt__, __ge__) implementing ordering comparisons like <, <=, >, and >=.",
+      "b": "Algorithms that compare multiple fields simultaneously using fuzzy text distance metrics like Levenshtein.",
+      "c": "Methods that compare memory usage and execution profiling statistics between two competing algorithms.",
+      "d": "Operators comparing high-resolution timestamps with nanosecond precision across multi-core server nodes."
+    },
+    "answer": "a",
+    "postanswer": "class Level:\n    def __init__(self, n): self.n = n\n    def __lt__(self, o): return self.n < o.n\nprint(Level(1) < Level(2))  # Output: True"
+  },
+  {
+    "category": "Dunder Methods",
+    "title": "__hash__()",
+    "options": {
+      "a": "Computes a cryptographic SHA-512 hash string used for tamper-evident data verification over network APIs.",
+      "b": "Returns a 64-bit integer hash code for an object, required for objects to be used as dict keys or set members.",
+      "c": "Encrypts an object's attribute values using a public key cipher before writing instances to local disk.",
+      "d": "Generates a random sequence seed used to initialize pseudo-random number generator sequences inside execution runtime."
+    },
+    "answer": "b",
+    "postanswer": "class Token:\n    def __init__(self, val): self.val = val\n    def __eq__(self, o): return self.val == o.val\n    def __hash__(self): return hash(self.val)"
+  },
+  {
+    "category": "Dunder Methods",
+    "title": "__bool__()",
+    "options": {
+      "a": "Converts an instance into a 0 or 1 integer flag for low-level C foreign function interface method calls.",
+      "b": "Validates that all boolean attributes defined on an instance currently evaluate to True without error.",
+      "c": "Defines the boolean truth value of an object; if not defined, Python falls back to __len__() to test truthiness.",
+      "d": "A type checking method verifying which an instance conforms to boolean logic truth tables at execution."
+    },
+    "answer": "c",
+    "postanswer": "class Cart:\n    def __init__(self, items): self.items = items\n    def __bool__(self): return len(self.items) > 0\nprint(bool(Cart([])))  # Output: False"
+  },
+  {
+    "category": "Dunder Methods",
+    "title": "__len__()",
+    "options": {
+      "a": "Measures the exact physical memory byte size occupied by a dynamic object within the CPython process memory.",
+      "b": "Computes the maximum depth limit permitted for iterative traversal across nested data structures in RAM.",
+      "c": "Calculates the total count of unique hashable elements currently indexed inside an arbitrary collection structure.",
+      "d": "Called by the built-in len() function; must return a non-negative integer representing the container's length."
+    },
+    "answer": "d",
+    "postanswer": "class Deck:\n    def __init__(self, cards): self.cards = cards\n    def __len__(self): return len(self.cards)\nprint(len(Deck(['A', 'K'])))  # Output: 2"
+  },
+  {
+    "category": "Dunder Methods",
+    "title": "__getitem__(), __setitem__(), __delitem__()",
+    "options": {
+      "a": "Implement sequence and mapping indexing syntax (obj[key]), enabling element access, assignment, and deletion.",
+      "b": "Manage persistent database row CRUD operations by generating underlying SQL queries automatically in ORMs.",
+      "c": "Handle thread-safe queue push and pop operations using synchronized mutex locks across worker processes.",
+      "d": "Control dynamic object attribute access via dot notation (obj.key) during program execution in runtime."
+    },
+    "answer": "a",
+    "postanswer": "class CustomList:\n    def __init__(self): self._d = {}\n    def __getitem__(self, k): return self._d[k]\n    def __setitem__(self, k, v): self._d[k] = v"
+  },
+  {
+    "category": "Dunder Methods",
+    "title": "__contains__()",
+    "options": {
+      "a": "Validates whether an object contains any circular reference cycles that would prevent garbage collection.",
+      "b": "Called to implement the membership test operators (in and not in); falls back to sequence iteration if absent.",
+      "c": "Checks whether a class contains any abstract methods that have not been implemented by derived subclasses.",
+      "d": "Determines whether an object is contained within the local thread-local storage dictionary during execution."
+    },
+    "answer": "b",
+    "postanswer": "class RangeHolder:\n    def __contains__(self, item):\n        return 1 <= item <= 10\nprint(5 in RangeHolder())  # Output: True"
+  },
+  {
+    "category": "Dunder Methods",
+    "title": "__call__()",
+    "options": {
+      "a": "A low-level system interrupt handler executed whenever an OS process signal is dispatched to the program.",
+      "b": "A remote procedure call method that serializes arguments and dispatches them across a network socket.",
+      "c": "Enables instances of a custom class to be invoked directly as callable functions with arguments (obj(*args)).",
+      "d": "A hook invoked whenever a method on the object is called, acting as a method execution profiling proxy."
+    },
+    "answer": "c",
+    "postanswer": "class Multiplier:\n    def __init__(self, factor): self.factor = factor\n    def __call__(self, x): return x * self.factor\ndouble = Multiplier(2)\nprint(double(5))  # Output: 10"
+  },
+  {
+    "category": "Dunder Methods",
+    "title": "__iter__() & __next__()",
+    "options": {
+      "a": "Define the context manager protocol: __iter__() initializes resources and __next__() cleans them up after.",
+      "b": "Implement asynchronous streaming where __iter__() opens a socket and __next__() awaits incoming packets.",
+      "c": "Methods used by the serialization module to encode and decode object state during pickle dumping operations.",
+      "d": "Define the iterator protocol: __iter__() returns the iterator object, and __next__() yields successive values."
+    },
+    "answer": "d",
+    "postanswer": "class CountDown:\n    def __init__(self, start): self.cur = start\n    def __iter__(self): return self\n    def __next__(self):\n        if self.cur <= 0: raise StopIteration\n        self.cur -= 1; return self.cur + 1"
+  },
+  {
+    "category": "Dunder Methods",
+    "title": "__enter__() & __exit__()",
+    "options": {
+      "a": "Define the context management protocol used by the together with statement to manage resource setup and guaranteed cleanup.",
+      "b": "Lifecycle hooks invoked when an application process starts up and shuts down inside an ASGI web server.",
+      "c": "Thread synchronization primitives that acquire and release an underlying POSIX pthread mutex lock cleanly.",
+      "d": "Memory management callbacks executed when an object enters and leaves the active CPU cache line hierarchy in memory."
+    },
+    "answer": "a",
+    "postanswer": "class ManagedResource:\n    def __enter__(self): print('Acquire'); return self\n    def __exit__(self, exc_type, exc_val, tb): print('Release')"
+  },
+  {
+    "category": "Dunder Methods",
+    "title": "__add__(), __sub__(), __mul__()",
+    "options": {
+      "a": "Perform in-place memory mutations on primitive types without allocating new heap memory blocks for output.",
+      "b": "Implement standard binary arithmetic operators (+, -, *) for custom objects, supporting operator overloading.",
+      "c": "Implement vector math operations using SIMD instructions compiled through an external C runtime library.",
+      "d": "Methods that validate mathematical operand types before passing them to CPU hardware math registers."
+    },
+    "answer": "b",
+    "postanswer": "class Vector:\n    def __init__(self, x, y): self.x, self.y = x, y\n    def __add__(self, o): return Vector(self.x + o.x, self.y + o.y)\nv = Vector(1, 2) + Vector(3, 4)\nprint(v.x, v.y)  # Output: 4 6"
+  },
+  {
+    "category": "Dunder Methods",
+    "title": "__getattr__() vs __getattribute__()",
+    "options": {
+      "a": "__getattr__() retrieves private attributes while __getattribute__() retrieves public attributes on instances.",
+      "b": "__getattr__() is used for class-level attributes while __getattribute__() is used for instance attributes.",
+      "c": "__getattr__() is called only when an attribute is not found; __getattribute__() intercepts all attribute access.",
+      "d": "__getattr__() raises an AttributeError on missing keys while __getattribute__() returns None silently."
+    },
+    "answer": "c",
+    "postanswer": "class Dynamic:\n    def __getattr__(self, name):\n        return f'Missing: {name}'\nd = Dynamic()\nprint(d.arcade_mode)  # Output: 'Missing: arcade_mode'"
+  },
+  {
+    "category": "Dunder Methods",
+    "title": "__format__()",
+    "options": {
+      "a": "Serializes an object's attribute fields into a structured JSON string according to a schema definition.",
+      "b": "Applies linting rules to class source code to format indentation and comments according to PEP 8 standards.",
+      "c": "Validates and sanitizes user input strings to prevent SQL injection and cross-site scripting attacks.",
+      "d": "Called by format() and f-strings to produce a formatted string representation according to a format specifier."
+    },
+    "answer": "d",
+    "postanswer": "class Score:\n    def __init__(self, val): self.val = val\n    def __format__(self, spec):\n        return f'{self.val:{spec}}'\ns = Score(12345)\nprint(f'{s:,}')  # Output: '12,345'"
+  },
+  {
+    "category": "Exceptions & Context Management",
+    "title": "try / except",
+    "options": {
+      "a": "Catches and handles runtime exceptions raised within the try block, preventing abnormal program termination.",
+      "b": "A static verification block that validates variable types before code execution begins in the VM runtime.",
+      "c": "Spawns an isolated sandbox subprocess to execute unsafe code without risking the primary process state.",
+      "d": "An asynchronous barrier awaiting completion of pending background tasks before proceeding to next lines."
+    },
+    "answer": "a",
+    "postanswer": "try:\n    x = 1 / 0\nexcept ZeroDivisionError:\n    x = 0\nprint(x)  # Output: 0"
+  },
+  {
+    "category": "Exceptions & Context Management",
+    "title": "except ... as ...",
+    "options": {
+      "a": "Casts the caught exception object into a different error class type before passing it to outer handlers.",
+      "b": "Binds the caught exception instance to a specified variable name for inspecting error messages and traceback in memory.",
+      "c": "Renames the exception class globally across the interpreter runtime so error logs display custom titles in memory.",
+      "d": "Saves the exception traceback details directly into a local log file on disk under the given file alias at runtime."
+    },
+    "answer": "b",
+    "postanswer": "try:\n    int('invalid')\nexcept ValueError as err:\n    print(f'Error caught: {err}')\n# Output: Error caught: invalid literal for int()..."
+  },
+  {
+    "category": "Exceptions & Context Management",
+    "title": "finally",
+    "options": {
+      "a": "Executes only if an unhandled exception caused the program to abort and terminate process execution.",
+      "b": "Marks a variable as an immutable constant that cannot be re-assigned once initialized in the block.",
+      "c": "Defines a clean-up block that is guaranteed to execute whether an exception occurred, was caught, or was not.",
+      "d": "Terminates the current thread immediately, releasing all associated memory back to the operating system."
+    },
+    "answer": "c",
+    "postanswer": "try:\n    f = open('score.txt', 'w')\n    f.write('100')\nfinally:\n    f.close()  # Guaranteed to run"
+  },
+  {
+    "category": "Exceptions & Context Management",
+    "title": "try ... else",
+    "options": {
+      "a": "Executes whenever an exception was caught and successfully handled by an except clause in the statement.",
+      "b": "Serves as a catch-all exception handler catching any unspecified exception types not listed in except.",
+      "c": "Executes concurrently with the try block using a separate background thread worker for performance.",
+      "d": "Executes code only if the preceding try block completed successfully without raising any exceptions."
+    },
+    "answer": "d",
+    "postanswer": "try:\n    val = int('42')\nexcept ValueError:\n    print('Failed')\nelse:\n    print(f'Success: {val}')  # Output: Success: 42"
+  },
+  {
+    "category": "Exceptions & Context Management",
+    "title": "raise",
+    "options": {
+      "a": "Explicitly triggers an exception, interrupting normal control flow and transferring control to a handler in memory.",
+      "b": "Increases the execution priority of the current thread within the operating system process scheduler in memory.",
+      "c": "Elevates the current function's variable scope to global module scope during runtime code execution.",
+      "d": "Allocates additional virtual memory space to the application heap when memory capacity is exhausted in memory."
+    },
+    "answer": "a",
+    "postanswer": "def set_age(age):\n    if age < 0:\n        raise ValueError('Age cannot be negative')\n# Raises exception on negative input"
+  },
+  {
+    "category": "Exceptions & Context Management",
+    "title": "raise ... from ...",
+    "options": {
+      "a": "Imports and raises an exception class defined within an external third-party library package module.",
+      "b": "Enables explicit exception chaining (PEP 3134), setting the __cause__ attribute to preserve original errors in memory.",
+      "c": "Reroutes an exception to be handled by a specific remote network service endpoint across HTTP pipes in memory.",
+      "d": "Suppresses the traceback of the source error, displaying only the newly instantiated exception class in memory."
+    },
+    "answer": "b",
+    "postanswer": "try:\n    int('abc')\nexcept ValueError as e:\n    raise RuntimeError('Parsing failed') from e"
+  },
+  {
+    "category": "Exceptions & Context Management",
+    "title": "assert",
+    "options": {
+      "a": "Forces the interpreter to execute static type inference checks on subsequent function parameter types.",
+      "b": "Locks a memory segment preventing concurrent thread modifications until an assertion block completes.",
+      "c": "Tests a condition for debugging, raising an AssertionError if false; can be disabled with the -O optimization flag.",
+      "d": "A production error handler that logs unexpected conditions to disk without interrupting application flow."
+    },
+    "answer": "c",
+    "postanswer": "def apply_discount(price):\n    assert price >= 0, 'Price must be non-negative'\n    return price * 0.9"
+  },
+  {
+    "category": "Exceptions & Context Management",
+    "title": "BaseException vs Exception",
+    "options": {
+      "a": "BaseException is used in C extensions, whereas Exception is used exclusively in pure Python source code.",
+      "b": "BaseException handles fatal memory errors, whereas Exception handles standard syntax and parsing errors in memory.",
+      "c": "BaseException catches asynchronous task cancellation errors, whereas Exception catches thread panics.",
+      "d": "BaseException is the root of all exceptions; Exception inherits directly from it and is the base for non-exit user errors."
+    },
+    "answer": "d",
+    "postanswer": "# KeyboardInterrupt and SystemExit inherit from BaseException,\n# not Exception, so 'except Exception:' won't catch them."
+  },
+  {
+    "category": "Exceptions & Context Management",
+    "title": "with statement",
+    "options": {
+      "a": "Wraps block execution with context managers, ensuring setup (__enter__) and cleanup (__exit__) methods run.",
+      "b": "Executes code within a temporary local variable scope that is deleted upon exiting the block boundary.",
+      "c": "Enables multiple inheritance syntax for user-defined classes requiring combined protocol behaviors.",
+      "d": "Runs a source block with elevated operating system root permissions across protected disk file paths."
+    },
+    "answer": "a",
+    "postanswer": "with open('game.log', 'w') as f:\n    f.write('Game started')\n# File is automatically closed upon block exit"
+  },
+  {
+    "category": "Exceptions & Context Management",
+    "title": "contextlib.contextmanager",
+    "options": {
+      "a": "A memory management decorator that automatically garbage collects local variables when a function exits.",
+      "b": "A decorator transforming a generator function with a single yield into a context manager for with statements.",
+      "c": "A process supervisor that monitors worker subprocesses and restarts them if an unhandled crash occurs.",
+      "d": "A synchronization decorator acquiring an operating system file lock before executing the wrapped function."
+    },
+    "answer": "b",
+    "postanswer": "from contextlib import contextmanager\n@contextmanager\ndef tag(name):\n    print(f'<{name}>')\n    yield\n    print(f'</{name}>')\nwith tag('arcade'):\n    print('Playing!')"
+  },
+  {
+    "category": "Exceptions & Context Management",
+    "title": "Custom Exceptions",
+    "options": {
+      "a": "System error codes generated by the kernel when hardware memory segmentation faults occur in processes.",
+      "b": "Dynamic exception classes constructed by the compiler when syntax errors are detected during compilation.",
+      "c": "User-defined exception classes created by inheriting from the built-in Exception class or its standard subclasses.",
+      "d": "Unchecked exceptions that bypass all except handlers and terminate the Python process unconditionally."
+    },
+    "answer": "c",
+    "postanswer": "class InsufficientCreditsError(Exception):\n    pass\n# raise InsufficientCreditsError('Insert coin!')"
+  },
+  {
+    "category": "Exceptions & Context Management",
+    "title": "ExceptionGroup & except*",
+    "options": {
+      "a": "A transaction manager that bundles database SQL errors together and retries them sequentially in a loop in memory.",
+      "b": "An error suppression tool that converts all caught exceptions into warning log messages automatically.",
+      "c": "A multi-threaded queue holding crashed worker threads until an operator issues a system reset command in memory.",
+      "d": "Enables raising and handling groups of unrelated concurrent exceptions (PEP 654) using the except* syntax in memory."
+    },
+    "answer": "d",
+    "postanswer": "# Python 3.11+ feature\ntry:\n    raise ExceptionGroup('issues', [ValueError('bad val'), TypeError('bad type')])\nexcept* ValueError as eg:\n    print('Handled ValueErrors')"
+  },
+  {
+    "category": "Modules, Packages & Scopes",
+    "title": "import",
+    "options": {
+      "a": "Loads an external module, executes its top-level code, and binds the module object to a name in local scope.",
+      "b": "Copies the source code text of an external file directly into the calling script before execution starts.",
+      "c": "Dynamically links a pre-compiled C shared library (.so or .dll) directly into the CPU register space.",
+      "d": "Mounts a remote network filesystem containing Python packages directly into the active OS directory."
+    },
+    "answer": "a",
+    "postanswer": "import math\nprint(math.sqrt(16))  # Output: 4.0"
+  },
+  {
+    "category": "Modules, Packages & Scopes",
+    "title": "from ... import ...",
+    "options": {
+      "a": "Loads only the specified bytecode instructions from a module file without executing any other module code.",
+      "b": "Imports specific attributes, functions, or classes directly into the caller namespace without binding the module.",
+      "c": "Creates a symbolic filesystem link pointing to the package directory within the local workspace folder.",
+      "d": "Executes an external script inside a completely isolated sandbox process with restricted IO permissions."
+    },
+    "answer": "b",
+    "postanswer": "from datetime import date\ntoday = date.today()\nprint(today.year)  # Directly accessible without 'datetime.' prefix"
+  },
+  {
+    "category": "Modules, Packages & Scopes",
+    "title": "if __name__ == '__main__'",
+    "options": {
+      "a": "A compiler directive marking a Python script file as the primary operating system entry point executable.",
+      "b": "A thread safety guard verifying that the current function is executing on the primary process main thread.",
+      "c": "A boilerplate check ensuring code executes only when the script is run directly, not when imported as a module.",
+      "d": "A security validation check ensuring which the executing user has administrative root privileges in the OS."
+    },
+    "answer": "c",
+    "postanswer": "def main():\n    print('Running standalone arcade!')\nif __name__ == '__main__':\n    main()"
+  },
+  {
+    "category": "Modules, Packages & Scopes",
+    "title": "__all__",
+    "options": {
+      "a": "A special tuple containing all global variable names currently defined across the entire application runtime in memory.",
+      "b": "An array containing all command-line arguments passed to the Python interpreter upon initial process start in memory.",
+      "c": "A registry containing all installed third-party packages currently discovered in the active virtualenv.",
+      "d": "A list of public symbol names exported from a module when an import * statement is executed by client code."
+    },
+    "answer": "d",
+    "postanswer": "__all__ = ['start_game', 'high_score']\n# Only start_game and high_score will be exported via 'from module import *'"
+  },
+  {
+    "category": "Modules, Packages & Scopes",
+    "title": "sys.path",
+    "options": {
+      "a": "A list of directory strings specifying the search path for modules when import statements are evaluated in memory.",
+      "b": "The system environment variable defining the operating system executable binary PATH directory list.",
+      "c": "A list of file paths pointing to all currently open file handles maintained by the operating system in memory.",
+      "d": "A continuous memory buffer holding the absolute filesystem path of the active Python virtual environment in memory."
+    },
+    "answer": "a",
+    "postanswer": "import sys\nprint(type(sys.path))  # <class 'list'>\n# sys.path.append('/custom/path') adds search directory"
+  },
+  {
+    "category": "Modules, Packages & Scopes",
+    "title": "__init__.py",
+    "options": {
+      "a": "A mandatory configuration file defining external package dependencies for installation via pip tools in memory.",
+      "b": "Marks a directory as a regular Python package and executes package initialization code when imported.",
+      "c": "An operating system startup script executed automatically when the virtual environment is activated.",
+      "d": "A pre-compiled cache file containing optimized bytecode for all modules residing within the directory in memory."
+    },
+    "answer": "b",
+    "postanswer": "# Inside package/__init__.py:\nprint('Package initialized!')\n# Runs once when 'import package' is called"
+  },
+  {
+    "category": "Modules, Packages & Scopes",
+    "title": "global",
+    "options": {
+      "a": "Publishes a variable across all running Python processes on the host machine using shared memory IPC.",
+      "b": "Prevents a variable from being garbage collected by making it an un-deletable system constant in heap.",
+      "c": "Declares that a variable inside a local function scope refers to a variable defined at the module global level.",
+      "d": "A synchronization keyword ensuring atomic access to a variable across multiple concurrent POSIX threads."
+    },
+    "answer": "c",
+    "postanswer": "score = 0\ndef add_score():\n    global score\n    score += 100\nadd_score()\nprint(score)  # Output: 100"
+  },
+  {
+    "category": "Modules, Packages & Scopes",
+    "title": "nonlocal",
+    "options": {
+      "a": "Transfers a variable's memory allocation from local CPU stack registers directly to the global C heap.",
+      "b": "Declares which a variable is stored on a remote network server using distributed memory object caching.",
+      "c": "Allows a variable to be accessed by sibling functions defined within different classes in the module.",
+      "d": "Declares that a variable inside a nested function refers to a variable in the nearest enclosing non-global scope."
+    },
+    "answer": "d",
+    "postanswer": "def outer():\n    count = 0\n    def inner():\n        nonlocal count\n        count += 1\n    inner()\n    return count\nprint(outer())  # Output: 1"
+  },
+  {
+    "category": "Modules, Packages & Scopes",
+    "title": "LEGB Scope Rule",
+    "options": {
+      "a": "The order Python searches namespaces for names: Local, Enclosing (nonlocal), Global, and Built-in.",
+      "b": "The memory allocation hierarchy: Level-1 cache, External RAM, Graphic memory, and Block disk storage.",
+      "c": "The class inheritance lookup sequence: Leaf class, Extended subclass, Generalized base, and Binary root.",
+      "d": "The bytecode optimization pipeline: Lexical analysis, Emission of AST, Generation of IR, and Bytecode."
+    },
+    "answer": "a",
+    "postanswer": "# Name resolution order:\n# 1. Local (inside current function)\n# 2. Enclosing (outer functions)\n# 3. Global (module level)\n# 4. Built-in (builtins module)"
+  },
+  {
+    "category": "Modules, Packages & Scopes",
+    "title": "__file__ & __path__",
+    "options": {
+      "a": "__file__ holds the file descriptor integer; __path__ holds the URL of the remote package repository.",
+      "b": "__file__ points to the pathname of the file directly from which a module was loaded; __path__ lists package search paths.",
+      "c": "__file__ contains the compiled pyc bytecode path; __path__ contains the operating system PATH variable.",
+      "d": "__file__ is a file handle for writing logs; __path__ is an iterator yielding directory entries on disk in memory."
+    },
+    "answer": "b",
+    "postanswer": "import os\nprint(os.path.basename(__file__))  # Shows name of the active executing file"
+  },
+  {
+    "category": "Concurrency & Asyncio",
+    "title": "async def & coroutines",
+    "options": {
+      "a": "Spawns an independent OS process to execute the function body in parallel across separate CPU cores.",
+      "b": "Executes the function inside a background POSIX thread, returning a future holding the eventual output.",
+      "c": "Defines a native coroutine function; calling it does not execute the body, but returns an awaitable coroutine.",
+      "d": "A compiler optimization decorator that compiles Python bytecode into asynchronous C assembly routines."
+    },
+    "answer": "c",
+    "postanswer": "async def fetch_score():\n    return 42\ncoro = fetch_score()\nprint(type(coro))  # <class 'coroutine'>"
+  },
+  {
+    "category": "Concurrency & Asyncio",
+    "title": "await",
+    "options": {
+      "a": "Blocks the entire Python process thread until an operating system I/O event descriptor fires a signal.",
+      "b": "A busy-wait spinlock polling an asynchronous task variable in a tight loop until a result is written.",
+      "c": "Forces all pending asynchronous tasks inside the event loop to abort and discard uncompleted calculations.",
+      "d": "Suspends the execution of the surrounding coroutine until the awaitable object completes, yielding control."
+    },
+    "answer": "d",
+    "postanswer": "import asyncio\nasync def main():\n    await asyncio.sleep(0.01)\n    print('Resumed!')"
+  },
+  {
+    "category": "Concurrency & Asyncio",
+    "title": "asyncio.run()",
+    "options": {
+      "a": "Creates a new event loop, runs the passed coroutine until it completes, cancels pending tasks, and shuts down.",
+      "b": "Spawns a thread pool worker that executes an asynchronous coroutine inside a native operating system thread.",
+      "c": "Runs a Python script as an asynchronous background daemon service managed by the host system init system.",
+      "d": "Compiles an asynchronous coroutine into a synchronous blocking function for backwards compatibility."
+    },
+    "answer": "a",
+    "postanswer": "import asyncio\nasync def greet():\n    return 'Retro Arcade'\nprint(asyncio.run(greet()))  # Output: 'Retro Arcade'"
+  },
+  {
+    "category": "Concurrency & Asyncio",
+    "title": "asyncio.gather()",
+    "options": {
+      "a": "Gathers system telemetry statistics including CPU utilization and memory heap usage across worker nodes.",
+      "b": "Runs multiple awaitable objects concurrently on the event loop, returning a list of their aggregated results.",
+      "c": "Combines multiple data streams into a single thread-safe queue ordered by arrival timestamps in real-time.",
+      "d": "A garbage collector routine collecting unreachable cyclic references across asynchronous coroutines."
+    },
+    "answer": "b",
+    "postanswer": "import asyncio\nasync def add(a, b): return a + b\nasync def main():\n    res = await asyncio.gather(add(1, 2), add(3, 4))\n    print(res)  # [3, 7]"
+  },
+  {
+    "category": "Concurrency & Asyncio",
+    "title": "threading.Thread",
+    "options": {
+      "a": "Creates a separate operating system process with an isolated memory heap and distinct process ID number.",
+      "b": "A lightweight greenlet coroutine scheduled cooperatively on a single operating system thread context.",
+      "c": "Runs a target callable concurrently within a separate OS thread, sharing memory space with the host process.",
+      "d": "A hardware virtualization wrapper that runs Python code on dedicated GPU compute shader pipelines."
+    },
+    "answer": "c",
+    "postanswer": "import threading\nt = threading.Thread(target=print, args=('Arcade Thread',))\nt.start()\nt.join()"
+  },
+  {
+    "category": "Concurrency & Asyncio",
+    "title": "Global Interpreter Lock (GIL)",
+    "options": {
+      "a": "A file system lock preventing multiple applications from writing to the same SQLite database file on disk.",
+      "b": "A security sandboxing mechanism prohibiting untrusted Python scripts from modifying OS system files.",
+      "c": "A memory safety lock that locks dynamic objects in physical memory to prevent paging out to swap disk.",
+      "d": "A mutex in CPython that prevents multiple native threads from executing Python bytecodes simultaneously in 1 process."
+    },
+    "answer": "d",
+    "postanswer": "# The GIL ensures thread-safe memory management in CPython,\n# but CPU-bound tasks in threads do not achieve multi-core parallelism."
+  },
+  {
+    "category": "Concurrency & Asyncio",
+    "title": "multiprocessing.Process",
+    "options": {
+      "a": "Spawns a separate OS process with its own memory space and Python interpreter, bypassing the CPython GIL.",
+      "b": "Spawns a lightweight thread within the active process that shares global variables and heap objects directly.",
+      "c": "A virtualization container runner that launches a sandboxed Docker image to run isolated Python modules.",
+      "d": "An asynchronous coroutine wrapper that multiplexes I/O operations over a single POSIX epoll event loop."
+    },
+    "answer": "a",
+    "postanswer": "from multiprocessing import Process\ndef worker():\n    print('Worker process running')\n# p = Process(target=worker); p.start(); p.join()"
+  },
+  {
+    "category": "Concurrency & Asyncio",
+    "title": "ThreadPoolExecutor",
+    "options": {
+      "a": "A low-level kernel driver scheduling thread execution across physical CPU cores using real-time priorities.",
+      "b": "An Executor subclass in concurrent.futures using a pool of worker threads to execute asynchronous callables.",
+      "c": "A thread monitoring daemon that detects and resolves thread deadlocks by killing locked worker threads.",
+      "d": "A memory pool allocator distributing pre-allocated memory chunks across worker threads to avoid GC pauses."
+    },
+    "answer": "b",
+    "postanswer": "from concurrent.futures import ThreadPoolExecutor\nwith ThreadPoolExecutor(max_workers=2) as pool:\n    future = pool.submit(pow, 2, 8)\n    print(future.result())  # Output: 256"
+  },
+  {
+    "category": "Typing & Advanced Utilities",
+    "title": "typing.Union & | operator",
+    "options": {
+      "a": "A relational database operator that executes a SQL UNION query across two indexed database tables.",
+      "b": "A bitwise operator that merges two dictionary objects by performing a binary OR across all key hashes.",
+      "c": "Type annotation denoting that a value can be any of several types; Python 3.10+ supports the modern X | Y syntax.",
+      "d": "A set operation method that mutates a set in place by adding all elements from another iterable sequence."
+    },
+    "answer": "c",
+    "postanswer": "def parse_val(val: int | str) -> str:\n    return str(val)\nprint(parse_val(42))  # Accepts int or str"
+  },
+  {
+    "category": "Typing & Advanced Utilities",
+    "title": "typing.Optional",
+    "options": {
+      "a": "A function argument decorator declaring that a parameter has a default fallback value if omitted.",
+      "b": "A compiler directive that skips static type verification for a variable if type inference fails in analysis.",
+      "c": "A configuration setting allowing an application module to be loaded optionally without raising an error.",
+      "d": "Type hint shorthand representing a type that can either be of the specified type or None (equivalent to T | None)."
+    },
+    "answer": "d",
+    "postanswer": "from typing import Optional\ndef get_score(user_id: int) -> Optional[int]:\n    return 100 if user_id == 1 else None"
+  },
+  {
+    "category": "Typing & Advanced Utilities",
+    "title": "functools.lru_cache",
+    "options": {
+      "a": "A decorator wrapping a function with a memoizing callable that saves up to maxsize recent call arguments and results.",
+      "b": "A disk caching utility that serializes function return values into persistent local SQLite database tables.",
+      "c": "An asynchronous cache that pre-fetches upcoming function results concurrently using background worker threads.",
+      "d": "A memory garbage collector that purges stale object instances from the heap when system RAM is depleted."
+    },
+    "answer": "a",
+    "postanswer": "from functools import lru_cache\n@lru_cache(maxsize=128)\ndef fib(n):\n    if n < 2: return n\n    return fib(n-1) + fib(n-2)\nprint(fib(30))  # Memoized computation"
+  },
+  {
+    "category": "Typing & Advanced Utilities",
+    "title": "copy.copy() vs copy.deepcopy()",
+    "options": {
+      "a": "copy() duplicates primitive numeric types; deepcopy() is used exclusively for strings and raw byte arrays.",
+      "b": "copy() creates a shallow copy inserting references; deepcopy() creates a recursive copy duplicating nested objects.",
+      "c": "copy() duplicates an object in memory; deepcopy() serializes the object to disk as a persistent backup.",
+      "d": "copy() is a thread-safe atomic operation; deepcopy() is a non-thread-safe operation requiring mutexes."
+    },
+    "answer": "b",
+    "postanswer": "import copy\norig = [[1, 2], [3, 4]]\nshallow = copy.copy(orig)\ndeep = copy.deepcopy(orig)\norig[0][0] = 99\nprint(shallow[0][0])  # 99 (referenced)\nprint(deep[0][0])     # 1 (independent copy)"
+  }
+]

@@ -22,14 +22,23 @@
   - Authentic 8-bit square/triangle/sawtooth wave sound effects for button clicks, option picks, coin pickups, wrong buzzers, combo powerups, and victory/game over fanfares.
   - Catchy 1980s retro arcade walking-bass background music (BGM) loop during quiz battles.
   - **Mute Button**: Instant `🔊` / `🔇` button in the top header with preference saved to `localStorage`.
-- **Built-in Deck: 216 PostgreSQL Questions**:
-  - Covers 15 functional categories including Data Query Language (DQL), Data Manipulation (DML), Data Definition (DDL), Window Functions, MVCC Concurrency & Lock Modes (`FOR UPDATE`, `FOR NO KEY UPDATE`), Constraints, and more.
-  - Every question features 4 comprehensive, technical definitions with subtle, challenging distractors.
-- **Custom Deck Loader ("Insert Disk")**:
-  - Drag-and-drop or browse any custom `.json` quiz file directly from your machine.
-  - Automatic category extraction and validation without modifying any code.
+- **Scalable Multi-Deck Library (4 Built-in Decks / 486 Questions)**:
+  - Supports hundreds of decks seamlessly via the `questions/decks.json` manifest.
+  - 🐘 **PostgreSQL Internals & Syntax (216 Qs)**: Data Query Language (DQL), DML, DDL, Window Functions, MVCC Concurrency & Lock Modes (`FOR UPDATE`, `FOR NO KEY UPDATE`), Constraints, etc.
+  - 🐍 **Python Core & Advanced (150 Qs)**: Built-in Functions, Types & Collections, OOP & Classes, Dunder Methods & Protocols, Control Flow, Iterators, Exceptions, Typing, Asyncio, Decorators, and Standard Library Core.
+  - 🌐 **HTTP Status Codes & Semantics (60 Qs)**: 1xx Informational, 2xx Success & Content Negotiations, 3xx Redirections & Caching, 4xx Client Auth & Permissions, 4xx Semantic Preconditions & Payloads, and 5xx Server & Gateway Errors, accompanied by authentic HTTP response header examples (`Retry-After`, `Upgrade`, `ETag`, etc.).
+  - 📐 **Software Design Patterns (60 Qs)**: Creational (Singleton, Factory, Builder, Prototype), Structural (Adapter, Bridge, Composite, Decorator, Facade, Flyweight, Proxy), Behavioral Flow (Command, Observer, Mediator, Memento, State, Strategy, Template), Behavioral Domain (Iterator, Visitor, Specification, Blackboard), Enterprise (Repository, Unit of Work, Data Mapper, CQRS, Event Sourcing), and Cloud & Concurrency (Circuit Breaker, Saga, Transactional Outbox, Bulkhead, Retry, Sidecar, Strangler Fig) with production architecture and code snippets.
+  - Balanced answer key distributions (`~25%` each for A, B, C, D) and zero-bias option length rank balancing across all decks.
+- **Arcade Disk Archive & Deck Browser**:
+  - Click **"DISK"**, **"BROWSE ALL 🔍"**, or the **Cabinet Deck Chip** to open the interactive Disk Archive.
+  - **Live Search & Filter**: Instantly search hundreds of decks by name, topic, or keyword.
+  - **Category Filter Tabs**: Filter by *Languages*, *Databases*, *Web & Frontend*, *DevOps & Cloud*, *Custom Decks*, etc.
+  - **Custom Disk Import**: Drag-and-drop or browse any local `.json` quiz file to import it into your arcade library.
+- **Automated Zero-Code Deck Indexer**:
+  - Adding a new quiz deck to the game requires zero code changes: simply drop `questions/<topic>.json` and run `python3 scripts/index_decks.py`.
+  - The script automatically analyzes question counts, extracts categories, infers icons (e.g. 🦀 for Rust, 🐳 for Docker, ☕ for Java) and example badges, and updates `questions/decks.json`.
 - **2 Distinct Gameplay Modes**:
-  - **📖 Standard Mode (Study & Practice)**: Perfect for learning. After submitting an answer (whether correct or wrong), the quiz pauses indefinitely so you can thoroughly review the comprehensive definition and inspect the realistic PostgreSQL SQL query example. You manually advance when ready by clicking `CONTINUE >>` or pressing <kbd>Enter</kbd> / <kbd>Space</kbd>.
+  - **📖 Standard Mode (Study & Practice)**: Perfect for learning. After submitting an answer (whether correct or wrong), the quiz pauses indefinitely so you can thoroughly review the comprehensive definition and inspect the realistic code example (SQL query, Python snippet, etc.). You manually advance when ready by clicking `CONTINUE >>` or pressing <kbd>Enter</kbd> / <kbd>Space</kbd>.
   - **⚡ Speedrun Mode (Arcade Rush)**: Tailored for high-speed runs and arcade reflexes. Questions automatically advance immediately after answering so you can race the clock and max out your speed bonus!
 - **Dynamic Round Lengths**:
   - **Quick Run**: 10 questions
@@ -117,11 +126,16 @@ code_quiz/
 │   └── style.css         # Retro arcade styles, neon glows, CRT effects & responsive layouts
 ├── js/
 │   ├── app.js            # SPA controller, event routing, keyboard shortcuts
-│   ├── deckLoader.js     # Default fetcher + custom JSON drag-and-drop parser
+│   ├── deckLoader.js     # Dynamic deck manifest loader & custom disk parser
 │   ├── quizEngine.js     # Fisher-Yates shuffle, timer, scoring & combo multipliers
-│   └── highscores.js     # LocalStorage persistence & leaderboard renderer
+│   ├── highscores.js     # LocalStorage persistence & leaderboard renderer
+│   └── audio.js          # Pure Web Audio 8-bit synthesizer (BGM & SFX)
+├── scripts/
+│   └── index_decks.py    # Auto-indexes questions/*.json and updates decks.json
 └── questions/
-    └── postgresql.json   # 216 PostgreSQL questions with technical options & answers
+    ├── decks.json        # Single source of truth manifest for all quiz decks
+    ├── postgresql.json   # 216 PostgreSQL questions with technical options & answers
+    └── python.json       # 150 Python questions covering core & advanced concepts
 ```
 
 ---

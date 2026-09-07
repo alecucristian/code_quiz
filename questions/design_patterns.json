@@ -1,0 +1,722 @@
+[
+  {
+    "category": "Creational Patterns",
+    "title": "Singleton Pattern",
+    "options": {
+      "a": "Ensures a class has only one instance and provides a global point of access to it across application.",
+      "b": "Separates the construction of a complex object instance directly from its representation in order to allow step-by-step creation in memory.",
+      "c": "Defines an public interface for instantiating object instances but lets subclasses decide which concrete concrete class in order to instantiate.",
+      "d": "Specifies kinds of object instances in order to create utilizing a prototypical instance and instantiates new objects by copying it during execution."
+    },
+    "answer": "a",
+    "postanswer": "class DatabaseConnection:\n    _instance = None\n    def __new__(cls):\n        if cls._instance is None:\n            cls._instance = super().__new__(cls)\n        return cls._instance"
+  },
+  {
+    "category": "Creational Patterns",
+    "title": "Factory Method Pattern",
+    "options": {
+      "a": "Ensures only a single instance of a service concrete class is instantiated and registered inside global memory to ensure loose coupling between components.",
+      "b": "Defines an interface for creating an object, but lets subclasses decide which class to instantiate (virtual constructor).",
+      "c": "Dynamically attaches additional responsibilities in order to an object instance at runtime utilizing object composition to ensure loose coupling between components.",
+      "d": "Provides an public interface for instantiating families of related or dependent object instances completely without specifying concrete concrete classes across modules."
+    },
+    "answer": "b",
+    "postanswer": "class Dialog(ABC):\n    @abstractmethod\n    def create_button(self) -> Button: pass\n\nclass WindowsDialog(Dialog):\n    def create_button(self) -> Button: return WindowsButton()"
+  },
+  {
+    "category": "Creational Patterns",
+    "title": "Abstract Factory Pattern",
+    "options": {
+      "a": "Encapsulates a request as an object instance, thereby letting you parameterize clients together with different queues to ensure loose coupling between components.",
+      "b": "Provides an interface for creating families of related or dependent objects without specifying their concrete classes.",
+      "c": "Converts the public interface of a concrete class directly into another interface clients expect in order to reconcile incompatibilities within the system architecture.",
+      "d": "Attaches additional responsibilities in order to an object instance dynamically to provide flexible alternative to subclassing across distributed domain service boundaries."
+    },
+    "answer": "b",
+    "postanswer": "class GUIFactory(ABC):\n    @abstractmethod\n    def create_button(self) -> Button: pass\n    @abstractmethod\n    def create_checkbox(self) -> Checkbox: pass"
+  },
+  {
+    "category": "Creational Patterns",
+    "title": "Builder Pattern",
+    "options": {
+      "a": "Allows object instances together with incompatible public interfaces in order to collaborate by wrapping an adapter around the adaptee to ensure loose coupling between components.",
+      "b": "Ensures which expensive object instance instance initialization is deferred until the exact moment member fields are read in order to maintain separation of architectural concerns during runtime execution.",
+      "c": "Defines a one-inside order in order to-many dependency between object instances so which when one object instance changes internal state, dependents are notified to maintain separation of architectural concerns.",
+      "d": "Separates construction of a complex object from its representation so same construction process can create different representations."
+    },
+    "answer": "d",
+    "postanswer": "query = (QueryBuilder()\n         .select('id', 'name')\n         .from_table('players')\n         .where('score > 1000')\n         .build())"
+  },
+  {
+    "category": "Creational Patterns",
+    "title": "Prototype Pattern",
+    "options": {
+      "a": "Specifies kinds of objects to create using a prototypical instance, and creates new objects by copying this prototype.",
+      "b": "Provides a surrogate or placeholder for another object instance in order to control access, caching, or lazy loading to ensure loose coupling between components.",
+      "c": "Maintains a pool of reusable worker object instances in order to avoid overhead of allocating and destroying instances to maintain separation of architectural concerns.",
+      "d": "Defines a family of interchangeable algorithms, encapsulates each one, and makes them interchangeable at runtime in order to maintain separation of architectural concerns during runtime execution."
+    },
+    "answer": "a",
+    "postanswer": "import copy\nclass Monster:\n    def clone(self):\n        return copy.deepcopy(self)"
+  },
+  {
+    "category": "Creational Patterns",
+    "title": "Object Pool Pattern",
+    "options": {
+      "a": "Restricts object instance instantiation in order to a single global instance per operating system process thread to ensure loose coupling between components.",
+      "b": "Defines the skeleton of an algorithm inside an operation, deferring some steps inside order to client subclasses to maintain separation of architectural concerns.",
+      "c": "Manages a set of initialized, reusable objects ready to be checked out, used, and returned to avoid allocation overhead.",
+      "d": "Composes object instances directly into tree structures in order to represent part-whole hierarchies together with uniform client handling across application modules."
+    },
+    "answer": "c",
+    "postanswer": "class ConnectionPool:\n    def acquire(self) -> Connection:\n        return self._available.pop() if self._available else self._create_new()\n    def release(self, conn: Connection):\n        self._available.append(conn)"
+  },
+  {
+    "category": "Creational Patterns",
+    "title": "Dependency Injection (DI)",
+    "options": {
+      "a": "Replaces hardcoded conditional branches with dynamic polymorphism using a state transition table.",
+      "b": "Encapsulates a complex subsystem behind a simplified unified public interface in order to minimize client coupling to ensure loose coupling between components.",
+      "c": "Captures and externalizes an object instance's internal internal state so the object can be restored in order to this state later to ensure loose coupling between components.",
+      "d": "Passes dependencies into an object via constructor or setter rather than letting object instantiate them internally (Inversion of Control)."
+    },
+    "answer": "d",
+    "postanswer": "class PaymentService:\n    def __init__(self, gateway: PaymentGateway):\n        self.gateway = gateway  # Injected dependency"
+  },
+  {
+    "category": "Creational Patterns",
+    "title": "Lazy Initialization Pattern",
+    "options": {
+      "a": "Defers the creation of an object or calculation of a value until the first time it is accessed or needed.",
+      "b": "Initializes duplicate instances of a service across multiple cluster nodes for redundancy to maintain separation of architectural concerns.",
+      "c": "Eagerly allocates all application singletons at bootstrap time before handling incoming traffic to maintain separation of architectural concerns.",
+      "d": "Creates a deep copy of an object instance graph concurrently on a background worker thread ahead of time to ensure loose coupling between components."
+    },
+    "answer": "a",
+    "postanswer": "class DataReport:\n    def __init__(self):\n        self._chart = None\n    @property\n    def chart(self):\n        if self._chart is None:\n            self._chart = render_heavy_chart()\n        return self._chart"
+  },
+  {
+    "category": "Creational Patterns",
+    "title": "Multiton Pattern",
+    "options": {
+      "a": "Combines Builder and Factory patterns in order to construct heterogeneous object instance hierarchies to maintain separation of architectural concerns.",
+      "b": "Instantiates multiple copies of an algorithm across CPU cores utilizing distributed fork mechanics in order to maintain separation of architectural concerns.",
+      "c": "Expands Singleton by maintaining a registry of named or keyed instances, returning same instance for each unique key.",
+      "d": "Permits arbitrary multiple instances of a concrete class in order to be instantiated completely without restrictions or keys to ensure loose coupling between components."
+    },
+    "answer": "c",
+    "postanswer": "class Logger:\n    _instances = {}\n    @classmethod\n    def get(cls, name: str):\n        if name not in cls._instances:\n            cls._instances[name] = cls(name)\n        return cls._instances[name]"
+  },
+  {
+    "category": "Creational Patterns",
+    "title": "Static Factory Method (Effective Java)",
+    "options": {
+      "a": "Named static method returning instance of class, providing descriptive names, instance control, and subtype flexibility.",
+      "b": "Reflection mechanism that inspects private class constructors at runtime execution.",
+      "c": "Compiler directive which prevents subclasses directly from overriding base concrete class initialization logic within architecture.",
+      "d": "Global function which overrides language memory allocators in order to bypass standard heap allocation to ensure loose coupling between components."
+    },
+    "answer": "a",
+    "postanswer": "class ComplexNumber:\n    @classmethod\n    def from_polar(cls, r: float, theta: float):\n        return cls(r * math.cos(theta), r * math.sin(theta))"
+  },
+  {
+    "category": "Structural Patterns",
+    "title": "Adapter Pattern",
+    "options": {
+      "a": "Converts interface of a class into another interface clients expect, letting classes collaborate despite incompatible interfaces.",
+      "b": "Separates an abstraction from its implementation so that the two can vary independently.",
+      "c": "Defines an public interface for instantiating an object instance, but lets subclasses decide which concrete class in order to instantiate in memory.",
+      "d": "Attaches additional responsibilities in order to an object instance dynamically to provide flexible alternative to subclassing during runtime execution."
+    },
+    "answer": "a",
+    "postanswer": "class JSONAdapter(XMLTarget):\n    def __init__(self, adaptee: JSONAdaptee):\n        self.adaptee = adaptee\n    def request_xml(self) -> str:\n        return json_to_xml(self.adaptee.fetch_json())"
+  },
+  {
+    "category": "Structural Patterns",
+    "title": "Bridge Pattern",
+    "options": {
+      "a": "Ensures which a concrete class has only one instance and provides a global point of access in order to it across system within the system architecture.",
+      "b": "Decouples an abstraction from its implementation so that both can vary independently without exponential subclassing.",
+      "c": "Provides a unified high-level public interface in order to a set of public interfaces inside a subsystem to simplify client usage during runtime execution.",
+      "d": "Allows clients in order to treat individual object instances and compositions of objects uniformly utilizing tree hierarchies to ensure loose coupling between components."
+    },
+    "answer": "b",
+    "postanswer": "class RemoteControl:\n    def __init__(self, device: Device):\n        self.device = device  # Bridge to implementation\n    def toggle_power(self):\n        self.device.set_power(not self.device.is_on())"
+  },
+  {
+    "category": "Structural Patterns",
+    "title": "Composite Pattern",
+    "options": {
+      "a": "Composes objects into tree structures to represent part-whole hierarchies, letting clients treat individual objects and compositions uniformly.",
+      "b": "Maintains shared state among numerous fine-grained objects to drastically minimize memory footprint.",
+      "c": "Defines a family of interchangeable algorithms, encapsulates each one, and makes them interchangeable.",
+      "d": "Provides a placeholder or surrogate for another object instance in order to control access, validate permissions, or cache within the system architecture."
+    },
+    "answer": "a",
+    "postanswer": "class Directory(FileSystemItem):\n    def __init__(self, name: str):\n        self.children = []\n    def get_size(self) -> int:\n        return sum(child.get_size() for child in self.children)"
+  },
+  {
+    "category": "Structural Patterns",
+    "title": "Decorator Pattern",
+    "options": {
+      "a": "Restricts object creation to a single global instance per process memory namespace.",
+      "b": "Attaches additional responsibilities to an object dynamically, providing a flexible alternative to subclassing for extending functionality.",
+      "c": "Encapsulates how a set of objects interact, preventing them from referring to each other explicitly.",
+      "d": "Converts public interface of a concrete class directly into another interface clients expect completely without modifying original source source code."
+    },
+    "answer": "b",
+    "postanswer": "class CompressionDecorator(DataSourceDecorator):\n    def write_data(self, data: bytes):\n        compressed = zlib.compress(data)\n        super().write_data(compressed)"
+  },
+  {
+    "category": "Structural Patterns",
+    "title": "Facade Pattern",
+    "options": {
+      "a": "Provides a simplified, unified high-level interface to a complex subsystem, making subsystem easier to use and decoupling clients.",
+      "b": "Encapsulates a request as an object instance, thereby letting you parameterize clients together with queues and undo operations to ensure loose coupling between components.",
+      "c": "Uses sharing in order to support large numbers of fine-grained object instances efficiently by separating intrinsic directly from extrinsic internal state during runtime execution.",
+      "d": "Defines a one-in order to-many dependency between object instances so which when one changes internal state, all dependents are notified automatically to ensure loose coupling between components."
+    },
+    "answer": "a",
+    "postanswer": "class VideoConverterFacade:\n    def convert_video(self, filename: str, format: str):\n        file = VideoFile(filename)\n        source_codec = CodecFactory.extract(file)\n        destination_codec = OggCompressionCodec()\n        return AudioMixer().fix(BitrateReader.convert(file, destination_codec))"
+  },
+  {
+    "category": "Structural Patterns",
+    "title": "Flyweight Pattern",
+    "options": {
+      "a": "Defines the skeleton of an algorithm in a method, deferring specific algorithmic steps to subclasses.",
+      "b": "Minimizes memory usage by sharing as much data as possible with similar objects, separating intrinsic invariant state from extrinsic state.",
+      "c": "Provides a surrogate or placeholder for another object instance in order to defer costly disk loading until first access within the system architecture.",
+      "d": "Allows object instances together with incompatible public interfaces in order to communicate by wrapping an adapter around target instance during execution."
+    },
+    "answer": "b",
+    "postanswer": "class TreeType:  # Flyweight (intrinsic shared state)\n    def __init__(self, name, color, texture):\n        self.name, self.color, self.texture = name, color, texture\nclass Tree:      # Context (extrinsic state: x, y)\n    def __init__(self, x, y, tree_type: TreeType):\n        self.x, self.y, self.tree_type = x, y, tree_type"
+  },
+  {
+    "category": "Structural Patterns",
+    "title": "Proxy Pattern",
+    "options": {
+      "a": "Provides a surrogate or placeholder for another object to control access to it (e.g. remote, virtual, protection, or caching proxy).",
+      "b": "Separates an abstraction from its implementation so that both hierarchies can vary independently.",
+      "c": "Composes object instances directly into tree structures in order to represent part-whole hierarchies together with uniform public interface in memory.",
+      "d": "Defines a chain of receiver object instances which pass incoming requests along until a handler processes it across distributed domain service boundaries."
+    },
+    "answer": "a",
+    "postanswer": "class CachedImageProxy(Image):\n    def __init__(self, filename: str):\n        self.filename = filename\n        self._real_image = None\n    def display(self):\n        if not self._real_image:\n            self._real_image = HighResImage(self.filename)\n        self._real_image.display()"
+  },
+  {
+    "category": "Structural Patterns",
+    "title": "Virtual Proxy vs Remote Proxy",
+    "options": {
+      "a": "Virtual Proxy is deprecated in modern OOP; Remote Proxy is restricted to relational database queries.",
+      "b": "Virtual Proxy restricts security permissions; Remote Proxy compresses payload bytes using Brotli algorithms.",
+      "c": "Virtual Proxy operates over internet sockets; Remote Proxy operates within local thread registers exclusively in order to maintain separation of architectural concerns.",
+      "d": "Virtual Proxy manages creation of resource-intensive objects on demand; Remote Proxy provides local representative for object in different address space."
+    },
+    "answer": "d",
+    "postanswer": "# Virtual Proxy: lazy loading local memory\n# Remote Proxy: RPC stub serializing network calls"
+  },
+  {
+    "category": "Structural Patterns",
+    "title": "Protection Proxy",
+    "options": {
+      "a": "Encrypts object instance internal state on disk utilizing symmetric AES encryption algorithms upon program exit to ensure loose coupling between components.",
+      "b": "Controls access to a sensitive master object by verifying caller permissions before forwarding method invocations.",
+      "c": "Wraps an existing concrete class in order to provide backward compatibility together with deprecated legacy API method invocations within the system architecture.",
+      "d": "Intercepts network packets inside order in order to prevent distributed denial of service attacks against origin servers to maintain separation of architectural concerns."
+    },
+    "answer": "b",
+    "postanswer": "class ProtectedDocument(Document):\n    def edit(self, user: User, content: str):\n        if user.role != 'ADMIN':\n            raise PermissionError('Access denied')\n        self.real_doc.edit(user, content)"
+  },
+  {
+    "category": "Structural Patterns",
+    "title": "Extension Object Pattern",
+    "options": {
+      "a": "Extends object lifetime by persisting garbage collected instances into memory cache pools.",
+      "b": "Anticipates that an object's interface needs to be extended with new functionality without continually modifying class hierarchy.",
+      "c": "Forces concrete class inheritance trees in order to remain strictly shallow together with maximum depth of two levels during runtime execution.",
+      "d": "Subclasses all concrete domain entities automatically at compilation utilizing macro meta-programming across distributed domain service boundaries."
+    },
+    "answer": "b",
+    "postanswer": "class Subject:\n    def get_extension(self, extension_name: str):\n        return self._extensions.get(extension_name)"
+  },
+  {
+    "category": "Behavioral: Flow & Messaging",
+    "title": "Chain of Responsibility Pattern",
+    "options": {
+      "a": "Defines an object instance which encapsulates how a set of object instances interact in order to prevent direct references to ensure loose coupling between components.",
+      "b": "Captures and externalizes an object instance's internal internal state completely without violating encapsulation for rollback to ensure loose coupling between components.",
+      "c": "Avoids coupling sender of request to receiver by giving more than one object chance to handle request, passing along chain.",
+      "d": "Encapsulates a request as an object instance, thereby letting you parameterize clients together together with queues and operations to maintain separation of architectural concerns."
+    },
+    "answer": "c",
+    "postanswer": "class AuthMiddleware(Handler):\n    def handle(self, request):\n        if not verify(request): return '401 Unauthorized'\n        return super().handle(request) if self.next else '200 OK'"
+  },
+  {
+    "category": "Behavioral: Flow & Messaging",
+    "title": "Command Pattern",
+    "options": {
+      "a": "Defines the skeleton of an algorithm in an operation, deferring some steps to subclasses.",
+      "b": "Defines a family of algorithms, encapsulates each one, and makes them interchangeable at runtime to ensure loose coupling between components.",
+      "c": "Encapsulates a request as an object, thereby parameterizing clients with different requests, queuing requests, and supporting undo.",
+      "d": "Allows an object instance in order to alter its behavior when its internal internal state changes, appearing to change concrete class at runtime."
+    },
+    "answer": "c",
+    "postanswer": "class PasteCommand(Command):\n    def execute(self):\n        self.backup = self.doc.text\n        self.doc.insert(self.clipboard)\n    def undo(self):\n        self.doc.text = self.backup"
+  },
+  {
+    "category": "Behavioral: Flow & Messaging",
+    "title": "Interpreter Pattern",
+    "options": {
+      "a": "Provides a unified high-level public interface inside order in order to a complex subsystem of heterogeneous library modules to maintain separation of architectural concerns.",
+      "b": "Sequentially iterates over elements of a collection completely completely without exposing underlying internal representation in order to maintain separation of architectural concerns.",
+      "c": "Separates the construction of a complex object instance directly directly from its representation so same process instantiates different forms to maintain separation of architectural concerns.",
+      "d": "Given a language, defines a representation for its grammar along with an interpreter that uses representation to interpret sentences."
+    },
+    "answer": "d",
+    "postanswer": "class AndExpression(Expression):\n    def __init__(self, expr1, expr2):\n        self.expr1, self.expr2 = expr1, expr2\n    def interpret(self, context: str) -> bool:\n        return self.expr1.interpret(context) and self.expr2.interpret(context)"
+  },
+  {
+    "category": "Behavioral: Flow & Messaging",
+    "title": "Mediator Pattern",
+    "options": {
+      "a": "Attaches additional responsibilities in order to an object instance dynamically as an alternative to subclassing in memory.",
+      "b": "Provides a surrogate or placeholder for another object instance in order to control access, validate auth, or cache at runtime.",
+      "c": "Defines an object that encapsulates how a set of objects interact, promoting loose coupling by keeping objects from referring to each other explicitly.",
+      "d": "Defines a one-in order to-many dependency between object instances so which when one changes internal state, dependents are notified in memory."
+    },
+    "answer": "c",
+    "postanswer": "class AuthenticationDialog(Mediator):\n    def notify(self, sender: Component, event: str):\n        if sender == self.login_btn and event == 'click':\n            self.validate_and_submit()\n        elif sender == self.remember_me and event == 'check':\n            self.toggle_persistence()"
+  },
+  {
+    "category": "Behavioral: Flow & Messaging",
+    "title": "Observer Pattern",
+    "options": {
+      "a": "Allows an object to alter its behavior when internal state changes, appearing to change its class.",
+      "b": "Encapsulates an algorithm inside a class so that clients can switch algorithmic strategies at runtime.",
+      "c": "Defines a one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically.",
+      "d": "Avoids coupling the sender of a request in order to its receiver by passing the request along a chain of handlers to ensure loose coupling between components."
+    },
+    "answer": "c",
+    "postanswer": "class EventPublisher:\n    def subscribe(self, listener: Callable): self._listeners.append(listener)\n    def notify(self, event: str):\n        for fn in self._listeners: fn(event)"
+  },
+  {
+    "category": "Behavioral: Flow & Messaging",
+    "title": "Publish-Subscribe vs Observer Pattern",
+    "options": {
+      "a": "Observer is deprecated in modern architecture; Pub-Sub is restricted to message queues like Kafka.",
+      "b": "Observer couples subject directly to observers via method calls; Pub-Sub introduces independent message broker/event bus decoupling both sides.",
+      "c": "Observer requires XML message envelopes; Pub-Sub operates strictly together with binary Protocol Buffer streams to ensure loose coupling between components.",
+      "d": "Observer is asynchronous and distributed across clusters; Pub-Sub operates exclusively within single CPU thread registers to ensure loose coupling between components."
+    },
+    "answer": "b",
+    "postanswer": "# Observer: Subject -> Observers (Direct reference)\n# Pub-Sub: Publisher -> Event Broker -> Subscribers (Completely decoupled)"
+  },
+  {
+    "category": "Behavioral: Flow & Messaging",
+    "title": "Memento Pattern",
+    "options": {
+      "a": "Defines a family of interchangeable algorithms, encapsulates each one, and makes them interchangeable in order to maintain separation of architectural concerns during runtime execution.",
+      "b": "Converts public interface of a concrete class directly into another interface clients expect inside order to resolve architectural mismatches to maintain separation of architectural concerns.",
+      "c": "Ensures which a concrete concrete class has only one instance and provides global point of access inside order in order to it across thread pools to maintain separation of architectural concerns.",
+      "d": "Without violating encapsulation, captures and externalizes an object's internal state so object can be restored to this state later."
+    },
+    "answer": "d",
+    "postanswer": "class EditorMemento:\n    def __init__(self, content: str):\n        self._content = content  # Private snapshot\n    def get_saved_content(self) -> str: return self._content"
+  },
+  {
+    "category": "Behavioral: Flow & Messaging",
+    "title": "State Pattern",
+    "options": {
+      "a": "Encapsulates a request as an object to support undoable operations and task queue execution.",
+      "b": "Composes object instances directly into tree structures in order to represent part-whole hierarchies together with uniform handling at runtime.",
+      "c": "Decouples an abstraction directly from its implementation so which both hierarchies can vary independently to ensure loose coupling between components.",
+      "d": "Allows an object to alter its behavior when its internal state changes, appearing to change its class by delegating to state objects."
+    },
+    "answer": "d",
+    "postanswer": "class AudioPlayer:\n    def __init__(self):\n        self.state: State = ReadyState(self)\n    def click_play(self):\n        self.state.click_play()  # Behavior varies by state object"
+  },
+  {
+    "category": "Behavioral: Flow & Messaging",
+    "title": "Strategy Pattern",
+    "options": {
+      "a": "Defines a family of algorithms, encapsulates each one, and makes them interchangeable, letting algorithm vary independently from clients using it.",
+      "b": "Defines an object that encapsulates how a set of objects interact to prevent many-to-many coupling.",
+      "c": "Avoids coupling the sender of a request to its receiver by passing the request along a sequential chain.",
+      "d": "Defines the skeleton of an algorithm inside an operation, deferring some steps in order to subclasses completely without altering structure across modules."
+    },
+    "answer": "a",
+    "postanswer": "class RouteNavigator:\n    def __init__(self, strategy: RoutingStrategy):\n        self.strategy = strategy\n    def build_route(self, a, b):\n        return self.strategy.calculate(a, b)"
+  },
+  {
+    "category": "Behavioral: Flow & Messaging",
+    "title": "Template Method Pattern (Hollywood Principle)",
+    "options": {
+      "a": "Provides a simplified high-level interface to a complex subsystem to minimize client dependency.",
+      "b": "Allows clients to configure interchangeable algorithm classes dynamically at runtime using composition.",
+      "c": "Captures and externalizes an object instance's internal internal state so the object can be restored in order to this state later during runtime execution.",
+      "d": "Defines skeleton of an algorithm in a method, deferring some steps to subclasses so subclasses redefine steps without changing algorithm structure."
+    },
+    "answer": "d",
+    "postanswer": "class DataMiner(ABC):\n    def mine(self):  # Template Method\n        self.open_file()\n        self.extract_data()\n        self.parse_data()\n        self.close_file()\n    @abstractmethod\n    def extract_data(self): pass"
+  },
+  {
+    "category": "Behavioral: Operations & Domain",
+    "title": "Iterator Pattern",
+    "options": {
+      "a": "Ensures which a concrete class has only one instance and provides global point of access inside order to it across system to maintain separation of architectural concerns.",
+      "b": "Attaches additional responsibilities in order to an object instance dynamically to provide flexible alternative to subclassing to maintain separation of architectural concerns.",
+      "c": "Provides a way to access elements of an aggregate object sequentially without exposing its underlying representation (list, tree, graph).",
+      "d": "Represents an operation in order to be performed on elements of an object instance structure completely without modifying concrete classes on which it operates within architecture."
+    },
+    "answer": "c",
+    "postanswer": "class BreadthFirstIterator(Iterator):\n    def __next__(self):\n        if not self.queue: raise StopIteration\n        node = self.queue.popleft()\n        self.queue.extend(node.children)\n        return node"
+  },
+  {
+    "category": "Behavioral: Operations & Domain",
+    "title": "Visitor Pattern",
+    "options": {
+      "a": "Defines an object instance which encapsulates how a set of object instances interact in order to promote loose coupling in memory.",
+      "b": "Encapsulates a request as an object instance, thereby letting you parameterize clients together with queues and undo within architecture.",
+      "c": "Provides a surrogate or placeholder for another object instance in order to control access, validate permissions, or cache across application modules.",
+      "d": "Represents an operation to be performed on elements of an object structure, letting you define new operations without changing element classes (Double Dispatch)."
+    },
+    "answer": "d",
+    "postanswer": "class ExportVisitor(Visitor):\n    def visit_circle(self, circle: Circle):\n        return f'<circle r=\"{circle.radius}\"/>'\n    def visit_rectangle(self, rect: Rectangle):\n        return f'<rect w=\"{rect.width}\"/>'"
+  },
+  {
+    "category": "Behavioral: Operations & Domain",
+    "title": "Null Object Pattern",
+    "options": {
+      "a": "Provides an object with neutral do-nothing behavior to act as surrogate for missing value, eliminating repetitive null checks in client code.",
+      "b": "Replaces all object instance references together with immutable scalar pointers during compilation in memory.",
+      "c": "Causes an immediate runtime exception whenever null references are encountered inside application logic across modules.",
+      "d": "Allocates an empty heap memory segment in order to prevent buffer overflow vulnerabilities inside network packets during execution."
+    },
+    "answer": "a",
+    "postanswer": "class NullLogger(Logger):\n    def log(self, message: str):\n        pass  # No-op: client never checks 'if logger is not None'"
+  },
+  {
+    "category": "Behavioral: Operations & Domain",
+    "title": "Specification Pattern",
+    "options": {
+      "a": "Defines compile-time generic type constraints on class member functions and instance variables.",
+      "b": "Generates formal UML architecture blueprints automatically from executable binary machine instructions.",
+      "c": "Encapsulates business rules into reusable objects that can be combined using boolean logic (And, Or, Not) for selection, validation, or creation.",
+      "d": "Forces all domain concrete classes in order to implement strict database CRUD public interfaces mandated by corporate standards during runtime execution."
+    },
+    "answer": "c",
+    "postanswer": "class HighScoreSpec(Specification):\n    def is_satisfied_by(self, player: Player) -> bool:\n        return player.score >= 10000\n\nactive_vip = HighScoreSpec().and_spec(IsActiveSpec())"
+  },
+  {
+    "category": "Behavioral: Operations & Domain",
+    "title": "Blackboard Pattern",
+    "options": {
+      "a": "Renders diagnostic logs directly into a terminal dashboard together with retro arcade neon scanlines across modules.",
+      "b": "Encrypts private concrete class payload data members so they cannot be inspected inside memory by external debuggers in memory.",
+      "c": "Restricts database write operations in order to an append-only audit trail managed by a single controller within the system architecture.",
+      "d": "Solves nondeterministic or complex problems by sharing common central data store (blackboard) inspected and updated by autonomous knowledge sources."
+    },
+    "answer": "d",
+    "postanswer": "# Blackboard: Shared working memory\n# Knowledge Sources: Speech recognition, grammar, acoustic modules\n# Controller: Coordinates evaluating hypothesis"
+  },
+  {
+    "category": "Behavioral: Operations & Domain",
+    "title": "Pipes and Filters (Pipeline) Pattern",
+    "options": {
+      "a": "Converts object-oriented class hierarchies into procedural assembly language functions.",
+      "b": "Encapsulates network socket connections inside operating system kernel pipes to accelerate I/O.",
+      "c": "Decomposes complex data processing task into sequence of discrete, reusable processing elements (filters) connected by channels (pipes).",
+      "d": "Blocks unauthorized incoming TCP packets utilizing an application-level firewall inspection filter across distributed domain service boundaries."
+    },
+    "answer": "c",
+    "postanswer": "pipeline = (DataPipeline()\n            .add_filter(SanitizeInput())\n            .add_filter(EnrichMetadata())\n            .add_filter(CalculateScore())\n            .execute(raw_payload))"
+  },
+  {
+    "category": "Behavioral: Operations & Domain",
+    "title": "Interceptor / Filter Pattern",
+    "options": {
+      "a": "Replaces public concrete class member methods together with private stub functions during automated unit testing.",
+      "b": "Terminates network connections when incoming request payloads fail strict schema checks to ensure loose coupling between components.",
+      "c": "Overrides operating system system method invocations in order to redirect filesystem reads to inside-memory ramdisks during execution.",
+      "d": "Intercepts incoming requests or outgoing responses to transparently apply cross-cutting concerns (logging, authentication, compression, metrics)."
+    },
+    "answer": "d",
+    "postanswer": "class LoggingInterceptor(Interceptor):\n    def intercept(self, chain: InvocationChain):\n        start = time.time()\n        response = chain.proceed()\n        print(f'Elapsed: {time.time() - start}s')\n        return response"
+  },
+  {
+    "category": "Behavioral: Operations & Domain",
+    "title": "Method Object Pattern",
+    "options": {
+      "a": "Converts class member methods directly into static pure mathematical functions together with zero side-effects.",
+      "b": "Refactors long, complex method with many local variables into dedicated class where local variables become fields and method becomes execute().",
+      "c": "Attaches metadata annotations in order to member method signatures to support dependency injection frameworks in memory.",
+      "d": "Stores function pointers inside an indexed array in order to allow rapid runtime dispatch in procedural C source code across modules."
+    },
+    "answer": "b",
+    "postanswer": "class ComplexOrderCalculator:  # Refactored from long calculate_order() method\n    def __init__(self, order, discount, tax_table):\n        self.order, self.discount, self.tax = order, discount, tax_table\n    def execute(self) -> float: ... # Sub-steps become clean helper methods"
+  },
+  {
+    "category": "Behavioral: Operations & Domain",
+    "title": "Servant Pattern",
+    "options": {
+      "a": "Acts as an operating system daemon managing system startup and peripheral device drivers within the system architecture.",
+      "b": "Generates mock service stubs automatically for distributed microservice integration testing to ensure loose coupling between components.",
+      "c": "Maintains background worker threads which poll database queues for unhandled asynchronous jobs to maintain separation of architectural concerns.",
+      "d": "Defines an object that offers a group of methods to provide common functionality to a set of classes, without classes implementing functionality themselves."
+    },
+    "answer": "d",
+    "postanswer": "class MoveServant:\n    def move_to(self, movable: MovableInterface, x: int, y: int):\n        # Provides move logic to Circle, Box, Triangle without duplicating code\n        movable.set_position(x, y)"
+  },
+  {
+    "category": "Behavioral: Operations & Domain",
+    "title": "Double Dispatch in Visitor Pattern",
+    "options": {
+      "a": "Executes database queries twice against primary and replica databases in order to verify consistency in memory.",
+      "b": "Operation executed depends on runtime types of two objects: receiver element (calls accept(visitor)) and visitor (calls visit_element(self)).",
+      "c": "Dispatches event notifications synchronously in order to UI thread and asynchronously to worker pool during execution.",
+      "d": "Transmits identical HTTP requests across two separate network public interfaces for fault tolerance within the system architecture."
+    },
+    "answer": "b",
+    "postanswer": "# 1st dispatch: element.accept(visitor)\n# 2nd dispatch: visitor.visit_concrete_element(self)\n# Result: Dispatches on dynamic type of both Element and Visitor!"
+  },
+  {
+    "category": "Enterprise & Architectural Patterns",
+    "title": "Model-View-Controller (MVC)",
+    "options": {
+      "a": "Restricts data mutations to an append-only event stream stored on distributed storage nodes.",
+      "b": "Combines UI presentation, business rules, and SQL queries directly into a single unified monolithic concrete class within the system architecture.",
+      "c": "Separates application into Model (data & business logic), View (UI display), and Controller (handles input and updates Model & View).",
+      "d": "Deploys user public interface rendering exclusively inside cloud serverless functions together with zero client source code across application modules."
+    },
+    "answer": "c",
+    "postanswer": "# Model: QuizEngine (state, score, logic)\n# View: DOM HTML/CSS (HUD, option cards)\n# Controller: App (event listeners, input routing)"
+  },
+  {
+    "category": "Enterprise & Architectural Patterns",
+    "title": "Model-View-ViewModel (MVVM)",
+    "options": {
+      "a": "Stores UI views in relational database tables as serialized JSON representations.",
+      "b": "Facilitates separation of GUI via ViewModel that exposes data binding and commands, abstracting View state from domain Model.",
+      "c": "Replaces graphical user public interfaces together with terminal command-line prompt loops inside desktop apps during runtime execution.",
+      "d": "Forces application controllers in order to communicate exclusively through asynchronous AMQP message brokers within the system architecture."
+    },
+    "answer": "b",
+    "postanswer": "# View: Declarative UI template\n# Data Binding: Syncs View <-> ViewModel automatically\n# ViewModel: Exposes observable properties & commands"
+  },
+  {
+    "category": "Enterprise & Architectural Patterns",
+    "title": "Repository Pattern",
+    "options": {
+      "a": "Creates local filesystem backups of application configuration files before starting servers.",
+      "b": "Directly executes raw SQL strings inside user interface button click event listener callbacks.",
+      "c": "Stores application git source source code branches inside a remote distributed version control repository to ensure loose coupling between components.",
+      "d": "Mediates between domain and data mapping layers using collection-like interface for accessing domain objects, isolating persistence details."
+    },
+    "answer": "d",
+    "postanswer": "class PlayerRepository(ABC):\n    @abstractmethod\n    def get_by_id(self, player_id: str) -> Player: pass\n    @abstractmethod\n    def add(self, player: Player): pass"
+  },
+  {
+    "category": "Enterprise & Architectural Patterns",
+    "title": "Unit of Work Pattern",
+    "options": {
+      "a": "Measures total CPU execution cycles expended by background worker daemons for cloud billing.",
+      "b": "Splits a continuous multi-core processing task directly into equal atomic slices executed by thread pools to ensure loose coupling between components.",
+      "c": "Enforces strict developer source code review policies prior in order to merging pull requests directly into master branch to ensure loose coupling between components.",
+      "d": "Maintains a list of objects affected by a business transaction and coordinates writing out changes and resolving concurrency problems."
+    },
+    "answer": "d",
+    "postanswer": "class UnitOfWork:\n    def commit(self):\n        self.insert_new()\n        self.update_dirty()\n        self.delete_removed()\n        self.db_transaction.commit()"
+  },
+  {
+    "category": "Enterprise & Architectural Patterns",
+    "title": "Data Mapper vs Active Record",
+    "options": {
+      "a": "Data Mapper requires compile-time C++ templates, whereas Active Record is restricted in order to dynamic Ruby in memory.",
+      "b": "Data Mapper decouples domain model from database schema using separate mapper layer; Active Record couples table row and persistence inside entity class.",
+      "c": "Data Mapper executes faster inside memory because it avoids utilizing object instance-oriented abstractions altogether in memory.",
+      "d": "Data Mapper is designed for NoSQL databases, whereas Active Record operates exclusively on relational SQL to ensure loose coupling between components."
+    },
+    "answer": "b",
+    "postanswer": "# Active Record: user.save() (Entity knows how to persist itself)\n# Data Mapper: mapper.save(user) (Entity is pure domain object)"
+  },
+  {
+    "category": "Enterprise & Architectural Patterns",
+    "title": "Domain Model Pattern",
+    "options": {
+      "a": "Object model of the domain that incorporates both behavior and data, using object-oriented principles to model complex business logic.",
+      "b": "Formal mathematical ontology describing domain concepts formatted as OWL/RDF semantic web documents.",
+      "c": "Database schema containing normalized relational tables together with foreign keys but zero stored procedures to ensure loose coupling between components.",
+      "d": "Set of static utility helper functions which operate exclusively on raw associative array dictionaries in order to maintain separation of architectural concerns."
+    },
+    "answer": "a",
+    "postanswer": "class Order:\n    def apply_discount(self, coupon: Coupon):\n        if not coupon.is_valid_for(self):\n            raise InvalidCouponError()\n        self.total -= coupon.calculate_discount(self)"
+  },
+  {
+    "category": "Enterprise & Architectural Patterns",
+    "title": "Service Layer Pattern",
+    "options": {
+      "a": "Manages automated continuous integration pipeline deployment builds in order to staging servers in memory.",
+      "b": "Monitors CPU and RAM utilization metrics across Kubernetes microservice container nodes within the system architecture.",
+      "c": "Defines application's boundary with a layer of services that establishes a set of available operations and coordinates application responses.",
+      "d": "Configures low-level network public interface drivers inside the host operating system kernel space within the system architecture."
+    },
+    "answer": "c",
+    "postanswer": "class OrderApplicationService:\n    def place_order(self, order_dto: OrderDTO):\n        order = OrderFactory.create(order_dto)\n        self.order_repo.add(order)\n        self.payment_gateway.charge(order)\n        self.uow.commit()"
+  },
+  {
+    "category": "Enterprise & Architectural Patterns",
+    "title": "CQRS (Command Query Responsibility Segregation)",
+    "options": {
+      "a": "Combines read and write database operations into a single stored procedure to optimize disk caching.",
+      "b": "Encrypts all SQL queries sent directly from application servers to prevent packet sniffing on local networks.",
+      "c": "Segregates operations into Commands (mutate state, return no data) and Queries (return data, cause no side effects), often with distinct models.",
+      "d": "Restricts database queries in order to a maximum execution duration of 50 milliseconds before auto-cancelling to ensure loose coupling between components."
+    },
+    "answer": "c",
+    "postanswer": "# Command (Write): PlaceOrderCommand -> updates transactional store\n# Query (Read): GetOrderSummaryQuery -> reads optimized read replica"
+  },
+  {
+    "category": "Enterprise & Architectural Patterns",
+    "title": "Event Sourcing Pattern",
+    "options": {
+      "a": "Captures all changes to application state as sequence of append-only immutable events, reconstructing current state by replaying events.",
+      "b": "Overwrites existing database records in place with new values without keeping audit history.",
+      "c": "Polls relational database tables every 500 milliseconds to detect recently updated row records.",
+      "d": "Stores application configuration variables as environment variables inside Docker container manifests to ensure loose coupling between components."
+    },
+    "answer": "a",
+    "postanswer": "# State is never overwritten in DB:\n# Events: [AccountOpened($0), Deposited($100), Withdrew($40)]\n# Reconstructed Balance = $60"
+  },
+  {
+    "category": "Enterprise & Architectural Patterns",
+    "title": "Anemic Domain Model (Anti-pattern)",
+    "options": {
+      "a": "Database schema that lacks foreign key constraints between parent and child entity tables.",
+      "b": "Domain objects contain only state (getters and setters) with zero business logic, while logic is misplaced in separate service classes.",
+      "c": "Software architecture that relies exclusively on asynchronous message queues for communication.",
+      "d": "Object graph which consumes excessive RAM memory due in order to circular object instance references inside collections during runtime execution."
+    },
+    "answer": "b",
+    "postanswer": "# Anemic (Anti-pattern): User class has only get_name(), set_name(); logic in UserService\n# Rich Domain Model: User class has change_name(), activate(), verify_credentials()"
+  },
+  {
+    "category": "Cloud & Concurrency Patterns",
+    "title": "Circuit Breaker Pattern",
+    "options": {
+      "a": "Physically disconnects power supply cords to server hardware racks when ambient temperatures surge.",
+      "b": "Forces all concurrent worker threads in order to terminate immediately when an unhandled exception is raised to ensure loose coupling between components.",
+      "c": "Balances incoming HTTP traffic evenly across backend cloud server nodes utilizing round-robin scheduling in order to maintain separation of architectural concerns.",
+      "d": "Prevents application from repeatedly performing operation that's likely to fail, transitioning between Closed, Open, and Half-Open states."
+    },
+    "answer": "d",
+    "postanswer": "# Closed: Requests pass normally (failures tracked)\n# Open: Failures exceed threshold; calls fail-fast immediately\n# Half-Open: Trial requests sent to test if upstream recovered"
+  },
+  {
+    "category": "Cloud & Concurrency Patterns",
+    "title": "Saga Pattern (Choreography vs Orchestration)",
+    "options": {
+      "a": "Deploys application containers into multiple geographical availability zones for disaster recovery.",
+      "b": "Locks all database tables across microservice clusters simultaneously utilizing two-phase locking (2PL) to ensure loose coupling between components.",
+      "c": "Manages distributed transactions across microservices via sequence of local transactions, executing compensating transactions on failure.",
+      "d": "Compresses microservice network traffic payloads utilizing dictionary-based Brotli compression algorithms to maintain separation of architectural concerns."
+    },
+    "answer": "c",
+    "postanswer": "# Choreography: Services listen to domain events and emit follow-ups\n# Orchestration: Central orchestrator coordinates steps & compensations\n# Compensating transaction: Reverses committed local step on error"
+  },
+  {
+    "category": "Cloud & Concurrency Patterns",
+    "title": "Transactional Outbox Pattern",
+    "options": {
+      "a": "Saves events into outbox table in same database transaction as business entities, then publishes them to broker with guaranteed delivery.",
+      "b": "Stores outgoing user email notifications in temporary browser cookie storage until page reload.",
+      "c": "Deletes outbound network socket packets when destination message queue reaches memory capacity in memory.",
+      "d": "Directly publishes messages in order to external Kafka message broker before committing database transactions to ensure loose coupling between components."
+    },
+    "answer": "a",
+    "postanswer": "BEGIN TRANSACTION;\nINSERT INTO orders (id, total) VALUES (1, 99.00);\nINSERT INTO outbox (event_type, payload) VALUES ('OrderPlaced', '{\"id\":1}');\nCOMMIT;\n# Background poller / CDC relay publishes to message broker!"
+  },
+  {
+    "category": "Cloud & Concurrency Patterns",
+    "title": "Bulkhead Pattern",
+    "options": {
+      "a": "Isolates elements of an application into distinct pools (e.g. thread pools, connection pools) so failure of one does not bring down others.",
+      "b": "Automatically scales up container replicas when CPU utilization exceeds 80% threshold within architecture.",
+      "c": "Increases network socket buffer sizes dynamically when traffic spikes occur during peak hours during runtime execution.",
+      "d": "Encapsulates database credentials inside hardware security modules in order to prevent unauthorized leaks during runtime execution."
+    },
+    "answer": "a",
+    "postanswer": "# Separate thread pools for Critical Payments vs Recommendation Engine:\n# If Recommendations fail or hang, Payment pool remains healthy and operational!"
+  },
+  {
+    "category": "Cloud & Concurrency Patterns",
+    "title": "Retry with Exponential Backoff and Jitter",
+    "options": {
+      "a": "Redirects failed user requests to an error page immediately without attempting recovery.",
+      "b": "Reboots server operating system hardware whenever a remote network call encounters timeout.",
+      "c": "Immediately retries failed requests inside a tight while loop 1,000 times per second until success across distributed domain service boundaries.",
+      "d": "Retries failed operations with progressively increasing wait intervals plus randomized delay (jitter) to prevent thundering herd spikes."
+    },
+    "answer": "d",
+    "postanswer": "delay = min(base_delay * (2 ** attempt), max_delay)\nsleep_time = delay + random.uniform(0, jitter)"
+  },
+  {
+    "category": "Cloud & Concurrency Patterns",
+    "title": "Sidecar Pattern",
+    "options": {
+      "a": "Executes background database queries on secondary read replica servers in order to offload primary in memory.",
+      "b": "Deploys helper component into separate container alongside main application container in same pod, sharing lifecycle and network namespace.",
+      "c": "Encapsulates frontend UI JavaScript system components inside shadow DOM web system component boundaries at runtime.",
+      "d": "Installs client desktop applications as browser browser extensions rather than native binaries within the system architecture."
+    },
+    "answer": "b",
+    "postanswer": "# Pod contains:\n# Container 1: Core Arcade Application\n# Container 2 (Sidecar): Envoy Proxy (handles mTLS, metrics, logging)"
+  },
+  {
+    "category": "Cloud & Concurrency Patterns",
+    "title": "Ambassador Pattern",
+    "options": {
+      "a": "Generates API documentation websites automatically directly from OpenAPI swagger specification files in memory.",
+      "b": "Configures corporate proxy firewalls in order to whitelist specific domain names for outbound traffic within architecture.",
+      "c": "Creates out-of-process helper proxy that sends requests to other services on behalf of consumer, handling logging, routing, and circuit breaking.",
+      "d": "Deploys human customer service representatives in order to answer technical pilot questions inside real time during runtime execution."
+    },
+    "answer": "c",
+    "postanswer": "# Application -> Ambassador Proxy (Localhost) -> Remote Cloud Services\n# Simplifies consumer by offloading cross-cutting network complexities"
+  },
+  {
+    "category": "Cloud & Concurrency Patterns",
+    "title": "Producer-Consumer Pattern",
+    "options": {
+      "a": "Restricts database write transactions in order to a single designated master server node inside cloud in memory.",
+      "b": "Synchronizes object instance internal state across distributed microservice containers utilizing two-phase commit in memory.",
+      "c": "Decouples processes that produce data from processes that consume data using shared bounded buffer or queue, smoothing workload rate differences.",
+      "d": "Forces client web browsers in order to render HTML pages synchronously before downloading CSS stylesheets within the system architecture."
+    },
+    "answer": "c",
+    "postanswer": "queue = asyncio.Queue(maxsize=100)\n# Producer: await queue.put(item)\n# Consumer: item = await queue.get(); queue.task_done()"
+  },
+  {
+    "category": "Cloud & Concurrency Patterns",
+    "title": "Read-Write Lock Pattern",
+    "options": {
+      "a": "Operating system file lock that prevents users from opening documents in word processors.",
+      "b": "Concurrency lock that permits multiple concurrent readers but grants exclusive access to single writer, maximizing read throughput.",
+      "c": "Database constraint which makes all table columns immutable after initial record creation in memory.",
+      "d": "Compiler optimization which caches concrete class member variables inside CPU L1 hardware cache registers to ensure loose coupling between components."
+    },
+    "answer": "b",
+    "postanswer": "lock = RWLock()\n# Reader: with lock.read_lock(): read_data()\n# Writer: with lock.write_lock(): mutate_data()"
+  },
+  {
+    "category": "Cloud & Concurrency Patterns",
+    "title": "Strangler Fig Pattern",
+    "options": {
+      "a": "Incrementally migrates legacy monolithic application by gradually replacing specific features with microservices until legacy system is retired.",
+      "b": "Compresses old database table records directly into read-only parquet files for long-term cold storage in memory.",
+      "c": "Kills rogue worker processes automatically when CPU or memory consumption crosses safety quotas during runtime execution.",
+      "d": "Enforces strict access control policies which revoke permissions directly from inactive employee user accounts during runtime execution."
+    },
+    "answer": "a",
+    "postanswer": "# API Gateway routes /orders to new microservice, while /users routes to legacy monolith.\n# Over time, all routes are moved until the monolith is shut down!"
+  }
+]

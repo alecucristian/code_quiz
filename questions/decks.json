@@ -1,0 +1,42 @@
+[
+  {
+    "id": "postgresql",
+    "name": "PostgreSQL Internals & Syntax",
+    "file": "postgresql.json",
+    "icon": "🐘",
+    "category": "Databases",
+    "badgeText": "⚡ POSTGRESQL QUERY EXAMPLE",
+    "questionCount": 216,
+    "description": "216 technical terms, lock modes, DQL, DDL, and MVCC mechanics"
+  },
+  {
+    "id": "python",
+    "name": "Python Core & Advanced",
+    "file": "python.json",
+    "icon": "🐍",
+    "category": "Languages",
+    "badgeText": "⚡ PYTHON CODE EXAMPLE",
+    "questionCount": 150,
+    "description": "150 core questions covering built-ins, types, OOP, dunder methods, async & stdlib"
+  },
+  {
+    "id": "http_status_codes",
+    "name": "HTTP Status Codes & Semantics",
+    "file": "http_status_codes.json",
+    "icon": "🌐",
+    "category": "Web & Networking",
+    "badgeText": "⚡ HTTP RESPONSE EXAMPLE",
+    "questionCount": 60,
+    "description": "60 questions covering 1xx Informational & Protocol Switching, 2xx Success & Content Negotiations, 3xx Redirection & Cache Validation +3 more"
+  },
+  {
+    "id": "design_patterns",
+    "name": "Software Design Patterns",
+    "file": "design_patterns.json",
+    "icon": "📐",
+    "category": "Software Architecture",
+    "badgeText": "⚡ DESIGN PATTERN EXAMPLE",
+    "questionCount": 60,
+    "description": "60 questions covering Behavioral: Flow & Messaging, Behavioral: Operations & Domain, Cloud & Concurrency Patterns +3 more"
+  }
+]

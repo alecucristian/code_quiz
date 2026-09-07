@@ -327,6 +327,17 @@ body::before {
   gap: 0.45rem;
   font-family: var(--font-pixel);
   font-size: 0.65rem;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.deck-chip:hover {
+  background: rgba(255, 230, 0, 0.1);
+  border-color: rgba(255, 230, 0, 0.4);
+  box-shadow: 0 0 8px rgba(255, 230, 0, 0.2);
 }
 
 .deck-chip-icon {
@@ -348,11 +359,36 @@ body::before {
   gap: 0.25rem;
 }
 
+.config-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .config-label {
   font-family: var(--font-pixel);
   font-size: 0.55rem;
   color: var(--neon-cyan);
   letter-spacing: 0.5px;
+}
+
+.btn-text-action {
+  background: transparent;
+  border: none;
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
+  color: var(--neon-pink);
+  cursor: pointer;
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  transition: all 0.15s ease;
+  letter-spacing: 0.5px;
+}
+
+.btn-text-action:hover {
+  color: var(--neon-yellow);
+  background: rgba(255, 0, 128, 0.15);
+  text-shadow: 0 0 6px var(--neon-pink);
 }
 
 .arcade-select {
@@ -721,6 +757,7 @@ body::before {
   margin-top: 0.15rem;
 }
 
+.code-example-box,
 .sql-example-box {
   background: #070712;
   border: 1.5px solid var(--neon-cyan);
@@ -729,6 +766,7 @@ body::before {
   margin-top: 0.2rem;
 }
 
+.code-example-header,
 .sql-example-header {
   background: rgba(0, 240, 255, 0.15);
   padding: 0.2rem 0.5rem;
@@ -737,12 +775,14 @@ body::before {
   align-items: center;
 }
 
+.code-example-badge,
 .sql-example-badge {
   font-family: var(--font-pixel);
   font-size: 0.52rem;
   color: var(--neon-yellow);
 }
 
+.code-example-code,
 .sql-example-code {
   padding: 0.35rem 0.6rem;
   margin: 0;
@@ -1102,7 +1142,7 @@ body::before {
 }
 
 /* ==========================================================================
-   MODAL / DIALOG POPUP (Custom Deck Loader)
+   MODAL / DIALOG POPUP (Arcade Disk Archive & Deck Browser)
    ========================================================================== */
 .arcade-dialog {
   margin: auto;
@@ -1110,25 +1150,41 @@ body::before {
   border: 2px solid var(--neon-yellow);
   border-radius: 6px;
   color: var(--text-main);
-  max-width: 440px;
-  width: 90%;
+  max-width: 520px;
+  width: 92%;
+  max-height: 88vh;
   padding: 0.85rem;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.9), var(--glow-yellow);
+  overflow-y: auto;
+}
+
+.arcade-dialog::-webkit-scrollbar {
+  width: 6px;
+}
+
+.arcade-dialog::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.arcade-dialog::-webkit-scrollbar-thumb {
+  background: var(--neon-cyan);
+  border-radius: 3px;
 }
 
 .dialog-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
   border-bottom: 1.5px dashed var(--text-dim);
-  padding-bottom: 0.35rem;
+  padding-bottom: 0.4rem;
 }
 
 .dialog-title {
   font-family: var(--font-pixel);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   color: var(--coin-gold);
+  letter-spacing: 0.5px;
 }
 
 .dialog-close-btn {
@@ -1138,17 +1194,237 @@ body::before {
   font-size: 1.25rem;
   cursor: pointer;
   line-height: 1;
+  padding: 0.2rem;
+  transition: transform 0.15s ease;
+}
+
+.dialog-close-btn:hover {
+  transform: scale(1.2);
+}
+
+/* Deck Browser Controls */
+.deck-browser-controls {
+  margin-bottom: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.deck-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.deck-search-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1.5px solid var(--neon-cyan);
+  border-radius: 4px;
+  color: var(--text-main);
+  font-family: var(--font-arcade);
+  font-size: 0.95rem;
+  padding: 0.45rem 1.8rem 0.45rem 0.6rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.deck-search-input:focus {
+  border-color: var(--neon-yellow);
+  box-shadow: var(--glow-cyan);
+  background: rgba(0, 240, 255, 0.05);
+}
+
+.btn-clear-search {
+  position: absolute;
+  right: 0.4rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0.2rem;
+}
+
+.btn-clear-search:hover {
+  color: var(--neon-red);
+}
+
+.deck-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.deck-filter-chip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  color: var(--text-muted);
+  font-family: var(--font-pixel);
+  font-size: 0.48rem;
+  padding: 0.2rem 0.45rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.deck-filter-chip:hover {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+}
+
+.deck-filter-chip.active {
+  background: rgba(0, 240, 255, 0.2);
+  border-color: var(--neon-yellow);
+  color: var(--neon-yellow);
+  box-shadow: 0 0 6px rgba(0, 240, 255, 0.3);
+}
+
+/* Deck Catalog Grid */
+.deck-browser-catalog {
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.deck-browser-catalog::-webkit-scrollbar {
+  width: 5px;
+}
+
+.deck-browser-catalog::-webkit-scrollbar-thumb {
+  background: var(--neon-cyan);
+  border-radius: 3px;
+}
+
+.builtin-disk-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.45rem;
+}
+
+.deck-card {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1.5px solid rgba(0, 240, 255, 0.3);
+  border-radius: 5px;
+  padding: 0.5rem 0.65rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: all 0.15s ease;
+  text-align: left;
+}
+
+.deck-card:hover {
+  background: rgba(0, 240, 255, 0.12);
+  border-color: var(--neon-cyan);
+  box-shadow: var(--glow-cyan);
+  transform: translateY(-1px);
+}
+
+.deck-card.active {
+  border-color: var(--neon-yellow);
+  background: rgba(255, 230, 0, 0.08);
+  box-shadow: 0 0 10px rgba(255, 230, 0, 0.25);
+}
+
+.deck-card-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.deck-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.deck-card-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.15rem;
+}
+
+.deck-card-name {
+  font-family: var(--font-arcade);
+  font-size: 1rem;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 700;
+}
+
+.deck-card.active .deck-card-name {
+  color: var(--neon-yellow);
+}
+
+.deck-card-badge {
+  font-family: var(--font-pixel);
+  font-size: 0.46rem;
+  background: rgba(0, 255, 102, 0.15);
+  border: 1px solid var(--neon-green);
+  color: var(--neon-green);
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.deck-card-desc {
+  font-family: var(--font-arcade);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.deck-card-tag {
+  font-family: var(--font-pixel);
+  font-size: 0.42rem;
+  color: var(--neon-cyan);
+  margin-right: 0.4rem;
+}
+
+.deck-search-empty {
+  font-family: var(--font-arcade);
+  font-size: 0.95rem;
+  color: var(--neon-pink);
+  text-align: center;
+  padding: 1.2rem 0.5rem;
+}
+
+/* Custom Disk Section */
+.custom-disk-section {
+  border-top: 1px dashed rgba(255, 255, 255, 0.15);
+  padding-top: 0.5rem;
+}
+
+.custom-disk-divider {
+  text-align: center;
+  margin-bottom: 0.4rem;
+}
+
+.custom-disk-divider span {
+  font-family: var(--font-pixel);
+  font-size: 0.48rem;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
 }
 
 .drop-zone {
   border: 2px dashed var(--neon-cyan);
   border-radius: 6px;
-  padding: 1rem 0.75rem;
+  padding: 0.75rem 0.5rem;
   text-align: center;
   cursor: pointer;
   background: rgba(0, 240, 255, 0.05);
   transition: all 0.2s ease;
-  margin-bottom: 0.5rem;
 }
 
 .drop-zone:hover, .drop-zone.dragover {
@@ -1158,20 +1434,20 @@ body::before {
 }
 
 .drop-zone-icon {
-  font-size: 1.6rem;
-  margin-bottom: 0.25rem;
+  font-size: 1.3rem;
+  margin-bottom: 0.15rem;
 }
 
 .drop-zone-text {
   font-family: var(--font-pixel);
-  font-size: 0.55rem;
+  font-size: 0.52rem;
   color: var(--neon-cyan);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.15rem;
 }
 
 .drop-zone-sub {
   font-family: var(--font-arcade);
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
 }
 

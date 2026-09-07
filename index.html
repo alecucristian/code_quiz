@@ -4,43 +4,45 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CODE QUIZ: 1984 Retro Arcade Edition</title>
-  <meta name="description" content="Retro 1980s arcade code quiz game testing your mastery of programming keywords, PostgreSQL internals, and syntax with live timer, scoring combos, and high scores.">
+  <meta name="description" content="Retro 1980s arcade code quiz game testing your mastery of programming languages, databases, computer science, and software engineering with live timer, scoring combos, and high scores.">
   <meta name="theme-color" content="#0d0d1a">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Code Quiz">
   <link rel="manifest" href="./manifest.json">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
-  
-  <!-- Arcade Favicon using Inline SVG & PNG -->
-  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕹️</text></svg>">
-  
-  <!-- Retro Arcade Stylesheet -->
+  <link rel="icon" type="image/svg+xml" href="./icons/icon.svg">
+
+  <!-- Google Fonts: VT323 (Terminal), Press Start 2P (Arcade), Space Mono (Code/Options) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=VT323&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="./css/style.css">
 </head>
-<body>
-  <!-- CRT Monitor Scanline Filter -->
+<body class="arcade-cabinet">
+
+  <!-- Scanlines CRT Overlay -->
   <div class="crt-overlay" aria-hidden="true"></div>
+  <div class="crt-vignette" aria-hidden="true"></div>
 
-  <!-- Top Cabinet Control Bar -->
-  <header class="top-bar">
-    <div class="brand-badge">
-      <span class="brand-icon">👾</span>
-      <span>ARCADE QUIZ '84</span>
-    </div>
-    <nav class="top-actions" aria-label="Arcade Controls">
-      <button id="btn-pwa-install" class="btn-mini hidden" title="Install Arcade App to Device">📲</button>
-      <button id="btn-nav-home" class="btn-mini" title="Return to Main Menu">🏠</button>
-      <button id="btn-nav-scores" class="btn-mini" title="View Hall of Fame">🏆</button>
-      <button id="btn-audio-toggle" class="btn-mini active" title="Toggle Retro Sound Effects &amp; Music">🔊</button>
-      <button id="btn-crt-toggle" class="btn-mini active" title="Toggle CRT Screen Scanlines">📺</button>
-    </nav>
-  </header>
+  <!-- Arcade Bezel Frame Wrapper -->
+  <main class="arcade-bezel">
 
-  <!-- Main Chassis Container -->
-  <main class="app-container">
+    <!-- Top Status / Marquee Bar -->
+    <header class="arcade-top-bar">
+      <div class="top-bar-left">
+        <span class="arcade-badge">INSERT COIN [1P]</span>
+        <button id="btn-pwa-install" class="btn-mini btn-install hidden" title="Install App to Device">📥 INSTALL</button>
+      </div>
+      <div class="top-bar-right">
+        <button id="btn-nav-home" class="btn-mini" title="Return to Main Menu">HOME</button>
+        <button id="btn-nav-scores" class="btn-mini" title="View High Scores Leaderboard">SCORES</button>
+        <button id="btn-audio-toggle" class="btn-mini" title="Toggle 8-Bit Synthesizer Audio (BGM &amp; SFX)" aria-label="Toggle Audio">🔊</button>
+        <button id="btn-crt-toggle" class="btn-mini active" title="Toggle CRT Screen Scanlines Overlay" aria-label="Toggle CRT Scanlines">📺</button>
+      </div>
+    </header>
 
     <!-- ====================================================================
          VIEW 1: MENU / ATTRACT MODE SCREEN
@@ -53,12 +55,23 @@
 
       <div class="chassis-card">
         <div class="card-title-bar">
-          <div class="deck-chip">
-            <span class="deck-chip-icon">💾</span>
-            <span id="deck-name-display" class="deck-chip-name">POSTGRESQL</span>
-            <span id="deck-count-display" class="deck-chip-count">(216 Qs)</span>
+          <div class="deck-chip" id="deck-chip-trigger" role="button" tabindex="0" title="Click to browse arcade disks">
+            <span id="deck-chip-icon" class="deck-chip-icon">💾</span>
+            <span id="deck-name-display" class="deck-chip-name">LOADING DISK...</span>
+            <span id="deck-count-display" class="deck-chip-count"></span>
           </div>
-          <button id="btn-open-disk-loader" class="btn-mini" title="Insert custom JSON question file">DISK</button>
+          <button id="btn-open-disk-loader" class="btn-mini" title="Browse arcade disks or insert custom JSON">DISK</button>
+        </div>
+
+        <!-- Deck Selector -->
+        <div class="config-group">
+          <div class="config-label-row">
+            <label for="select-deck" class="config-label">DECK / MISSION</label>
+            <button type="button" id="btn-browse-decks" class="btn-text-action" title="Browse and search all arcade disks">BROWSE ALL 🔍</button>
+          </div>
+          <select id="select-deck" class="arcade-select">
+            <option value="">LOADING ARCADE DISKS...</option>
+          </select>
         </div>
 
         <!-- Category Selector -->
@@ -262,24 +275,43 @@
   </main>
 
   <!-- ====================================================================
-       CUSTOM DISK LOADER DIALOG (File Picker & Drag-and-Drop)
+       ARCADE DISK ARCHIVE & LOADER DIALOG (Search, Filter & Import)
        ==================================================================== -->
-  <dialog id="dialog-disk-loader" class="arcade-dialog" aria-labelledby="dialog-title">
+  <dialog id="dialog-disk-loader" class="arcade-dialog deck-browser-dialog" aria-labelledby="dialog-title">
     <div class="dialog-header">
-      <span id="dialog-title" class="dialog-title">💾 INSERT CUSTOM QUIZ DISK</span>
+      <span id="dialog-title" class="dialog-title">💾 ARCADE DISK ARCHIVE</span>
       <button id="btn-close-dialog" class="dialog-close-btn" aria-label="Close dialog">✖</button>
     </div>
 
-    <div id="drop-zone" class="drop-zone" tabindex="0" role="button" aria-label="Drop custom question JSON file here or click to browse">
-      <div class="drop-zone-icon">📥</div>
-      <p class="drop-zone-text">DRAG &amp; DROP JSON DISK HERE</p>
-      <p class="drop-zone-sub">OR CLICK TO BROWSE LOCAL FILES</p>
-      <input type="file" id="file-input" accept=".json" style="display: none;">
+    <!-- Live Search & Category Filters for Hundreds of Decks -->
+    <div class="deck-browser-controls">
+      <div class="deck-search-wrap">
+        <input type="text" id="search-deck-input" class="arcade-input deck-search-input" placeholder="🔍 SEARCH DECKS (NAME, KEYWORD)..." autocomplete="off">
+        <button type="button" id="btn-clear-deck-search" class="btn-clear-search" style="display: none;" title="Clear search">✖</button>
+      </div>
+      <div id="deck-category-filters" class="deck-filter-bar"></div>
     </div>
 
-    <p style="font-family: var(--font-arcade); font-size: 1.1rem; color: var(--text-muted); text-align: center;">
-      Supports standard Code Quiz JSON files with title, category, options (a, b, c, d), and answer keys.
-    </p>
+    <!-- Scrollable Disk Catalog Grid -->
+    <div class="deck-browser-catalog">
+      <div id="builtin-disk-buttons" class="builtin-disk-grid"></div>
+      <p id="deck-search-empty" class="deck-search-empty" style="display: none;">
+        NO ARCADE DISKS MATCH YOUR SEARCH. INSERT A CUSTOM DISK BELOW!
+      </p>
+    </div>
+
+    <!-- Custom File Drop Zone -->
+    <div class="custom-disk-section">
+      <div class="custom-disk-divider">
+        <span>OR INSERT CUSTOM DISK</span>
+      </div>
+      <div id="drop-zone" class="drop-zone" tabindex="0" role="button" aria-label="Drop custom question JSON file here or click to browse">
+        <div class="drop-zone-icon">📥</div>
+        <p class="drop-zone-text">DRAG &amp; DROP JSON DISK HERE</p>
+        <p class="drop-zone-sub">OR CLICK TO BROWSE LOCAL FILES</p>
+        <input type="file" id="file-input" accept=".json" style="display: none;">
+      </div>
+    </div>
   </dialog>
 
   <!-- Arcade Footer -->

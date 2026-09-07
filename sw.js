@@ -3,7 +3,7 @@
 // Enables offline gameplay, asset caching, and standalone PWA experience
 // ==========================================================================
 
-const CACHE_NAME = 'code-quiz-arcade-v2';
+const CACHE_NAME = 'code-quiz-arcade-v4';
 
 // Core assets required for full offline operation
 const PRECACHE_ASSETS = [
@@ -16,7 +16,7 @@ const PRECACHE_ASSETS = [
   './js/quizEngine.js',
   './js/highscores.js',
   './js/audio.js',
-  './questions/postgresql.json',
+  './questions/decks.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/icon-maskable-192.png',

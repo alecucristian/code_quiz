@@ -47,19 +47,29 @@ class App {
     }
 
     // Menu View Elements
+    this.selectDeck = document.getElementById('select-deck');
     this.selectCategory = document.getElementById('select-category');
+    this.deckChipTrigger = document.getElementById('deck-chip-trigger');
+    this.deckChipIcon = document.getElementById('deck-chip-icon');
     this.deckNameDisplay = document.getElementById('deck-name-display');
     this.deckCountDisplay = document.getElementById('deck-count-display');
     this.btnStartGame = document.getElementById('btn-start-game');
     this.btnOpenDiskLoader = document.getElementById('btn-open-disk-loader');
+    this.btnBrowseDecks = document.getElementById('btn-browse-decks');
     this.roundSizeInputs = document.querySelectorAll('input[name="round-size"]');
     this.gameModeInputs = document.querySelectorAll('input[name="game-mode"]');
 
-    // Custom Deck Dialog
+    // Custom Deck Dialog / Browser
     this.dialogDiskLoader = document.getElementById('dialog-disk-loader');
     this.btnCloseDialog = document.getElementById('btn-close-dialog');
+    this.searchDeckInput = document.getElementById('search-deck-input');
+    this.btnClearDeckSearch = document.getElementById('btn-clear-deck-search');
+    this.deckCategoryFilters = document.getElementById('deck-category-filters');
+    this.deckSearchEmpty = document.getElementById('deck-search-empty');
     this.dropZone = document.getElementById('drop-zone');
     this.fileInput = document.getElementById('file-input');
+    this.builtinDiskButtons = document.getElementById('builtin-disk-buttons');
+    this.activeBrowserCategory = 'ALL';
 
     // Quiz View Elements
     this.hudScore = document.getElementById('hud-score');
@@ -139,19 +149,48 @@ class App {
       this.startQuiz();
     });
 
-    // Disk Loader Dialog
-    this.btnOpenDiskLoader.addEventListener('click', () => {
-      this.audio.playBlip();
-      if (typeof this.dialogDiskLoader.showModal === 'function') {
-        this.dialogDiskLoader.showModal();
-      } else {
-        this.dialogDiskLoader.setAttribute('open', '');
-      }
-    });
+    // Disk Loader & Deck Browser Triggers
+    if (this.btnOpenDiskLoader) {
+      this.btnOpenDiskLoader.addEventListener('click', () => this.openDeckBrowser());
+    }
+    if (this.btnBrowseDecks) {
+      this.btnBrowseDecks.addEventListener('click', () => this.openDeckBrowser());
+    }
+    if (this.deckChipTrigger) {
+      this.deckChipTrigger.addEventListener('click', () => this.openDeckBrowser());
+      this.deckChipTrigger.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.openDeckBrowser();
+        }
+      });
+    }
 
-    this.btnCloseDialog.addEventListener('click', () => {
-      this.dialogDiskLoader.close();
-    });
+    if (this.btnCloseDialog) {
+      this.btnCloseDialog.addEventListener('click', () => {
+        this.dialogDiskLoader.close();
+      });
+    }
+
+    // Deck Search Input & Clear
+    if (this.searchDeckInput) {
+      this.searchDeckInput.addEventListener('input', (e) => {
+        const query = e.target.value;
+        if (this.btnClearDeckSearch) {
+          this.btnClearDeckSearch.style.display = query ? 'block' : 'none';
+        }
+        this.renderDeckCards(this.activeBrowserCategory, query);
+      });
+    }
+
+    if (this.btnClearDeckSearch) {
+      this.btnClearDeckSearch.addEventListener('click', () => {
+        this.searchDeckInput.value = '';
+        this.btnClearDeckSearch.style.display = 'none';
+        this.searchDeckInput.focus();
+        this.renderDeckCards(this.activeBrowserCategory, '');
+      });
+    }
 
     // File Drop & Select
     this.dropZone.addEventListener('click', () => this.fileInput.click());
@@ -178,6 +217,16 @@ class App {
       const file = e.dataTransfer.files[0];
       if (file) this.handleCustomFile(file);
     });
+
+    // Deck Selector Dropdown
+    if (this.selectDeck) {
+      this.selectDeck.addEventListener('change', async (e) => {
+        if (e.target.value) {
+          this.audio.playBlip();
+          await this.loadDeck(e.target.value);
+        }
+      });
+    }
 
     // Start Quiz
     this.btnStartGame.addEventListener('click', () => this.startQuiz());
@@ -223,18 +272,177 @@ class App {
       this.btnCrtToggle.classList.remove('active');
     }
 
-    // Load default PostgreSQL deck
-    await this.loadDeck('postgresql');
+    // Load dynamic deck registry from manifest (questions/decks.json) + custom disks
+    await this.deckLoader.loadRegistry();
+    this.populateDeckOptions();
+    this.renderDeckBrowserFilters();
+    this.renderDeckCards('ALL', '');
+
+    // Restore last active deck or default to first available deck
+    const available = this.deckLoader.getAvailableDecks();
+    const savedDeckId = localStorage.getItem('code_quiz_active_deck') || (available[0] ? available[0].id : null);
+    if (savedDeckId) {
+      await this.loadDeck(savedDeckId);
+    }
+  }
+
+  openDeckBrowser() {
+    this.audio.playBlip();
+    if (this.searchDeckInput) {
+      this.searchDeckInput.value = '';
+      if (this.btnClearDeckSearch) this.btnClearDeckSearch.style.display = 'none';
+    }
+    this.activeBrowserCategory = 'ALL';
+    this.renderDeckBrowserFilters();
+    this.renderDeckCards('ALL', '');
+
+    if (typeof this.dialogDiskLoader.showModal === 'function') {
+      this.dialogDiskLoader.showModal();
+    } else {
+      this.dialogDiskLoader.setAttribute('open', '');
+    }
+
+    setTimeout(() => {
+      if (this.searchDeckInput) this.searchDeckInput.focus();
+    }, 100);
+  }
+
+  populateDeckOptions() {
+    if (!this.selectDeck) return;
+    this.selectDeck.innerHTML = '';
+    const decks = this.deckLoader.getAvailableDecks();
+
+    // Group decks by category
+    const categories = {};
+    decks.forEach(deck => {
+      const cat = deck.category || 'General';
+      if (!categories[cat]) categories[cat] = [];
+      categories[cat].push(deck);
+    });
+
+    const sortedCategories = Object.keys(categories).sort();
+    sortedCategories.forEach(cat => {
+      const group = document.createElement('optgroup');
+      group.label = `── ${cat.toUpperCase()} ──`;
+      categories[cat].forEach(deck => {
+        const opt = document.createElement('option');
+        opt.value = deck.id;
+        const qCount = deck.questionCount ? ` (${deck.questionCount} Qs)` : '';
+        opt.textContent = `${deck.icon || '💾'} ${deck.name}${qCount}`;
+        group.appendChild(opt);
+      });
+      this.selectDeck.appendChild(group);
+    });
+  }
+
+  renderDeckBrowserFilters() {
+    if (!this.deckCategoryFilters) return;
+    this.deckCategoryFilters.innerHTML = '';
+    const decks = this.deckLoader.getAvailableDecks();
+
+    const cats = new Set(['ALL']);
+    decks.forEach(d => {
+      if (d.category) cats.add(d.category);
+    });
+
+    cats.forEach(cat => {
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = `deck-filter-chip ${cat === this.activeBrowserCategory ? 'active' : ''}`;
+      chip.textContent = cat.toUpperCase();
+      chip.addEventListener('click', () => {
+        this.audio.playBlip();
+        this.activeBrowserCategory = cat;
+        this.renderDeckBrowserFilters();
+        const query = this.searchDeckInput ? this.searchDeckInput.value : '';
+        this.renderDeckCards(cat, query);
+      });
+      this.deckCategoryFilters.appendChild(chip);
+    });
+  }
+
+  renderDeckCards(category = 'ALL', searchQuery = '') {
+    if (!this.builtinDiskButtons) return;
+    this.builtinDiskButtons.innerHTML = '';
+
+    let decks = this.deckLoader.getAvailableDecks();
+    const activeDeckId = this.deckLoader.deckMeta?.id;
+
+    if (category && category !== 'ALL') {
+      decks = decks.filter(d => d.category === category);
+    }
+
+    const q = searchQuery.trim().toLowerCase();
+    if (q) {
+      decks = decks.filter(d => {
+        return (
+          d.name.toLowerCase().includes(q) ||
+          (d.description && d.description.toLowerCase().includes(q)) ||
+          (d.category && d.category.toLowerCase().includes(q)) ||
+          (d.id && d.id.toLowerCase().includes(q))
+        );
+      });
+    }
+
+    if (this.deckSearchEmpty) {
+      this.deckSearchEmpty.style.display = decks.length === 0 ? 'block' : 'none';
+    }
+
+    decks.forEach(deck => {
+      const card = document.createElement('div');
+      card.className = `deck-card ${deck.id === activeDeckId ? 'active' : ''}`;
+      card.role = 'button';
+      card.tabIndex = 0;
+
+      const qCountText = deck.questionCount ? `${deck.questionCount} Qs` : 'DECK';
+      card.innerHTML = `
+        <div class="deck-card-icon">${deck.icon || '💾'}</div>
+        <div class="deck-card-info">
+          <div class="deck-card-title-row">
+            <span class="deck-card-name">${escapeHtml(deck.name)}</span>
+            <span class="deck-card-badge">${qCountText}</span>
+          </div>
+          <div class="deck-card-desc">
+            <span class="deck-card-tag">[${escapeHtml(deck.category || 'General')}]</span>
+            <span>${escapeHtml(deck.description || '')}</span>
+          </div>
+        </div>
+      `;
+
+      const onSelect = async () => {
+        this.audio.playBlip();
+        this.dialogDiskLoader.close();
+        await this.loadDeck(deck.id);
+      };
+
+      card.addEventListener('click', onSelect);
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onSelect();
+        }
+      });
+
+      this.builtinDiskButtons.appendChild(card);
+    });
   }
 
   async loadDeck(deckId) {
     this.deckNameDisplay.textContent = 'LOADING DISK...';
-    const result = await this.deckLoader.loadDefaultDeck(deckId);
+    this.deckCountDisplay.textContent = '';
+    const result = await this.deckLoader.loadDeck(deckId);
     if (result.success) {
+      localStorage.setItem('code_quiz_active_deck', deckId);
       this.updateDeckUI();
+      // Keep browser cards active class in sync
+      if (this.builtinDiskButtons) {
+        this.builtinDiskButtons.querySelectorAll('.deck-card').forEach(c => {
+          c.classList.remove('active');
+        });
+      }
     } else {
       this.deckNameDisplay.textContent = 'ERROR LOADING DECK';
-      alert('Failed to load default questions deck: ' + result.error);
+      alert('Failed to load quiz deck: ' + result.error);
     }
   }
 
@@ -244,6 +452,8 @@ class App {
       const result = this.deckLoader.parseCustomDeck(e.target.result, file.name);
       if (result.success) {
         this.dialogDiskLoader.close();
+        this.populateDeckOptions();
+        this.renderDeckBrowserFilters();
         this.updateDeckUI();
         alert(`SUCCESS: Loaded ${result.deck.length} questions from "${file.name}"!`);
       } else {
@@ -256,8 +466,25 @@ class App {
   updateDeckUI() {
     const meta = this.deckLoader.deckMeta;
     const deck = this.deckLoader.currentDeck;
+    if (!meta || !deck) return;
+
+    if (this.deckChipIcon) {
+      this.deckChipIcon.textContent = meta.icon || '💾';
+    }
     this.deckNameDisplay.textContent = meta.name.toUpperCase();
     this.deckCountDisplay.textContent = `(${deck.length} Qs)`;
+
+    // Sync Deck Selector dropdown
+    if (this.selectDeck) {
+      if (![...this.selectDeck.options].some(o => o.value === meta.id)) {
+        const opt = document.createElement('option');
+        opt.value = meta.id;
+        const icon = meta.icon || '💾';
+        opt.textContent = `${icon} ${meta.name.toUpperCase()} (${deck.length} Qs)`;
+        this.selectDeck.appendChild(opt);
+      }
+      this.selectDeck.value = meta.id;
+    }
 
     // Populate categories
     const categories = this.deckLoader.getCategories();
@@ -444,8 +671,15 @@ class App {
     } else {
       // STANDARD MODE: NEVER auto-advance!
       // Whether correct or wrong, player MUST press CONTINUE >> or [Enter]/[Space]
-      // to advance, ensuring all the time needed to study definitions & SQL examples.
+      // to advance, ensuring all the time needed to study definitions & code examples.
     }
+  }
+
+  getExampleBadgeText() {
+    const meta = this.deckLoader.deckMeta;
+    if (!meta) return '⚡ CODE EXAMPLE';
+    if (meta.badgeText) return meta.badgeText;
+    return `⚡ ${meta.name.toUpperCase()} EXAMPLE`;
   }
 
   renderFeedbackBanner(result) {
@@ -453,12 +687,13 @@ class App {
     const banner = document.createElement('div');
     banner.className = `feedback-banner ${isCorrect ? 'correct' : 'wrong'}`;
 
+    const badgeText = this.getExampleBadgeText();
     const exampleSnippet = result.postanswer ? `
-      <div class="sql-example-box">
-        <div class="sql-example-header">
-          <span class="sql-example-badge">⚡ POSTGRESQL QUERY EXAMPLE</span>
+      <div class="code-example-box sql-example-box">
+        <div class="code-example-header sql-example-header">
+          <span class="code-example-badge sql-example-badge">${badgeText}</span>
         </div>
-        <pre class="sql-example-code"><code>${escapeHtml(result.postanswer)}</code></pre>
+        <pre class="code-example-code sql-example-code"><code>${escapeHtml(result.postanswer)}</code></pre>
       </div>
     ` : '';
 

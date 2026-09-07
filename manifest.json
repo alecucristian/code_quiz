@@ -1,7 +1,7 @@
 {
   "name": "Code Quiz: 1984 Arcade Edition",
   "short_name": "Code Quiz",
-  "description": "Retro 1980s arcade code quiz game testing your mastery of programming keywords, PostgreSQL internals, and syntax.",
+  "description": "Retro 1980s arcade code quiz game testing your mastery of programming languages, databases, computer science, and syntax.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

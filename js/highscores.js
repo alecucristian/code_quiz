@@ -38,7 +38,7 @@ export class HighscoreManager {
       accuracy: Number(accuracy) || 0,
       timeFormatted: timeFormatted || '00:00.0',
       timeMs: Number(timeMs) || 0,
-      deckName: deckName || 'PostgreSQL',
+      deckName: deckName || 'General',
       category: category || 'ALL',
       mode: (mode || 'standard').toUpperCase(),
       date: new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
@@ -108,13 +108,17 @@ export class HighscoreManager {
         ? '<span class="mode-tag mode-speedrun" title="Speedrun Mode">⚡ RUN</span>' 
         : '<span class="mode-tag mode-standard" title="Standard Mode">📖 STD</span>';
 
+      const shortDeck = item.deckName
+        ? escapeHtml(item.deckName.replace(/\s*(Internals|Syntax|Core|Advanced|Questions).*/i, '').trim())
+        : 'QUIZ';
+
       tr.innerHTML = `
         <td class="rank-cell">${medal}</td>
         <td class="player-cell">${escapeHtml(item.name)}</td>
         <td class="score-cell">${item.score.toLocaleString()}</td>
         <td>${item.correctCount}/${item.totalQuestions} (${item.accuracy}%)</td>
         <td class="time-cell">${item.timeFormatted}</td>
-        <td>${escapeHtml(item.category)} ${modeBadge}</td>
+        <td>${shortDeck}: ${escapeHtml(item.category)} ${modeBadge}</td>
       `;
       tbodyElement.appendChild(tr);
     });
