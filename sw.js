@@ -3,7 +3,7 @@
 // Enables offline gameplay, asset caching, and standalone PWA experience
 // ==========================================================================
 
-const CACHE_NAME = 'code-quiz-arcade-v6';
+const CACHE_NAME = 'code-quiz-arcade-v7';
 
 // Core assets required for full offline operation (including all 4 built-in decks)
 const PRECACHE_ASSETS = [

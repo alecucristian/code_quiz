@@ -1,50 +1,50 @@
 [
   {
     "category": "1xx Informational & Protocol Switching",
-    "title": "100 Continue",
+    "title": "100",
     "options": {
-      "a": "Indicates the server received request headers and the client may proceed sending request body.",
-      "b": "Confirms the calling client TLS handshake succeeded and application payload data transmission can initiate across network proxies.",
-      "c": "Indicates the origin server has completed processing the HTTP request body and is preparing HTTP response message headers in HTTP/1.1.",
-      "d": "Instructs calling client intermediary proxies in order to keep TCP TCP connections alive while waiting for backend workers to start in HTTP/1.1."
+      "a": "Continue: Client should proceed to send request body after server inspects initial request headers.",
+      "b": "Checkpoint: Intermediate proxy confirms connection establishment and waits for payload packets.",
+      "c": "Switching Protocols: Server agrees to upgrade the communication protocol as requested in headers.",
+      "d": "Keep-Alive: Server acknowledges connection headers and extends socket keep-alive timeout."
     },
     "answer": "a",
     "postanswer": "HTTP/1.1 100 Continue\r\n\r\n(Client proceeds to send payload)"
   },
   {
     "category": "1xx Informational & Protocol Switching",
-    "title": "101 Switching Protocols",
+    "title": "101",
     "options": {
-      "a": "Signals the gateway intermediary proxy has switched upstream load balancer nodes mid-flight across intermediary network proxies.",
-      "b": "Confirms the server agrees to switch protocol to what client requested in Upgrade header.",
-      "c": "Directs the calling client browser in order to immediately disconnect and reconnect utilizing standard HTTP/2 across network proxies.",
-      "d": "Indicates the origin server refused the calling client protocol upgrade HTTP request due in order to cipher mismatches during transaction."
+      "a": "Continue: Client may proceed with transmitting request payload after initial validation.",
+      "b": "Switching Protocols: Server understands and agrees to switch protocols (e.g. HTTP/1.1 to WebSocket) per Upgrade header.",
+      "c": "Protocol Transmit: Intermediary proxy confirms successful protocol handshake with origin.",
+      "d": "Processing: Server has accepted the complete request but has not yet completed execution."
     },
     "answer": "b",
     "postanswer": "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade"
   },
   {
     "category": "1xx Informational & Protocol Switching",
-    "title": "102 Processing (WebDAV)",
+    "title": "102",
     "options": {
-      "a": "Notifies the client the server accepted the complete request but has not yet completed execution.",
-      "b": "Indicates which file upload chunks are currently being verified against cryptographic checksums across intermediary network proxies.",
-      "c": "Directs the WebDAV calling client in order to pause upload streaming until origin server disk buffers flush to storage by origin server.",
-      "d": "Signals the calling client which the WebDAV lock token expired while executing a batch namespace operation across intermediary network proxies."
+      "a": "Queued Request: Server placed payload into job processing queue for asynchronous workers.",
+      "b": "Early Hints: Server returns link headers before final response to pre-load critical assets.",
+      "c": "Processing: Server has received and is processing full request, but no response is available yet (WebDAV RFC 2518).",
+      "d": "Continue: Client is permitted to transmit remaining multi-part body data."
     },
-    "answer": "a",
+    "answer": "c",
     "postanswer": "HTTP/1.1 102 Processing\r\n\r\n(Prevents client timeout during long batch operations)"
   },
   {
     "category": "1xx Informational & Protocol Switching",
-    "title": "103 Early Hints",
+    "title": "103",
     "options": {
-      "a": "Returns preliminary response headers allowing client to preload critical assets before final response.",
-      "b": "Provides speculative database query execution hints to reverse proxy caching layers.",
-      "c": "Warns the calling client which the requested target resource path will be permanently deprecated soon in HTTP/1.1.",
-      "d": "Signals the calling client in order to terminate existing socket pools and open new concurrent TCP streams in HTTP/1.1."
+      "a": "Processing: Server acknowledges command receipt and continues background thread execution.",
+      "b": "Preload Pending: Gateway confirms resource prefetch was initiated across edge nodes.",
+      "c": "Switching Protocols: Server signals client to transition transport streams over QUIC.",
+      "d": "Early Hints: Server returns link headers before final HTTP response to allow client preloading of resources."
     },
-    "answer": "a",
+    "answer": "d",
     "postanswer": "HTTP/1.1 103 Early Hints\r\nLink: </style.css>; rel=preload; as=style\r\nLink: </app.js>; rel=preload; as=script"
   },
   {
@@ -121,96 +121,96 @@
   },
   {
     "category": "2xx Success & Content Negotiations",
-    "title": "200 OK",
+    "title": "200",
     "options": {
-      "a": "Indicates request succeeded; payload meaning depends on HTTP method (e.g. resource representation for GET).",
-      "b": "Specifies that the response body contains differential byte patches to be applied locally.",
-      "c": "Signals a new persistent entity was created on origin server disk and assigned a canonical UUID URI across proxies.",
-      "d": "Confirms calling client HTTP request parameters validated successfully but background async jobs are queued in HTTP/1.1."
+      "a": "OK: Request has succeeded; payload representation depends on request method (GET returns data, POST returns action result).",
+      "b": "Acknowledged: Server accepted request parameters and verified security certificates.",
+      "c": "Created: New resource was successfully provisioned with dedicated uniform resource identifier.",
+      "d": "Synchronized: Database transaction was committed and distributed across read replicas."
     },
     "answer": "a",
     "postanswer": "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: 42\r\n\r\n{\"status\":\"success\",\"message\":\"Arcade ready\"}"
   },
   {
     "category": "2xx Success & Content Negotiations",
-    "title": "201 Created",
+    "title": "201",
     "options": {
-      "a": "Confirms the target resource was created; response typically includes Location header with new resource URI.",
-      "b": "Signals that request payload was accepted into memory queue but database insertion failed.",
-      "c": "Indicates the origin server created a new ephemeral session cookie valid only for the active HTTP request in HTTP/1.1.",
-      "d": "Specifies which existing database records were overwritten inside place completely without creating new identifiers in HTTP/1.1."
+      "a": "Accepted: Request queued for asynchronous creation but entity insertion has not finalized.",
+      "b": "Created: Request fulfilled and resulted in one or more new resources being created, referenced by Location header.",
+      "c": "Resource Allocated: Memory storage block was reserved on the filesystem for incoming payload.",
+      "d": "OK: Request succeeded and existing resource representation was modified in place."
     },
-    "answer": "a",
+    "answer": "b",
     "postanswer": "HTTP/1.1 201 Created\r\nLocation: /api/v1/players/p-8492\r\nContent-Type: application/json\r\n\r\n{\"id\":\"p-8492\",\"status\":\"registered\"}"
   },
   {
     "category": "2xx Success & Content Negotiations",
-    "title": "202 Accepted",
+    "title": "202",
     "options": {
-      "a": "Notifies the client browser that incoming cached representations match the origin state.",
-      "b": "Indicates request accepted for processing, but processing is not completed and may be enacted or rejected.",
-      "c": "Confirms the calling client supplied valid OAuth2 credentials and grants temporary read privileges across proxies.",
-      "d": "Indicates the origin server processed the transaction and immediately committed changes in order to storage in HTTP/1.1."
+      "a": "No Content: Server successfully applied command and returns zero payload body.",
+      "b": "Partial Content: Server delivered partial byte range requested by client range header.",
+      "c": "Accepted: Request accepted for processing, but processing is not completed and may eventually be enacted or rejected.",
+      "d": "Deferred Action: Server confirmed receipt of command but scheduled execution for maintenance window."
     },
-    "answer": "b",
+    "answer": "c",
     "postanswer": "HTTP/1.1 202 Accepted\r\nLocation: /api/v1/tasks/task-9182/status\r\nRetry-After: 30"
   },
   {
     "category": "2xx Success & Content Negotiations",
-    "title": "204 No Content",
+    "title": "204",
     "options": {
-      "a": "Signals the requested database table was found but currently contains zero records during end-in order to-end HTTP payload transmission.",
-      "b": "Indicates calling client HTTP request was empty and instructs client in order to retransmit payload body across intermediary network proxies.",
-      "c": "Server fulfilled request and there is no additional content to send in response payload body.",
-      "d": "Specifies which target target resource content was wiped clean and deleted directly from disk permanently across distributed network proxy layers."
+      "a": "Reset Content: Server fulfilled request and directs user agent to reset document view.",
+      "b": "Empty Payload: Server confirmed target table was found but contains zero active database rows.",
+      "c": "Void Entity: Origin proxy stripped response body to adhere to compression policy.",
+      "d": "No Content: Server successfully fulfilled request and there is no additional content to send in response payload body."
     },
-    "answer": "c",
+    "answer": "d",
     "postanswer": "HTTP/1.1 204 No Content\r\nDate: Mon, 07 Sep 2026 19:22:00 GMT\r\n(No message body)"
   },
   {
     "category": "2xx Success & Content Negotiations",
-    "title": "205 Reset Content",
+    "title": "205",
     "options": {
-      "a": "Instructs the database TCP connection pool in order to roll back active uncommitted savepoints across distributed network proxy layers.",
-      "b": "Forces the calling client web browser in order to flush local storage and reinstall service worker caches across intermediary network proxies.",
-      "c": "Informs client to reset the document view which caused the request (e.g. clear input form fields).",
-      "d": "Notifies the calling client which the TCP socket TCP connection must be reset due in order to protocol violations across intermediary network proxies."
+      "a": "Reset Content: Server fulfilled request and requires user agent to reset its document view (e.g. clear form inputs).",
+      "b": "No Content: Server completed operation and omitted response payload entirely.",
+      "c": "Form Cleared: Browser form state was invalidated by origin security gateway.",
+      "d": "Partial Content: Client received single chunk of multipart payload stream."
     },
-    "answer": "c",
+    "answer": "a",
     "postanswer": "HTTP/1.1 205 Reset Content\r\n\r\n(Browser clears form inputs upon receiving 205)"
   },
   {
     "category": "2xx Success & Content Negotiations",
-    "title": "206 Partial Content",
+    "title": "206",
     "options": {
-      "a": "Server successfully fulfilled partial GET request for resource; response includes Content-Range header.",
-      "b": "Warns the client that upstream proxy cached only half of requested media asset chunks.",
-      "c": "Signals which origin server memory ran out during streaming and truncated HTTP response body payload in HTTP/1.1.",
-      "d": "Indicates the calling client only has partial permission in order to read columns of target database table in HTTP/1.1."
+      "a": "Stream Started: Server initiated chunked transfer encoding stream without length header.",
+      "b": "Partial Content: Server successfully fulfilled partial GET request for range of bytes specified in Range header.",
+      "c": "Multi-Status: Server returned multiple status codes across multiple XML resource blocks.",
+      "d": "Chunk Transmitted: Proxy delivered single segment of buffered media data."
     },
-    "answer": "a",
+    "answer": "b",
     "postanswer": "HTTP/1.1 206 Partial Content\r\nContent-Range: bytes 0-1023/4096\r\nContent-Length: 1024\r\nContent-Type: video/mp4"
   },
   {
     "category": "2xx Success & Content Negotiations",
-    "title": "207 Multi-Status (WebDAV)",
+    "title": "207",
     "options": {
-      "a": "Signals the browser calling client which concurrent HTTP/2 streams have converged directly into unified TCP socket across intermediary network proxies.",
-      "b": "Specifies which a single HTTP HTTP request triggered parallel asynchronous microservice workers inside cloud during end-in order to-end HTTP payload transmission.",
-      "c": "Indicates which the web origin server is operating inside redundant multi-master high-availability replication mode during end-in order to-end HTTP payload transmission.",
-      "d": "Transmits an XML message body containing multiple separate response codes for batch or multi-resource operations."
+      "a": "Partial Content: Server delivered subset of requested byte ranges.",
+      "b": "Batch Processed: Server executed sequence of database mutations under atomic transaction.",
+      "c": "Multi-Status: XML response body contains multiple separate status codes for sub-operations (WebDAV RFC 4918).",
+      "d": "Multiple Choices: Target resource has multiple representations client can select from."
     },
-    "answer": "d",
+    "answer": "c",
     "postanswer": "HTTP/1.1 207 Multi-Status\r\nContent-Type: application/xml; charset=\"utf-8\"\r\n\r\n<multistatus xmlns=\"DAV:\">...</multistatus>"
   },
   {
     "category": "2xx Success & Content Negotiations",
-    "title": "226 IM Used (RFC 3229)",
+    "title": "226",
     "options": {
-      "a": "Signals that immutable image asset was compressed using WebP delta encoding algorithms.",
-      "b": "Confirms intermediate message broker routed HTTP request in order to consumer queue completely without persistence in HTTP/1.1.",
-      "c": "Indicates which instant messaging chat socket session was claimed by another connected pilot across distributed network proxy layers.",
-      "d": "Server fulfilled GET request and response is a representation of result of one or more instance-manipulations."
+      "a": "Delta Transmitted: Client cache was patched with differential binary update.",
+      "b": "Multi-Status: Server returned batch sub-request status XML elements.",
+      "c": "Reset Content: Client must invalidate local session cache and refresh DOM.",
+      "d": "IM Used: Server fulfilled GET request and response is representation of one or more instance-manipulations (RFC 3229)."
     },
     "answer": "d",
     "postanswer": "HTTP/1.1 226 IM Used\r\nIM: vcdiff, gzip\r\nDelta-Base: \"w/\"1234\"\""
@@ -241,72 +241,72 @@
   },
   {
     "category": "3xx Redirection & Cache Validation",
-    "title": "301 Moved Permanently",
+    "title": "301",
     "options": {
-      "a": "Indicates target resource expired and search engine spiders must remove it from web indexing.",
-      "b": "Target resource assigned new permanent URI; future references should use one of enclosed URIs in Location header.",
-      "c": "Instructs calling client in order to re-request target resource utilizing specified proxy server listed inside payload body.",
-      "d": "Specifies which the target target resource was temporarily moved and calling client must retain original HTTP request URI in HTTP/1.1."
+      "a": "Moved Permanently: Target resource assigned new permanent URI; references should update (historical method rewrite permitted).",
+      "b": "Permanent Redirect: Target resource has permanent URI and request method MUST NOT change from POST to GET.",
+      "c": "Resource Relocated: Intermediary proxy dynamically re-routed connection to mirror cluster.",
+      "d": "Found: Target resource resides temporarily under different URI."
     },
-    "answer": "b",
+    "answer": "a",
     "postanswer": "HTTP/1.1 301 Moved Permanently\r\nLocation: https://arcade.example.com/scores\r\nContent-Length: 0"
   },
   {
     "category": "3xx Redirection & Cache Validation",
-    "title": "302 Found",
+    "title": "302",
     "options": {
-      "a": "Informs user agent that target resource was found on remote proxy and requires auth token.",
-      "b": "Signals which origin server located requested record inside intermediate cache memory and avoided disk storage query in HTTP/1.1.",
-      "c": "Indicates target target resource was located successfully and payload contains full representation body during client-server exchange.",
-      "d": "Target resource resides temporarily under different URI; user agent may redirect but search engines keep old URI."
+      "a": "Temporary Redirect: Target resource temporarily moved and client MUST NOT alter request method.",
+      "b": "Found: Target resource resides temporarily under different URI; user agents historically rewritten method to GET.",
+      "c": "Route Temporary: Reverse proxy redirected connection due to server failover.",
+      "d": "See Other: Server directs client to fetch separate confirmation resource via GET."
     },
-    "answer": "d",
+    "answer": "b",
     "postanswer": "HTTP/1.1 302 Found\r\nLocation: /login\r\n\r\n(Historical browsers redirected POST to GET)"
   },
   {
     "category": "3xx Redirection & Cache Validation",
-    "title": "303 See Other",
+    "title": "303",
     "options": {
-      "a": "Directs client to target resource at another URI with GET method, typically used after POST (Post/Redirect/Get).",
-      "b": "Informs user agent that another user modified the resource concurrently while request ran.",
-      "c": "Directs client web browser to mirror request across multiple origin servers simultaneously.",
-      "d": "Indicates identical duplicate target resource exists at another endpoint and asks calling client in order to select in HTTP/1.1."
+      "a": "Found: Resource temporarily moved with ambiguous method preservation behavior.",
+      "b": "Redirect GET: Gateway transformed request payload into URL query string.",
+      "c": "See Other: Directs client to retrieve target resource via GET at different URI (standard Post/Redirect/Get pattern).",
+      "d": "Temporary Redirect: Resource moved temporarily preserving identical request method."
     },
-    "answer": "a",
+    "answer": "c",
     "postanswer": "POST /scores HTTP/1.1\r\n(User submits score)\r\n\r\nHTTP/1.1 303 See Other\r\nLocation: /leaderboard\r\n(Browser does GET /leaderboard)"
   },
   {
     "category": "3xx Redirection & Cache Validation",
-    "title": "304 Not Modified",
+    "title": "304",
     "options": {
-      "a": "Informs user agent which origin server software configuration files were not changed during reload across distributed network proxy layers.",
-      "b": "Specifies which target target resource content was locked by administrator preventing modifications during end-to-end HTTP payload transmission.",
-      "c": "Signals which user attempted in order to update database row but supplied identical existing column values during end-to-end HTTP payload transmission.",
-      "d": "Indicates conditional request evaluated to false; client cached copy is still fresh and no body is sent."
+      "a": "Cache Hit: Origin confirmed cache freshness but refreshed expiration headers.",
+      "b": "No Content: Request processed with zero body bytes returned.",
+      "c": "Entity Unchanged: CDN edge confirmed client local digest matches upstream hash.",
+      "d": "Not Modified: Conditional request indicated resource has not been modified; client should use cached representation."
     },
     "answer": "d",
     "postanswer": "GET /style.css HTTP/1.1\r\nIf-None-Match: \"a8f1-39e\"\r\n\r\nHTTP/1.1 304 Not Modified\r\nETag: \"a8f1-39e\"\r\n(Zero payload bytes transferred)"
   },
   {
     "category": "3xx Redirection & Cache Validation",
-    "title": "307 Temporary Redirect vs 302 Found",
+    "title": "307",
     "options": {
-      "a": "307 redirects request body but strips authentication headers, whereas 302 preserves auth cookies.",
-      "b": "307 is restricted exclusively to HTTPS TLS connections, while 302 is allowed on cleartext HTTP only.",
-      "c": "307 permits intermediate caching indefinitely across CDN nodes, whereas 302 forbids intermediary caching strictly during transaction.",
-      "d": "307 guarantees client MUST NOT change HTTP request method (e.g. POST remains POST), whereas 302 historically converted to GET."
+      "a": "Temporary Redirect: Target resource resides temporarily under different URI; client MUST NOT change request method (e.g. POST remains POST).",
+      "b": "Found: Resource temporarily moved but user agents may change method to GET.",
+      "c": "Permanent Redirect: Resource permanently reassigned preserving original HTTP method.",
+      "d": "Strict Forward: Proxy preserved request headers while altering destination scheme."
     },
-    "answer": "d",
+    "answer": "a",
     "postanswer": "POST /order HTTP/1.1\r\n\r\nHTTP/1.1 307 Temporary Redirect\r\nLocation: /order-v2\r\n(Browser sends POST /order-v2 with body preserved)"
   },
   {
     "category": "3xx Redirection & Cache Validation",
-    "title": "308 Permanent Redirect vs 301 Moved Permanently",
+    "title": "308",
     "options": {
-      "a": "308 forces client to verify DNSSEC records before redirecting, whereas 301 relies on standard DNS.",
-      "b": "308 guarantees request method & body MUST NOT be changed from POST to GET, whereas 301 historically permitted method rewriting.",
-      "c": "308 expires automatically after 24 hours in client caches, whereas 301 persists until browser cache wipe.",
-      "d": "308 requires calling client send WebSocket upgrade message headers on target URI, whereas 301 operates over standard HTTP in HTTP/1.1."
+      "a": "Moved Permanently: Resource assigned new URI but user agents may alter method from POST to GET.",
+      "b": "Permanent Redirect: Target resource has permanent URI; client MUST NOT change request method when repeating request.",
+      "c": "Canonical Mapping: Domain router updated canonical host header permanently.",
+      "d": "Temporary Redirect: Resource temporarily reassigned preserving original HTTP method."
     },
     "answer": "b",
     "postanswer": "POST /upload HTTP/1.1\r\n\r\nHTTP/1.1 308 Permanent Redirect\r\nLocation: https://upload.arcade.io/files\r\n(POST method & body strictly preserved)"
@@ -349,374 +349,374 @@
   },
   {
     "category": "3xx Redirection & Cache Validation",
-    "title": "300 Multiple Choices",
+    "title": "300",
     "options": {
-      "a": "Prompts client browser to display a modal prompt asking user to confirm payment transaction.",
-      "b": "Target resource has multiple representations, each with specific metadata, allowing user or browser to select preference.",
-      "c": "Signals that server database query returned multiple matching rows for a single primary key lookup.",
-      "d": "Informs user agent which multiple calling client requests arrived simultaneously on the same socket TCP connection in HTTP/1.1."
+      "a": "See Other: Client must retrieve requested resource from different URI using GET method.",
+      "b": "Ambiguous Resource: Origin router failed to disambiguate route pattern against endpoints.",
+      "c": "Multiple Choices: Target resource has more than one representation, each with its own identifier (e.g. format/language options).",
+      "d": "Moved Permanently: Resource was reassigned to permanent canonical URI."
     },
-    "answer": "b",
+    "answer": "c",
     "postanswer": "HTTP/1.1 300 Multiple Choices\r\nContent-Type: text/html\r\n\r\n<ul><li><a href=\"/manual.en\">English</a></li>...</ul>"
   },
   {
     "category": "4xx Client Errors & Authentication",
-    "title": "400 Bad Request",
+    "title": "400",
     "options": {
-      "a": "Indicates that origin web server crashed due to unhandled null pointer exception in code.",
-      "b": "Server cannot or will not process request due to client error (e.g. malformed syntax, invalid framing, or deceptive routing).",
-      "c": "Informs client that target database table reached maximum row capacity and rejected insert.",
-      "d": "Signals that client SSL certificate expired and server terminated TCP connection immediately."
+      "a": "Unprocessable Content: Request syntax was valid but semantic validation failed.",
+      "b": "Invalid Parameters: Query parameters failed regex schema validation rules.",
+      "c": "Malformed Payload: JSON body deserializer encountered missing required fields.",
+      "d": "Bad Request: Server cannot process request due to client error (e.g. malformed syntax, invalid framing, or deceptive routing)."
     },
-    "answer": "b",
+    "answer": "d",
     "postanswer": "HTTP/1.1 400 Bad Request\r\nContent-Type: application/problem+json\r\n\r\n{\"type\":\"https://example.com/bad-request\",\"title\":\"Malformed JSON\"}"
   },
   {
     "category": "4xx Client Errors & Authentication",
-    "title": "401 Unauthorized",
+    "title": "401",
     "options": {
-      "a": "Request lacks valid authentication credentials for target resource; server response MUST send WWW-Authenticate header.",
-      "b": "Signals that client request was throttled due to exceeding rate limit quotas in time window.",
-      "c": "Client IP address is blocked by origin firewall rules due to geographic location restrictions.",
-      "d": "Client authenticated successfully but lacks administrative permissions in order to access requested endpoint across proxies."
+      "a": "Unauthorized: Request lacks valid authentication credentials for target resource; response must include WWW-Authenticate header.",
+      "b": "Forbidden: Client is authenticated but lacks necessary role authorization permissions.",
+      "c": "Credentials Rejected: User password hash was verified but account is suspended.",
+      "d": "Login Required: Session cookie expired and client must re-authenticate via OAuth2."
     },
     "answer": "a",
     "postanswer": "HTTP/1.1 401 Unauthorized\r\nWWW-Authenticate: Bearer realm=\"arcade\", error=\"invalid_token\""
   },
   {
     "category": "4xx Client Errors & Authentication",
-    "title": "403 Forbidden vs 401 Unauthorized",
+    "title": "403",
     "options": {
-      "a": "401 is sent by reverse proxies, whereas 403 can only be emitted by relational database daemons.",
-      "b": "401 applies in order to GET requests only, while 403 applies strictly to state-changing POST and DELETE.",
-      "c": "401 means unauthenticated (credentials missing/invalid); 403 means server understood identity but refuses authorization.",
-      "d": "401 permits calling client retries together with identical message headers, whereas 403 permanently bans client IP address in HTTP/1.1."
+      "a": "Unauthorized: Authentication credentials missing or invalid; requires WWW-Authenticate challenge.",
+      "b": "Forbidden: Server understood client authentication credentials but explicitly refuses authorization to access resource.",
+      "c": "Access Denied: Firewall blocked client IP subnet due to geo-blocking rules.",
+      "d": "Method Not Allowed: Target resource exists but rejects current HTTP verb."
     },
-    "answer": "c",
+    "answer": "b",
     "postanswer": "HTTP/1.1 403 Forbidden\r\nContent-Type: application/json\r\n\r\n{\"error\":\"Insufficient permissions to delete tournament leaderboard\"}"
   },
   {
     "category": "4xx Client Errors & Authentication",
-    "title": "404 Not Found",
+    "title": "404",
     "options": {
-      "a": "Informs user agent that resource was permanently deleted and will never be restored.",
-      "b": "Signals that target web server hostname failed DNS resolution on client machine resolver.",
-      "c": "Indicates the calling client browser attempted in order to load target resource over unsupported remote network protocol.",
-      "d": "Origin server did not find current representation for target resource, or is unwilling to disclose that one exists."
+      "a": "Gone: Target resource is permanently removed with no forwarding address.",
+      "b": "Resource Missing: Route matched registered endpoint but database row was deleted.",
+      "c": "Not Found: Origin server did not find a current representation for target resource or is unwilling to disclose existence.",
+      "d": "Bad Request: URL path contained unescaped characters rejected by router."
     },
-    "answer": "d",
+    "answer": "c",
     "postanswer": "HTTP/1.1 404 Not Found\r\nContent-Type: text/html\r\n\r\n<h1>404: Arcade mission not found</h1>"
   },
   {
     "category": "4xx Client Errors & Authentication",
-    "title": "405 Method Not Allowed",
+    "title": "405",
     "options": {
-      "a": "Client used deprecated HTTP version 1.0 and must upgrade connection to HTTP/2 or HTTP/3.",
-      "b": "Signals that target REST API endpoint is undergoing database schema maintenance migration.",
-      "c": "Request method is known by server but not supported by target resource; server MUST generate Allow header listing valid methods.",
-      "d": "Client transmitted unsupported character encoding in query string parameters of GET request."
+      "a": "Forbidden: Server understood action but client lacks role permissions to execute it.",
+      "b": "Verb Unsupported: Server does not implement specified HTTP verb globally.",
+      "c": "Action Disallowed: Controller policy prevents mutating entity in current state.",
+      "d": "Method Not Allowed: Method in request is known by server but not supported by target resource; response must include Allow header."
     },
-    "answer": "c",
+    "answer": "d",
     "postanswer": "HTTP/1.1 405 Method Not Allowed\r\nAllow: GET, HEAD, OPTIONS\r\nContent-Type: application/json\r\n\r\n{\"error\":\"POST not supported on /leaderboard\"}"
   },
   {
     "category": "4xx Client Errors & Authentication",
-    "title": "406 Not Acceptable",
+    "title": "406",
     "options": {
-      "a": "Informs client browser that target website does not comply with accessibility standards.",
-      "b": "Server rejected uploaded payload body because file size exceeded maximum quota allowance.",
-      "c": "Target resource cannot generate representation matching proactive negotiation headers (e.g. Accept, Accept-Language).",
-      "d": "Client sent malformed cryptographic authorization message header which failed digital signature verification across proxies."
+      "a": "Not Acceptable: Target resource cannot produce representation matching values in client Accept headers.",
+      "b": "Unsupported Media Type: Request payload format is in an unsupported format.",
+      "c": "Format Mismatch: Content negotiation parser failed to resolve schema version.",
+      "d": "Encoding Rejected: Server does not support client Accept-Encoding algorithm."
     },
-    "answer": "c",
+    "answer": "a",
     "postanswer": "GET /report HTTP/1.1\r\nAccept: application/pdf\r\n\r\nHTTP/1.1 406 Not Acceptable\r\n(Server only supports text/html and application/json)"
   },
   {
     "category": "4xx Client Errors & Authentication",
-    "title": "407 Proxy Authentication Required",
+    "title": "407",
     "options": {
-      "a": "Informs user agent that corporate firewall revoked SSL inspection certificate authority.",
-      "b": "Client must first authenticate itself with proxy before request can proceed; proxy sends Proxy-Authenticate header.",
-      "c": "Proxy server encountered upstream timeout while awaiting response from target origin daemon.",
-      "d": "Client web browser attempted in order to bypass local intermediary proxy origin server by connecting directly to origin IP."
+      "a": "Unauthorized: Client lacks credentials for origin server access.",
+      "b": "Proxy Authentication Required: Client must first authenticate with an intermediary proxy; response includes Proxy-Authenticate header.",
+      "c": "Gateway Blocked: Edge forwarder rejected unauthenticated tunnel request.",
+      "d": "Forbidden: Proxy inspected credentials but refuses routing permissions."
     },
     "answer": "b",
     "postanswer": "HTTP/1.1 407 Proxy Authentication Required\r\nProxy-Authenticate: Basic realm=\"Corporate Gateway\""
   },
   {
     "category": "4xx Client Errors & Authentication",
-    "title": "408 Request Timeout",
+    "title": "408",
     "options": {
-      "a": "Target origin server waited too long for downstream database query execution to terminate.",
-      "b": "Client web browser cancelled active AJAX fetch call due to user navigating to another page.",
-      "c": "Signals which reverse intermediary proxy load balancer dropped TCP connection due in order to backend thread exhaustion in HTTP/1.1.",
-      "d": "Server did not receive complete request message within time that it was prepared to wait; server may close connection."
+      "a": "Gateway Timeout: Intermediary proxy timed out waiting for upstream server response.",
+      "b": "Connection Idle: Keep-alive socket reached inactivity limit and closed.",
+      "c": "Request Timeout: Server did not receive complete request message from client within time it was prepared to wait.",
+      "d": "Client Lapsed: Upload payload transmission rate dropped below minimum threshold."
     },
-    "answer": "d",
+    "answer": "c",
     "postanswer": "HTTP/1.1 408 Request Timeout\r\nConnection: close\r\n\r\n(Client took too long sending body on idle socket)"
   },
   {
     "category": "4xx Client Errors & Authentication",
-    "title": "409 Conflict",
+    "title": "409",
     "options": {
-      "a": "Indicates that client certificate public key does not match server private key handshake.",
-      "b": "Request could not be completed due to conflict with current state of target resource (e.g. concurrent edit or duplicate key).",
-      "c": "Informs client that multiple upstream servers returned diverging response representations.",
-      "d": "Signals that incoming request payload contains conflicting HTTP header definitions in framing."
+      "a": "Precondition Failed: Resource validation header (If-Match) failed evaluation.",
+      "b": "State Collision: Distributed transaction failed distributed consensus check.",
+      "c": "Unprocessable Content: Request body contains semantically invalid business rule errors.",
+      "d": "Conflict: Request could not be completed due to conflict with current state of resource (e.g. edit collision or duplicate key)."
     },
-    "answer": "b",
+    "answer": "d",
     "postanswer": "PUT /users/alecu HTTP/1.1\r\n\r\nHTTP/1.1 409 Conflict\r\nContent-Type: application/json\r\n\r\n{\"error\":\"Version mismatch: resource was modified by another transaction\"}"
   },
   {
     "category": "4xx Client Errors & Authentication",
-    "title": "410 Gone vs 404 Not Found",
+    "title": "410",
     "options": {
-      "a": "410 indicates DNS record deletion, while 404 indicates server filesystem directory removal.",
-      "b": "410 forces client browsers to purge cache immediately, whereas 404 permits caching indefinitely.",
-      "c": "410 indicates resource permanently deleted with no forwarding address (prompts search engines to remove index); 404 is indefinite.",
-      "d": "410 applies exclusively to user accounts, whereas 404 applies to static HTML files and image media."
+      "a": "Gone: Target resource permanently removed with no forwarding address and should be purged from search indexes.",
+      "b": "Not Found: Resource is not found currently, but absence may be temporary or transient.",
+      "c": "Archived: Resource moved to cold glacier storage and requires asynchronous restore.",
+      "d": "Deprecated: Endpoint marked for removal but still answers legacy clients."
     },
-    "answer": "c",
+    "answer": "a",
     "postanswer": "HTTP/1.1 410 Gone\r\nContent-Type: text/plain\r\n\r\nResource permanently removed per legal compliance."
   },
   {
     "category": "4xx Semantic & Payload Preconditions",
-    "title": "411 Length Required",
+    "title": "411",
     "options": {
-      "a": "Informs user agent that TCP socket MTU packet size was smaller than required network standard.",
-      "b": "Client query parameter string was too short in order to meet minimum validation rules for search indexing across proxies.",
-      "c": "Server refuses to accept request without defined Content-Length header, preventing unbounded buffer allocations.",
-      "d": "Signals which calling client password submitted inside authentication form did not meet security requirements across proxies."
+      "a": "Payload Too Large: Request entity body exceeds maximum byte threshold.",
+      "b": "Length Required: Server refuses to accept request without defined Content-Length header.",
+      "c": "Header Missing: Request omitted mandatory content-encoding attribute.",
+      "d": "Framing Required: Server rejects chunked transfer encoding for target resource."
     },
-    "answer": "c",
+    "answer": "b",
     "postanswer": "POST /upload HTTP/1.1\r\nHost: api.arcade.io\r\n(Missing Content-Length)\r\n\r\nHTTP/1.1 411 Length Required"
   },
   {
     "category": "4xx Semantic & Payload Preconditions",
-    "title": "412 Precondition Failed",
+    "title": "412",
     "options": {
-      "a": "Informs user agent that target resource requires client to enable JavaScript and cookies.",
-      "b": "Client failed in order to complete prerequisite CAPTCHA verification prior to submitting payment transaction across proxies.",
-      "c": "Signals which origin origin server failed in order to establish database connection prior to parsing HTTP request message headers.",
-      "d": "One or more conditions in request header fields (e.g. If-Match, If-Unmodified-Since) evaluated to false on server."
+      "a": "Conflict: Request collided with conflicting database update transaction.",
+      "b": "Validation Failure: Payload validation failed schema requirements.",
+      "c": "Precondition Failed: One or more conditions given in request header fields (e.g. If-Match, If-Unmodified-Since) evaluated to false.",
+      "d": "Not Modified: Conditional GET evaluation determined representation unchanged."
     },
-    "answer": "d",
+    "answer": "c",
     "postanswer": "PUT /scores/1 HTTP/1.1\r\nIf-Match: \"xyz987\"\r\n\r\nHTTP/1.1 412 Precondition Failed\r\n(Resource ETag changed; prevents lost updates)"
   },
   {
     "category": "4xx Semantic & Payload Preconditions",
-    "title": "413 Payload Too Large",
+    "title": "413",
     "options": {
-      "a": "Signals that client browser screen resolution is larger than supported arcade canvas layout.",
-      "b": "Informs calling client which HTTP response body generated by backend database exceeded reverse intermediary proxy memory.",
-      "c": "Client requested too many records inside a single pagination query, exceeding max limit parameters during client-server exchange.",
-      "d": "Server refuses to process request because request payload is larger than server is willing or able to process."
+      "a": "Length Required: Client failed to include Content-Length header.",
+      "b": "URI Too Long: Request target URL length exceeds maximum server buffer.",
+      "c": "Memory Overflow: Upload stream exceeded allotted buffer pool on reverse proxy.",
+      "d": "Payload Too Large: Server refuses to process request because request payload is larger than server is willing or able to process."
     },
     "answer": "d",
     "postanswer": "HTTP/1.1 413 Payload Too Large\r\nConnection: close\r\n\r\n{\"error\":\"Uploaded avatar image exceeds 5MB size limit\"}"
   },
   {
     "category": "4xx Semantic & Payload Preconditions",
-    "title": "414 URI Too Long",
+    "title": "414",
     "options": {
-      "a": "Signals that domain name portion of request URL exceeded DNS RFC specification limit of 253 bytes.",
-      "b": "Server refuses to service request because request-target URI string is longer than server is willing to interpret.",
-      "c": "Client redirected through more than 20 consecutive 301/302 hops, causing an infinite redirect loop across network proxies.",
-      "d": "Informs calling client which query string parameters contained invalid URL-encoded percent escape sequences during transaction."
+      "a": "URI Too Long: Server refuses to service request because request-target is longer than server is willing to interpret.",
+      "b": "Payload Too Large: Request entity body exceeds maximum allowed size.",
+      "c": "Bad Request: URL contained illegal query parameter formatting.",
+      "d": "Path Overflow: URI query string exceeded maximum query parameter count."
     },
-    "answer": "b",
+    "answer": "a",
     "postanswer": "GET /search?q=(10,000 characters...) HTTP/1.1\r\n\r\nHTTP/1.1 414 URI Too Long"
   },
   {
     "category": "4xx Semantic & Payload Preconditions",
-    "title": "415 Unsupported Media Type",
+    "title": "415",
     "options": {
-      "a": "Client browser attempted to render SVG graphic asset that contained unparseable vector syntax.",
-      "b": "Informs user agent that target video file was encoded using proprietary unfree container codecs.",
-      "c": "Origin server refuses request because payload format is in unsupported format (e.g. client sent XML when API expects JSON).",
-      "d": "Signals which audio output synthesizer on calling client hardware does not support Web Audio API audio nodes across network proxies."
+      "a": "Not Acceptable: Server cannot produce response format requested in Accept header.",
+      "b": "Unsupported Media Type: Origin server refuses service because payload is in a format not supported by target method (Content-Type).",
+      "c": "Encoding Unsupported: Compression format in Content-Encoding was rejected.",
+      "d": "Invalid MIME: Request body MIME type was missing or malformed."
     },
-    "answer": "c",
+    "answer": "b",
     "postanswer": "POST /api/users HTTP/1.1\r\nContent-Type: text/plain\r\n\r\nHTTP/1.1 415 Unsupported Media Type\r\nAccept-Post: application/json"
   },
   {
     "category": "4xx Semantic & Payload Preconditions",
-    "title": "416 Range Not Satisfiable",
+    "title": "416",
     "options": {
-      "a": "Client requested IP port number outside the standard range between 1024 and 65535 socket limits.",
-      "b": "Informs client that numeric score submitted in request exceeded theoretical arcade score ceiling.",
-      "c": "Signals that client network connection latency exceeds acceptable threshold for real-time multiplayer.",
-      "d": "None of ranges in request's Range header field overlap current extent of selected resource; response sends Content-Range with actual size."
+      "a": "Partial Content: Server successfully satisfied partial byte request.",
+      "b": "Offset Invalid: Byte seek position exceeded physical disk file boundary.",
+      "c": "Range Not Satisfiable: None of the ranges in the request Range header field overlap current extent of selected resource.",
+      "d": "Length Required: Content range request failed to specify entity length."
     },
-    "answer": "d",
+    "answer": "c",
     "postanswer": "GET /file.bin HTTP/1.1\r\nRange: bytes=5000-6000\r\n(File size is only 2000 bytes)\r\n\r\nHTTP/1.1 416 Range Not Satisfiable\r\nContent-Range: bytes */2000"
   },
   {
     "category": "4xx Semantic & Payload Preconditions",
-    "title": "422 Unprocessable Content (WebDAV / RFC 9110)",
+    "title": "422",
     "options": {
-      "a": "Informs client that target database table was locked by external administrator migration task.",
-      "b": "Signals that client application attempted to execute arbitrary SQL commands inside form fields.",
-      "c": "Client sent JSON payload with broken bracket syntax that failed initial low-level tokenizer parsing.",
-      "d": "Server understands content type of request payload and syntax is correct, but unable to process contained instructions (semantic error)."
+      "a": "Bad Request: Request was malformed or contained syntax errors.",
+      "b": "Validation Error: Form fields failed client-side regex constraints.",
+      "c": "Conflict: Request violated unique database constraint during execution.",
+      "d": "Unprocessable Content: Server understands content type and syntax of request, but was unable to process contained instructions."
     },
     "answer": "d",
     "postanswer": "POST /register HTTP/1.1\r\nContent-Type: application/json\r\n{\"email\":\"not-an-email\"}\r\n\r\nHTTP/1.1 422 Unprocessable Content\r\n{\"field\":\"email\",\"error\":\"Invalid email format\"}"
   },
   {
     "category": "4xx Semantic & Payload Preconditions",
-    "title": "426 Upgrade Required",
+    "title": "426",
     "options": {
-      "a": "Informs user that active subscription tier must be upgraded to access premium arcade levels.",
-      "b": "Signals that server hardware firmware must be upgraded prior to accepting network connections.",
-      "c": "Client browser must be updated to newest major release version to view web application features.",
-      "d": "Server refuses to perform request using current protocol, but might be willing to do so after client upgrades (e.g. to TLS or HTTP/2)."
+      "a": "Upgrade Required: Server refuses to perform request using current protocol but may be willing after client upgrades per Upgrade header.",
+      "b": "Switching Protocols: Server successfully agreed to switch protocol streams.",
+      "c": "Version Unsupported: Client HTTP version is obsolete and permanently blocked.",
+      "d": "Protocol Outdated: TLS cipher suite was rejected by security gateway."
     },
-    "answer": "d",
+    "answer": "a",
     "postanswer": "HTTP/1.1 426 Upgrade Required\r\nUpgrade: TLS/1.3, HTTP/2.0\r\nConnection: Upgrade"
   },
   {
     "category": "4xx Semantic & Payload Preconditions",
-    "title": "429 Too Many Requests",
+    "title": "429",
     "options": {
-      "a": "Signals that database connection pool was exhausted by competing worker microservice containers.",
-      "b": "User sent too many requests in given amount of time (rate limiting); response should include Retry-After header indicating wait time.",
-      "c": "Informs client that web server CPU utilization reached 100% capacity and dropped incoming connections.",
-      "d": "Client opened too many concurrent TCP sockets on local network interface, exhausting local ephemeral ports."
+      "a": "Service Unavailable: Server is temporarily overloaded and cannot serve traffic.",
+      "b": "Too Many Requests: User has sent too many requests in a given amount of time (rate limiting); often includes Retry-After header.",
+      "c": "Rate Exceeded: API token quota expired for monthly subscription tier.",
+      "d": "Request Timeout: Server timed out waiting for client to finish transmitting."
     },
     "answer": "b",
     "postanswer": "HTTP/1.1 429 Too Many Requests\r\nRetry-After: 60\r\nX-RateLimit-Limit: 100\r\nX-RateLimit-Remaining: 0\r\nX-RateLimit-Reset: 1772990000"
   },
   {
     "category": "4xx Semantic & Payload Preconditions",
-    "title": "451 Unavailable For Legal Reasons",
+    "title": "451",
     "options": {
-      "a": "Informs client that target code repository was archived under open-source MIT software licensing.",
-      "b": "Client attempted to transmit export-controlled cryptographic software across international borders.",
-      "c": "Signals that user age verification failed under regional child online privacy protection legislation.",
-      "d": "Server refuses access to resource as consequence of legal demand (e.g. court order or copyright censorship); response includes explanation."
+      "a": "Forbidden: Access refused due to application-level role authorization.",
+      "b": "Censored: Government filtering gateway severed TCP connection.",
+      "c": "Unavailable For Legal Reasons: Server is denying access to resource as a consequence of a legal demand (RFC 7725).",
+      "d": "Gone: Resource permanently purged from database due to user deletion."
     },
-    "answer": "d",
+    "answer": "c",
     "postanswer": "HTTP/1.1 451 Unavailable For Legal Reasons\r\nLink: <https://court.gov/order/123>; rel=\"blocked-by\"\r\nContent-Type: text/html\r\n\r\n<p>Blocked by court order #123.</p>"
   },
   {
     "category": "5xx Server Errors & Gateway Failures",
-    "title": "500 Internal Server Error",
+    "title": "500",
     "options": {
-      "a": "Server encountered an unexpected condition that prevented it from fulfilling request (generic catch-all unhandled error).",
-      "b": "Informs user agent that reverse proxy lost internet connectivity with DNS root nameservers.",
-      "c": "Signals that client request headers violated HTTP protocol specifications and corrupted memory buffers.",
-      "d": "Specifies which calling client SSL certificate was revoked by certificate authority certificate revocation list across proxies."
+      "a": "Bad Gateway: Reverse proxy received invalid response from upstream daemon.",
+      "b": "Crash Detected: Application runtime raised unhandled panic or exception.",
+      "c": "Service Unavailable: Server is temporarily down for planned maintenance.",
+      "d": "Internal Server Error: Server encountered an unexpected condition that prevented it from fulfilling the request."
     },
-    "answer": "a",
+    "answer": "d",
     "postanswer": "HTTP/1.1 500 Internal Server Error\r\nContent-Type: application/json\r\n\r\n{\"error\":\"Unhandled NullPointerException in UserService.java:142\"}"
   },
   {
     "category": "5xx Server Errors & Gateway Failures",
-    "title": "501 Not Implemented",
+    "title": "501",
     "options": {
-      "a": "Informs client that target database does not support transactions or ACID isolation guarantees.",
-      "b": "Indicates that client hardware does not implement required floating point mathematics instructions.",
-      "c": "Server does not support functionality required to fulfill request (e.g. unrecognized HTTP method verb across all resources).",
-      "d": "Signals which software development team has written unit tests but has not yet committed code in order to git across network proxies."
+      "a": "Not Implemented: Server does not support functionality required to fulfill request (e.g. unrecognized HTTP request method).",
+      "b": "Method Not Allowed: Request method is recognized by server but disabled on this resource.",
+      "c": "Internal Server Error: Unhandled application exception occurred on backend.",
+      "d": "Feature Disabled: API endpoint exists in code but is toggled off by feature flag."
     },
-    "answer": "c",
+    "answer": "a",
     "postanswer": "BREW /coffee HTTP/1.1\r\n\r\nHTTP/1.1 501 Not Implemented\r\nContent-Type: text/plain\r\n\r\nMethod BREW is not implemented by this server."
   },
   {
     "category": "5xx Server Errors & Gateway Failures",
-    "title": "502 Bad Gateway",
+    "title": "502",
     "options": {
-      "a": "Server acting as gateway or proxy received invalid response from inbound upstream server it accessed while attempting request.",
-      "b": "Informs user agent that upstream web server IP address failed reverse DNS lookup verification.",
-      "c": "Client gateway router configured incorrect default subnet mask, dropping outgoing network packets.",
-      "d": "Signals that intermediate proxy firewall blocked request due to malicious SQL injection signatures."
+      "a": "Gateway Timeout: Proxy timed out waiting for upstream server to respond.",
+      "b": "Bad Gateway: Server, while acting as a gateway or proxy, received an invalid response from inbound upstream server.",
+      "c": "Service Unavailable: Upstream cluster is overloaded or taking maintenance.",
+      "d": "Internal Server Error: Origin backend process threw an uncaught error."
     },
-    "answer": "a",
+    "answer": "b",
     "postanswer": "HTTP/1.1 502 Bad Gateway\r\nServer: nginx/1.24.0\r\nContent-Type: text/html\r\n\r\n<!-- Nginx received connection reset / malformed header from upstream app -->"
   },
   {
     "category": "5xx Server Errors & Gateway Failures",
-    "title": "503 Service Unavailable",
+    "title": "503",
     "options": {
-      "a": "Signals that client browser web worker crashed due to out-of-memory garbage collection failure.",
-      "b": "Server currently unable to handle request due to temporary overloading or maintenance; response often includes Retry-After header.",
-      "c": "Informs client that user account subscription was cancelled due to overdue payment billing invoices.",
-      "d": "Target endpoint was permanently decommissioned and all backing microservices deleted from cloud cluster."
+      "a": "Internal Server Error: Permanent server-side code defect prevents execution.",
+      "b": "Bad Gateway: Proxy received an HTTP 500 or corrupted frame from upstream.",
+      "c": "Service Unavailable: Server is currently unable to handle request due to temporary overload or scheduled maintenance.",
+      "d": "Circuit Broken: Resilience mesh tripped and diverted traffic to fallback."
     },
-    "answer": "b",
+    "answer": "c",
     "postanswer": "HTTP/1.1 503 Service Unavailable\r\nRetry-After: 120\r\nContent-Type: text/plain\r\n\r\nServer undergoing scheduled maintenance. Please retry in 120 seconds."
   },
   {
     "category": "5xx Server Errors & Gateway Failures",
-    "title": "504 Gateway Timeout",
+    "title": "504",
     "options": {
-      "a": "Server acting as gateway or proxy did not receive timely response from upstream server specified by URI to complete request.",
-      "b": "Informs user agent that local DNS resolver cache expired while resolving origin domain record.",
-      "c": "Signals which calling client authentication token expired during active long-polling WebSocket session.",
-      "d": "Client took too long in order to transmit request body over slow cellular wireless radio connection socket."
+      "a": "Request Timeout: Server timed out waiting for client to send request body.",
+      "b": "Bad Gateway: Proxy received invalid or empty response from upstream.",
+      "c": "Service Unavailable: Origin server is offline or restarting worker pools.",
+      "d": "Gateway Timeout: Server, while acting as a gateway or proxy, did not receive a timely response from upstream server."
     },
-    "answer": "a",
+    "answer": "d",
     "postanswer": "HTTP/1.1 504 Gateway Timeout\r\nServer: cloudflare\r\n\r\n<!-- Upstream origin server did not respond within proxy read timeout (e.g. 60s) -->"
   },
   {
     "category": "5xx Server Errors & Gateway Failures",
-    "title": "505 HTTP Version Not Supported",
+    "title": "505",
     "options": {
-      "a": "Signals that client operating system network stack does not implement IPv6 dual-stack sockets.",
-      "b": "Client browser attempted to establish connection using obsolete SSL 3.0 or TLS 1.0 encryption ciphers.",
-      "c": "Server does not support, or refuses to support, major version of HTTP used in request message (e.g. HTTP/3 request to HTTP/1-only server).",
-      "d": "Informs client which target REST API protocol requires upgrading directly from JSON payload to Protocol Buffers."
+      "a": "HTTP Version Not Supported: Server does not support, or refuses to support, major version of HTTP used in request message.",
+      "b": "Upgrade Required: Server requires client to switch transport protocol.",
+      "c": "Protocol Rejected: Connection lacked mandatory ALPN protocol identifier.",
+      "d": "Not Implemented: Server does not implement requested HTTP verb."
     },
-    "answer": "c",
+    "answer": "a",
     "postanswer": "GET / HTTP/9.9\r\n\r\nHTTP/1.1 505 HTTP Version Not Supported\r\nContent-Type: text/plain"
   },
   {
     "category": "5xx Server Errors & Gateway Failures",
-    "title": "506 Variant Also Negotiates (RFC 2295)",
+    "title": "506",
     "options": {
-      "a": "Signals that client and server cryptographic key exchange failed to agree upon shared secret cipher.",
-      "b": "Informs user agent that reverse proxy cache contains contradictory variant representations of resource.",
-      "c": "Server has internal configuration error: chosen variant resource is configured to engage in transparent content negotiation itself (loop).",
-      "d": "Client requested multiple conflicting file formats simultaneously in a single HTTP Accept header directive."
+      "a": "Loop Detected: Server terminated operation because it encountered an infinite loop.",
+      "b": "Negotiation Mismatch: Server cannot agree on common MIME representation with client.",
+      "c": "Variant Also Negotiates: Chosen variant resource is configured to engage in transparent content negotiation itself (RFC 2295).",
+      "d": "Routing Recursion: Reverse proxy detected recursive internal rewrite cycle."
     },
     "answer": "c",
     "postanswer": "HTTP/1.1 506 Variant Also Negotiates\r\nContent-Type: text/plain\r\n\r\nInternal transparent content negotiation protocol loop detected."
   },
   {
     "category": "5xx Server Errors & Gateway Failures",
-    "title": "507 Insufficient Storage (WebDAV)",
+    "title": "507",
     "options": {
-      "a": "Method could not be performed because server is unable to store representation needed to complete request (disk space exhausted).",
-      "b": "Signals that reverse proxy edge cache disk drive experienced hardware sector corruption faults.",
-      "c": "Client web browser local storage quota exceeded maximum allowable 5MB partition limit in browser.",
-      "d": "Informs user agent that database query failed because temporary table exceeded max_heap_table_size in RAM."
+      "a": "Payload Too Large: Request body exceeded maximum allowed upload limit.",
+      "b": "Disk Full: Physical drive on host system reached partition capacity.",
+      "c": "Bandwidth Exceeded: Account data transfer cap was breached for billing period.",
+      "d": "Insufficient Storage: Server is unable to store representation needed to complete request (WebDAV RFC 4918)."
     },
-    "answer": "a",
+    "answer": "d",
     "postanswer": "PUT /large-video.raw HTTP/1.1\r\n\r\nHTTP/1.1 507 Insufficient Storage\r\nContent-Type: application/xml\r\n\r\n<error>Server filesystem disk space exhausted.</error>"
   },
   {
     "category": "5xx Server Errors & Gateway Failures",
-    "title": "508 Loop Detected (WebDAV)",
+    "title": "508",
     "options": {
-      "a": "Signals that microservice service mesh sidecar routed request across circular RPC dependency graph.",
-      "b": "Client code initiated an unconstrained recursive JavaScript function call causing call stack overflow across network proxies.",
-      "c": "Server terminated an operation because it encountered an infinite loop while processing request with Depth: infinity.",
-      "d": "Informs user agent which remote network packets were dropped due in order to IP packet Time-To-Live (TTL) reaching zero in HTTP/1.1."
+      "a": "Loop Detected: Server terminated operation because it encountered infinite loop while processing request with Depth: infinity (WebDAV RFC 5842).",
+      "b": "Variant Also Negotiates: Transparent content negotiation resulted in circular reference.",
+      "c": "Recursive Call: Application logic reached maximum call stack recursion depth.",
+      "d": "Too Many Redirects: Client browser halted redirect chain after 20 hops."
     },
-    "answer": "c",
+    "answer": "a",
     "postanswer": "PROPFIND /collection HTTP/1.1\r\nDepth: infinity\r\n\r\nHTTP/1.1 508 Loop Detected\r\n(Symbolic link loop encountered during traversal)"
   },
   {
     "category": "5xx Server Errors & Gateway Failures",
-    "title": "511 Network Authentication Required",
+    "title": "511",
     "options": {
-      "a": "Client needs to authenticate to gain network access (e.g. Wi-Fi captive portal login before accessing public internet).",
-      "b": "Signals that client IP address was blacklisted by internet service provider for network abuse.",
-      "c": "Informs user agent that corporate VPN client connection dropped due to expired Kerberos ticket.",
-      "d": "Client failed mutual TLS (mTLS) certificate verification together with origin Kubernetes ingress controller by origin server."
+      "a": "Proxy Authentication Required: Client must authenticate with intermediary HTTP proxy.",
+      "b": "Unauthorized: Origin server requires valid WWW-Authenticate credentials.",
+      "c": "Network Blocked: Captive portal router dropped packets due to unpaid firewall lease.",
+      "d": "Network Authentication Required: Client needs to authenticate to gain network access (e.g. captive portal WiFi login, RFC 6585)."
     },
-    "answer": "a",
+    "answer": "d",
     "postanswer": "HTTP/1.1 511 Network Authentication Required\r\nLink: <https://wifi-login.hotel.local>; rel=\"network-authentication-portal\""
   }
 ]

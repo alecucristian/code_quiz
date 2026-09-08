@@ -29,7 +29,7 @@ export class QuizEngine {
       filtered = deck.filter(q => q.category === category);
     }
 
-    // Fisher-Yates shuffle
+    // Fisher-Yates shuffle questions
     const shuffled = [...filtered];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -37,11 +37,12 @@ export class QuizEngine {
     }
 
     // Slice to round size
-    if (roundSize !== 'ALL' && typeof roundSize === 'number' && roundSize > 0) {
-      this.questions = shuffled.slice(0, roundSize);
-    } else {
-      this.questions = shuffled;
-    }
+    const selected = (roundSize !== 'ALL' && typeof roundSize === 'number' && roundSize > 0)
+      ? shuffled.slice(0, roundSize)
+      : shuffled;
+
+    // Randomize option order for every question so position cannot be memorized
+    this.questions = selected.map(q => this.shuffleQuestionOptions(q));
 
     this.currentIndex = 0;
     this.score = 0;
@@ -51,6 +52,46 @@ export class QuizEngine {
     this.elapsedMs = 0;
     this.isAnswerLocked = false;
     this.history = [];
+  }
+
+  /**
+   * Randomize option order for a single question while keeping the correct answer synchronized
+   */
+  shuffleQuestionOptions(question) {
+    if (!question || !question.options) return question;
+
+    const originalAnswer = (question.answer || '').toLowerCase();
+    const keys = ['a', 'b', 'c', 'd'];
+
+    // Collect available options with their correctness flag
+    const availableKeys = keys.filter(k => question.options[k] !== undefined);
+    const items = availableKeys.map(k => ({
+      text: question.options[k],
+      isCorrect: (k.toLowerCase() === originalAnswer)
+    }));
+
+    // Fisher-Yates shuffle the option items
+    for (let i = items.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [items[i], items[j]] = [items[j], items[i]];
+    }
+
+    const newOptions = {};
+    let newAnswer = originalAnswer;
+
+    items.forEach((item, index) => {
+      const targetKey = keys[index] || availableKeys[index];
+      newOptions[targetKey] = item.text;
+      if (item.isCorrect) {
+        newAnswer = targetKey;
+      }
+    });
+
+    return {
+      ...question,
+      options: newOptions,
+      answer: newAnswer
+    };
   }
 
   /**
