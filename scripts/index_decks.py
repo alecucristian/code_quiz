@@ -41,6 +41,7 @@ ICON_KEYWORDS = [
     (r"\b(security|crypto|auth)\b", "🔒"),
     (r"\b(ai|ml|machine\s*learning|deep\s*learning)\b", "🤖"),
     (r"\b(http|status|codes?)\b", "🌐"),
+    (r"\b(senior|swe|acronym|acronyms|lexicon)\b", "🧠"),
     (r"\b(pattern|patterns|architecture|design)\b", "📐"),
     (r"\b(network|networking|tcp)\b", "📡"),
 ]
@@ -49,7 +50,7 @@ CATEGORY_KEYWORDS = [
     (r"\b(postgres|postgresql|sql|sqlite|mysql|mongo|redis|database|db)\b", "Databases"),
     (r"\b(python|rust|javascript|typescript|golang|java|c\+\+|cpp|csharp|ruby|php|swift|kotlin)\b", "Languages"),
     (r"\b(http|status|codes?|rest|api|network|networking|tcp)\b", "Web & Networking"),
-    (r"\b(pattern|patterns|architecture|gof|system\s*design)\b", "Software Architecture"),
+    (r"\b(senior|swe|acronym|lexicon|pattern|patterns|architecture|gof|system\s*design)\b", "Software Architecture"),
     (r"\b(html|css|react|vue|angular|frontend|web)\b", "Web & Frontend"),
     (r"\b(docker|kubernetes|k8s|linux|bash|devops|aws|cloud|ci/cd|terraform)\b", "DevOps & Cloud"),
     (r"\b(algorithm|data\s*structures?|math|cs|computer\s*science)\b", "Computer Science"),
@@ -76,10 +77,12 @@ def format_title_from_stem(stem: str) -> str:
         return "HTTP Status Codes & Semantics"
     if stem == "design_patterns":
         return "Software Design Patterns"
+    if stem == "senior_swe":
+        return "Senior SWE Lexicon & Acronyms"
     clean = stem.replace("_", " ").replace("-", " ")
     words = clean.split()
     formatted = []
-    acronyms = {"sql", "dql", "dml", "ddl", "oop", "api", "css", "html", "aws", "gcp", "k8s", "db", "js", "ts", "ai", "ml", "http"}
+    acronyms = {"sql", "dql", "dml", "ddl", "oop", "api", "css", "html", "aws", "gcp", "k8s", "db", "js", "ts", "ai", "ml", "http", "swe"}
     for w in words:
         if w.lower() in acronyms:
             formatted.append(w.upper())
@@ -139,6 +142,8 @@ def main():
             badge_text = existing.get("badgeText") or "⚡ HTTP RESPONSE EXAMPLE"
         elif "pattern" in deck_id:
             badge_text = existing.get("badgeText") or "⚡ DESIGN PATTERN EXAMPLE"
+        elif "senior" in deck_id:
+            badge_text = existing.get("badgeText") or "⚡ SENIOR ARCHITECTURE EXAMPLE"
         else:
             badge_text = existing.get("badgeText") or f"⚡ {name.upper()} EXAMPLE"
         

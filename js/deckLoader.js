@@ -29,6 +29,8 @@ export function inferDeckIcon(nameOrId) {
   if (/\b(aws|cloud|azure|gcp)\b/.test(text)) return '☁️';
   if (/\b(security|crypto|auth)\b/.test(text)) return '🔒';
   if (/\b(ai|ml|machine\s*learning|deep\s*learning)\b/.test(text)) return '🤖';
+  if (/\b(senior|swe|acronym|acronyms|lexicon)\b/.test(text)) return '🧠';
+  if (/\b(pattern|patterns|architecture|design)\b/.test(text)) return '📐';
   if (/\b(algorithm|data\s*structures?)\b/.test(text)) return '📐';
   if (/\b(network|networking|http|tcp)\b/.test(text)) return '📡';
   return '💾';
@@ -94,6 +96,15 @@ export class DeckLoader {
           category: 'Web & Networking',
           badgeText: '⚡ HTTP RESPONSE EXAMPLE',
           description: '60 questions covering 1xx-5xx status codes, headers & caching semantics'
+        }),
+        this.normalizeDeckMeta({
+          id: 'senior_swe',
+          name: 'Senior SWE Lexicon & Acronyms',
+          file: 'senior_swe.json',
+          icon: '🧠',
+          category: 'Software Architecture',
+          badgeText: '⚡ SENIOR ARCHITECTURE EXAMPLE',
+          description: '80 questions covering Architecture Principles & Software Laws, SRE, Distributed Systems +3 more'
         }),
         this.normalizeDeckMeta({
           id: 'design_patterns',

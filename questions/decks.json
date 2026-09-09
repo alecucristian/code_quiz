@@ -30,6 +30,16 @@
     "description": "60 questions covering 1xx Informational & Protocol Switching, 2xx Success & Content Negotiations, 3xx Redirection & Cache Validation +3 more"
   },
   {
+    "id": "senior_swe",
+    "name": "Senior SWE Lexicon & Acronyms",
+    "file": "senior_swe.json",
+    "icon": "🧠",
+    "category": "Software Architecture",
+    "badgeText": "⚡ SENIOR ARCHITECTURE EXAMPLE",
+    "questionCount": 80,
+    "description": "80 questions covering Architecture Principles & Software Laws, Data Storage, Consistency & Concurrency, Delivery, Operations & Strategy +3 more"
+  },
+  {
     "id": "design_patterns",
     "name": "Software Design Patterns",
     "file": "design_patterns.json",
