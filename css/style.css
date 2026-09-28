@@ -655,6 +655,9 @@ body::before {
   letter-spacing: 1px;
   line-height: 1.2;
   margin: 0.1rem 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
 }
 
 /* Options Grid: evenly stretches across vertical space */
