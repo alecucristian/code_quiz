@@ -610,6 +610,9 @@ body::before {
   padding: clamp(0.25rem, 0.8vh, 0.55rem) clamp(0.45rem, 1.8vw, 0.85rem);
   text-align: center;
   flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .question-meta-row {
@@ -655,9 +658,10 @@ body::before {
   letter-spacing: 1px;
   line-height: 1.2;
   margin: 0.1rem 0;
-  overflow-wrap: break-word;
-  word-break: break-word;
+  overflow-wrap: anywhere;
+  word-break: break-all;
   min-width: 0;
+  max-width: 100%;
 }
 
 /* Options Grid: evenly stretches across vertical space */
